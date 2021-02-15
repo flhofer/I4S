@@ -1,37 +1,20 @@
-## Welcome to GitHub Pages
+## Welcome to the project website of I4S
 
-You can use the [editor on GitHub](https://github.com/flhofer/I4S/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+This is just one component of the I4S family. To explore all components, browse through the repositories starting with 'I4S_' [here](https://github.com/flhofer/).
+The website is under construction and will be updated in the following weeks.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+### Project dashboard for I4S
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+[Link](https://github.com/users/flhofer/projects/1)
 
-```markdown
-Syntax highlighted code block
+### I4S_LoRaWanNode
 
-# Header 1
-## Header 2
-### Header 3
+[Link](https://github.com/flhofer/I4S_LoRaWanNode)
 
-- Bulleted
-- List
+The I4S* project investigates behavioral models of large scale LoRaWan networks used in smart contexts. This repository contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. The AVR micro-controller performs regular transmissions in different configurations to test the performance of the network and the communication reliability. Transmission time samples will describe tbe behavior of the system and allow the creation of a model.
 
-1. Numbered
-2. List
+### I4S_LoRaWanTest
 
-**Bold** and _Italic_ and `Code` text
+[Link](https://github.com/flhofer/I4S_LoRaWanTest)
 
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/flhofer/I4S/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
