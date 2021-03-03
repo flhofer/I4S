@@ -48,12 +48,28 @@ EOF
 }
 
 function setupSerial() {
-    port=${1:-'/dev/ttyUSB0'}
-    stty $baudRate -F $port raw -echo
-}
 
-function findSerial() {
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # ...
 
+        for port in /dev/ttyUSB* ; do
+            [ -e "$port" ] || continue
+            stty $baudRate -F $port raw -echo
+        done
+        for port in /dev/ttyACM* ; do
+            [ -e "$port" ] || continue
+            stty $baudRate -F $port raw -echo
+        done
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+
+        for port in /dev/cu.usbmodem* ; do
+            [ -e "$port" ] || continue
+            stty -f $port $baudRate raw -echo
+        done
+
+    fi
 }
 
 function createRamDisk() {
@@ -114,6 +130,8 @@ if [[ $cmd == "test" ]]; then
     shift
     tno=${1:-'*'}
     shift
+
+    setupSerial
 
     echo "TODO---"
 else
