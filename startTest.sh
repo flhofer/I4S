@@ -53,12 +53,50 @@ function setupSerial() {
 }
 
 function findSerial() {
-    
+
+}
+
+function createRamDisk() {
+    echo "Creating RamDisk for logs"
+    mkdir -P /dev/ramlog
+    mount -t tmpfs -o size=128m tmpfs /mnt/ramlog
+}
+
+function waitFree() {
+    port=${1:-'/dev/ttyUSB0'}
+
+    while read line;
+    do
+        echo "From PI : $line" 
+    done
+}
+
+function waitDone() {
+    port=${1:-'/dev/ttyUSB0'}
+
+    while read line;
+    do
+        echo "From PI : $line" 
+
+        if [ "$line" == "done" ]; then
+            break;
+        fi
+
+    done
 }
 
 ############################### cmd specific func ####################################
 
+function runTest() {
+    port=${1:-'/dev/ttyUSB0'}
+    test=${2:-1}
 
+    waitFree $port
+
+    echo $test > $port
+
+    waitDone $port
+}
 
 ############################### cmd specific exec ####################################
 
