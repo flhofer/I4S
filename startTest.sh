@@ -18,6 +18,14 @@ else
 	shift
 fi
 
+############################### global variables ####################################
+
+#Initialization
+baudRate=9600
+
+
+############################### Functions, generic ####################################
+
 function printUsage() {
 
 	cat <<EOF
@@ -39,8 +47,42 @@ EOF
 	exit 1	
 }
 
+function setupSerial() {
+    port=${1:-'/dev/ttyUSB0'}
+    stty $baudRate -F $port raw -echo
+}
+
+function findSerial() {
+    
+}
+
+############################### cmd specific func ####################################
+
+
+
+############################### cmd specific exec ####################################
+
 # TODO
 if [ $# -lt 1 ]; then
 	echo "Not enough arguments supplied!"
 	printUsage
 fi
+
+cmd=${1:-'test'}
+shift
+
+if [[ $cmd == "test" ]]; then
+    tgrp=${1:-'A'}
+    shift
+    tno=${1:-'*'}
+    shift
+
+    echo "TODO---"
+else
+    echo "Unknown command!!"
+    printUsage
+fi
+
+
+
+
