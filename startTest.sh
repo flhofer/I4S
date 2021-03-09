@@ -26,6 +26,8 @@ groups=('A' 'B' 'C' 'D')
 tests=(4 3 5 0)
 testNo=
 testGrp=
+resprnt=0
+ports=( )
 
 ############################### Functions, generic ####################################
 
@@ -57,10 +59,12 @@ function setupSerial() {
 
         for port in /dev/ttyUSB* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty $baudRate -F $port raw -echo
         done
         for port in /dev/ttyACM* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty $baudRate -F $port raw -echo
         done
 
@@ -69,6 +73,7 @@ function setupSerial() {
 
         for port in /dev/cu.usbmodem* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty -f $port $baudRate raw -echo
         done
 
@@ -90,17 +95,23 @@ function waitFree() {
     done
 }
 
-function waitDone() {
+function readMicro() {
     port=${1:-'/dev/ttyUSB0'}
 
     while read line;
     do
-        echo "$(date): $line" 
-
+        if [ "$line" == "Results" ]; then
+            resprnt=1
+        fi
         if [ "$line" == "done" ]; then
-            break;
+            resprnt=0
         fi
 
+        echo "$(date): $line" 
+        if [ $resprnt -eq 1 ]
+        then
+            echo >> testResults$testGrp$testNo.csv
+        fi
     done
 }
 
@@ -168,8 +179,6 @@ function runTest() {
     waitFree $port
 
     echo g${grp}t${test}r > $port
-
-    waitDone $port
 }
 
 ############################### cmd specific exec ####################################
@@ -190,9 +199,19 @@ if [[ $cmd == "test" ]]; then
 
     setupSerial
 	
+    echo ${ports[@]}
     while getNextTest 
     do
         echo Test $testGrp $testNo
+        for port in ports
+        do
+            runTest port
+        done
+
+        for port in ports
+        do
+            waitDone $port
+        done
     done
 
 else
