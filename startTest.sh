@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash 
 
 if [[ ! "$1" == "quiet" ]]; then
 
@@ -104,31 +104,58 @@ function waitDone() {
     done
 }
 
+function getNextTestNos(){
+    for i in ${!groups[@]}; do
+        if [ $testGrp = ${groups[$i]} ]; then
+            tno=($(seq  1 ${tests[$i]} ))
+            break
+        fi
+    done
+}
+
 function getNextTest(){
 
-    if [[ "$testGrp" == "" ]]; then
-        #tgrp=("${tgrp[@]/,/ }")
-        #tno=("${tno[@]/,/ }")
-        eval IFS=',' read -r -a tgrp <<< $tgrp
-        eval IFS=',' read -r -a tno <<< $tno
+    if [ -z $testGrp ]; then
+        if [ $tgrp = "ALL" ]; then
+            tgrp=(${groups[@]})
+        else
+            eval IFS=',' read -r -a tgrp <<< $tgrp
+        fi
         testGrp=${tgrp[0]}
-        testNo=${tno[0]}
-        echo ${tno[@]}
+        if [ $tno = "ALL" ]; then 
+            getNextTestNos
+        else
+            eval IFS=',' read -r -a tno <<< $tno
+        fi
     else
         for i in ${!groups[@]}; do
-            if [[ "$testGrp" -eq "${[$i]}" ]]; then
-                if [[ "$testNo" -ge "${tests[$i]}" ]]; then
-                    # goto next test
-                    testGrp=${groups[${i+1}]}
-                    testNo=1
+            if [ $testGrp = ${groups[$i]} ]; then
+                if [ $testNo -ge ${tests[$i]} ]; then
+                    # goto next test, pop 
+                    unset tgrp[0]
+                    tgrp=( ${tgrp[@]} )
+                    testGrp=${tgrp[0]}
+                    if [ -z $tgrp ]; then
+                        echo $tgrp
+                        return 1
+                    fi
+                    getNextTestNos
                 else
-                    testNo=$(( $testNo + 1 ))
+                    unset tno[0]
+                    tno=( ${tno[@]} )
+                    if [ -z $tno ]; then
+                        echo $tno
+                        return 1
+                    fi
                 fi
                 break
             fi
         done
     fi
-
+    # save to next test variables
+    testGrp=${tgrp[0]}
+    testNo=${tno[0]}
+    return 0
 }
 
 ############################### cmd specific func ####################################
@@ -158,33 +185,12 @@ shift
 if [[ $cmd == "test" ]]; then
     tgrp=${1:-'A'}
     shift
-    tno=${1:-'*'}
+    tno=${1:-'ALL'}
     shift
 
     setupSerial
-
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    getNextTest
-    echo Test $testGrp $testNo
-    
-    exit
-
-    while getNextTest ;
+	
+    while getNextTest 
     do
         echo Test $testGrp $testNo
     done
