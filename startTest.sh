@@ -22,7 +22,10 @@ fi
 
 #Initialization
 baudRate=9600
-
+groups=('A' 'B' 'C' 'D')
+tests=(4 3 5 0)
+testNo=
+testGrp=
 
 ############################### Functions, generic ####################################
 
@@ -83,7 +86,7 @@ function waitFree() {
 
     while read line;
     do
-        echo "From PI : $line" 
+        echo "$(date): $line" 
     done
 }
 
@@ -92,7 +95,7 @@ function waitDone() {
 
     while read line;
     do
-        echo "From PI : $line" 
+        echo "$(date): $line" 
 
         if [ "$line" == "done" ]; then
             break;
@@ -101,26 +104,53 @@ function waitDone() {
     done
 }
 
+function getNextTest(){
+
+    if [[ "$testGrp" == "" ]]; then
+        #tgrp=("${tgrp[@]/,/ }")
+        #tno=("${tno[@]/,/ }")
+        eval IFS=',' read -r -a tgrp <<< $tgrp
+        eval IFS=',' read -r -a tno <<< $tno
+        testGrp=${tgrp[0]}
+        testNo=${tno[0]}
+        echo ${tno[@]}
+    else
+        for i in ${!groups[@]}; do
+            if [[ "$testGrp" -eq "${[$i]}" ]]; then
+                if [[ "$testNo" -ge "${tests[$i]}" ]]; then
+                    # goto next test
+                    testGrp=${groups[${i+1}]}
+                    testNo=1
+                else
+                    testNo=$(( $testNo + 1 ))
+                fi
+                break
+            fi
+        done
+    fi
+
+}
+
 ############################### cmd specific func ####################################
 
 function runTest() {
     port=${1:-'/dev/ttyUSB0'}
-    test=${2:-1}
+    grp=${2:-'A'}
+    test=${3:-1}
 
     waitFree $port
 
-    echo $test > $port
+    echo g${grp}t${test}r > $port
 
     waitDone $port
 }
 
 ############################### cmd specific exec ####################################
 
-# TODO
-if [ $# -lt 1 ]; then
-	echo "Not enough arguments supplied!"
-	printUsage
-fi
+# if [ $# -lt 1 ]; then
+# 	echo "Not enough arguments supplied!"
+# 	printUsage
+# fi
 
 cmd=${1:-'test'}
 shift
@@ -133,7 +163,32 @@ if [[ $cmd == "test" ]]; then
 
     setupSerial
 
-    echo "TODO---"
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    getNextTest
+    echo Test $testGrp $testNo
+    
+    exit
+
+    while getNextTest ;
+    do
+        echo Test $testGrp $testNo
+    done
+
 else
     echo "Unknown command!!"
     printUsage
