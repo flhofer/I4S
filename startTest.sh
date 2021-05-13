@@ -1,4 +1,5 @@
-#!/bin/bash 
+#!/bin/bash
+#use bash, zsh or compatible -> wildcard conditions make it NOT posix compliant!
 
 if [[ ! "$1" == "quiet" ]]; then
 
@@ -28,63 +29,11 @@ testNo=
 testGrp=
 resprnt=0
 ports=( )
+types=( )
 
-############################### Functions, generic ####################################
+############################### device comm functions ####################################
 
-function printUsage() {
-
-	cat <<EOF
-
-Usage: $0 test [-r] [group] [number]
- or    $0 [prepcmd] 
-
-where:
-
-group     test group to execute: [ A, B, C, D, * ]
-number		test numbers to execute, e.g. "1,2,3", * for all
-prepcmd		prep command to execute: [clean, reset]
-
-Defaults are:
-group = A     execute test group A
-number = *		execute all tests
-
-EOF
-	exit 1	
-}
-
-function setupSerial() {
-
-    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-        # ...
-
-        for port in /dev/ttyUSB* ; do
-            [ -e "$port" ] || continue
-            ports+=($port)
-            stty $baudRate -F $port raw -echo
-        done
-        for port in /dev/ttyACM* ; do
-            [ -e "$port" ] || continue
-            ports+=($port)
-            stty $baudRate -F $port raw -echo
-        done
-
-    elif [[ "$OSTYPE" == "darwin"* ]]; then
-        # Mac OSX
-
-        for port in /dev/cu.usbmodem* ; do
-            [ -e "$port" ] || continue
-            ports+=($port)
-            stty -f $port $baudRate raw -echo
-        done
-
-    fi
-}
-
-function createRamDisk() {
-    echo "Creating RamDisk for logs"
-    mkdir -P /dev/ramlog
-    mount -t tmpfs -o size=128m tmpfs /mnt/ramlog
-}
+#device paramteters
 
 function waitFree() {
     port=${1:-'/dev/ttyUSB0'}
@@ -113,6 +62,87 @@ function readMicro() {
             echo >> testResults$testGrp$testNo.csv
         fi
     done
+    return $resprnt
+}
+
+function getMicroType() {
+	#echo "T\n" > $1
+	read -p "T\n" -t 1 resp > $1
+	if [[ "$resp" == "MKRWAN"* ]]; 
+	then
+		return 1	
+	elif [[ "$resp" == "TTNUNO"* ]]; 
+	then
+		return 2
+	else
+		return 0
+	fi
+}
+
+
+function setupSerial() {
+
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # ...
+
+        for port in /dev/ttyUSB* ; do
+            [ -e "$port" ] || continue
+            ports+=($port)
+            stty $baudRate -F $port raw -echo
+            types+=getMicroType $port
+            waitFree $port
+        done
+        for port in /dev/ttyACM* ; do
+            [ -e "$port" ] || continue
+            ports+=($port)
+            stty $baudRate -F $port raw -echo
+            waitFree $port
+            types+=getMicroType $port
+        done
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+
+        for port in /dev/cu.usbmodem* ; do
+            [ -e "$port" ] || continue
+            ports+=($port)
+            stty -f $port $baudRate raw -echo
+            waitFree $port
+            types+=getMicroType $port            
+        done
+
+    fi
+}
+
+
+############################### Functions, generic ####################################
+
+function printUsage() {
+
+	cat <<EOF
+
+Usage: $0 test [-r] [group] [number]
+ or    $0 [prepcmd] 
+
+where:
+
+group     test group to execute: [ A, B, C, D, * ]
+number		test numbers to execute, e.g. "1,2,3", * for all
+prepcmd		prep command to execute: [clean, reset]
+
+Defaults are:
+group = A     execute test group A
+number = *		execute all tests
+
+EOF
+	exit 1	
+}
+
+
+function createRamDisk() {
+    echo "Creating RamDisk for logs"
+    mkdir -P /dev/ramlog
+    mount -t tmpfs -o size=128m tmpfs /mnt/ramlog
 }
 
 function getNextTestNos(){
