@@ -10,6 +10,7 @@
 
 import usb.core
 import traceback
+import sys
 
 if __name__ == '__main__':
     pass
@@ -62,21 +63,22 @@ class MicroUSB(Micro):
     def __del__(self):
         """Destructor, reset status"""
         if self.reattach:
-          try:
-            self.device.attach_kernel_driver(self.def_intf)
-          except usb.core.USBError as e:
-            sys.exit("Could not re-attatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
+            try:
+                usb.util.dispose_resources(self.device)
+                self.device.attach_kernel_driver(0)
+            except usb.core.USBError as e:
+                sys.exit("Could not re-attatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
 
     def __getEndPoints(self):
         """Set configuration and retrieve Endpoints for interfaces"""
 
         #  check if kernel driver is loaded, detach in case
         if self.device.is_kernel_driver_active(self.def_intf):
-          try:
-            self.device.detach_kernel_driver(self.def_intf)
-            self.reattach = True
-          except usb.core.USBError as e:
-            sys.exit("Could not detatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
+            try:
+                self.device.detach_kernel_driver(self.def_intf)
+                self.reattach = True
+            except usb.core.USBError as e:
+                sys.exit("Could not detatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
 
         self.device.set_configuration()
 
@@ -111,9 +113,7 @@ class MicroUSB(Micro):
     
     def write(self, msg, timeout=100):
         """Write to device, returns number written"""
-        # assert len(
         return self.portW.write(msg, timeout)
-            # ) == len(msg)
 
 microList = []
 
@@ -131,7 +131,3 @@ def findArduinos ():
                 microList.append(MicroUSB(micro))
             except:
                 traceback.print_exc()
-
-        
-        
-
