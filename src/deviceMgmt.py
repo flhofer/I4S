@@ -14,30 +14,17 @@ import sys
 
 if __name__ == '__main__':
     pass
-
-class ReadLine:
-    def __init__(self, s):
-        self.buf = bytearray()
-        self.s = s
-    
-    def readline(self):
-        i = self.buf.find(b"\n")
-        if i >= 0:
-            r = self.buf[:i+1]
-            self.buf = self.buf[i+1:]
-            return r
-        while True:
-            i = max(1, min(2048, self.s.in_waiting))
-            data = self.s.read(i)
-            i = data.find(b"\n")
-            if i >= 0:
-                r = self.buf + data[:i+1]
-                self.buf[0:] = data[i+1:]
-                return r
-            else:
-                self.buf.extend(data)
                 
 class Micro:
+    """
+    Default dummy class
+    """
+    
+    def __init__(self, device):
+        """Constructor, initialize variables and I/O"""
+        self.device = device
+        self.buf = bytearray()
+
     def read(self, length=255, timeout=100):
         """Read from device, returns string read"""
         print("Not implemented")
@@ -48,12 +35,29 @@ class Micro:
         print("Not implemented")
         return 0
 
+    def readline(self):
+        i = self.buf.find(b"\n")
+        if i >= 0:
+            r = self.buf[:i+1]
+            self.buf = self.buf[i+1:]
+            return r
+
+        data = self.device.read(2048)
+        i = data.find(b"\n")
+        if i >= 0:
+            r = self.buf + data[:i+1]
+            self.buf[0:] = data[i+1:]
+            return r
+        else:
+            self.buf.extend(data)
+            return ""
+
 class MicroUSB(Micro):
     """Class to store and manage attached devices"""
     
     def __init__(self, device):
         """Constructor, initialize variables and I/O"""
-        self.device = device
+        super().__init__(device)
         self.def_intf = 1
         self.reattach = False
         stx = '%04x %04x: '+str(self.device._manufacturer).strip()+' = '+str(self.device._product).strip()
