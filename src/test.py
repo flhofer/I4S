@@ -7,7 +7,9 @@
 # Released under GNU Public License (GPL)
 # email info@florianhofer.it
 # -----------------------------------------------------------
-import deviceMgmt
+
+# Define enumerations used in class
+LORA, LORAWAN, LORAWANTT = 0, 1, 2
 
 class Test():
     '''
@@ -19,8 +21,45 @@ class Test():
         Constructor
         '''
         self.micro = micro
-        self.rstate = 0
+        self._rstate = 0
+        self._mode = LORA
+        self._freq = 8683
+        self._conf = True
+        self._OTAA = False
+        self._repc = 5
+    
+    @property
+    def freq(self):
+        return self._freq
+    
+    @freq.setter
+    def freq(self, nfrq):
+        self._freq = nfrq
         
+    @property
+    def confirmed(self):
+        return self._conf
+    
+    @confirmed.setter
+    def confirmed(self, ncnf):
+        self._conf = ncnf
+        
+    @property
+    def otaa(self):
+        return self._OTAA
+    
+    @otaa.setter
+    def otaa(self, notaa):
+        self._OTAA = notaa
+
+    @property
+    def repeatCount(self):
+        return self._repc
+    
+    @repeatCount.setter
+    def repeatCount(self, nrpc):
+        self._repc = nrpc
+                       
     def runTest(self):
         '''
         Start test
@@ -28,7 +67,7 @@ class Test():
         self.__writeParams()
         try:
             self.micro.write("R\n")
-            self.rstate = 1
+            self._rstate = 1
         except:
             # TODO: manage error 
             pass
@@ -37,8 +76,8 @@ class Test():
         '''
         Poll test
         '''
-        while self.rstate == 1:
-            rbuf = deviceMgmt.microList[0].readline()
+        while self._rstate == 1:
+            rbuf = self.micro.read()
             print(rbuf)
             #parse -> output?
         
@@ -46,6 +85,23 @@ class Test():
         '''
         Write all test parameters
         '''
-        with self.micro as deviceMgmt.Micro:
-            
         
+        pars = ""
+
+        if self.otaa:
+            pars += "o"
+        else:
+            pars += "a"
+        
+        if self._conf:
+            pars += "c"
+        else:
+            pars += "u"
+
+        pars += "m" + self._mode
+        if self._mode == 0:
+            pars+= "f"+self._freq
+
+        pars += "r"+self._repc
+            
+        self.micro.write(pars + "\n")
