@@ -8,130 +8,97 @@
 # email info@florianhofer.it
 # -----------------------------------------------------------
 
-import usb.core
-import traceback
 import sys
+import serial
+import glob
 
 if __name__ == '__main__':
     pass
                 
-class Micro:
-    """
-    Default dummy class
-    """
-    
-    def __init__(self, device):
-        """Constructor, initialize variables and I/O"""
-        self.device = device
-        self.buf = bytearray()
-
-    def read(self, length=255, timeout=100):
-        """Read from device, returns string read"""
-        print("Not implemented")
-        return ""
-            
-    def write(self, msg, timeout=100):
-        """Write to device, returns number written"""
-        print("Not implemented")
-        return 0
-
-    def readline(self):
-        i = self.buf.find(b"\n")
-        if i >= 0:
-            r = self.buf[:i+1]
-            self.buf = self.buf[i+1:]
-            return r
-
-        data = self.device.read(2048)
-        i = data.find(b"\n")
-        if i >= 0:
-            r = self.buf + data[:i+1]
-            self.buf[0:] = data[i+1:]
-            return r
-        else:
-            self.buf.extend(data)
-            return ""
-
-class MicroUSB(Micro):
+class Micro():
     """Class to store and manage attached devices"""
     
-    def __init__(self, device):
+    def __init__(self, port):
         """Constructor, initialize variables and I/O"""
-        super().__init__(device)
-        self.def_intf = 1
-        self.reattach = False
-        stx = '%04x %04x: '+str(self.device._manufacturer).strip()+' = '+str(self.device._product).strip()
-        print (stx % (self.device.idVendor,self.device.idProduct))
-        self.__getEndPoints()
+        self.s = self.openSerial(port)
+        self.T = self.detectType()
         
+    def openSerial(self, port): 
+        try:
+            sopen = serial.Serial(port, timeout = 0.1, #Defaults 9600, EIGHTBITS, PARITY_NONE, STOPBITS_ONE)
+                              write_timeout = 0.1)  
+        except (OSError, serial.SerialException) as e:
+            sys.exit("Could not open serial port for interface ({0}:{1}".format(port, str(e)))
+        return sopen
+            
     def __del__(self):
         """Destructor, reset status"""
-        if self.reattach:
-            try:
-                usb.util.dispose_resources(self.device)
-                self.device.attach_kernel_driver(0)
-            except usb.core.USBError as e:
-                sys.exit("Could not re-attatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
-
-    def __getEndPoints(self):
-        """Set configuration and retrieve Endpoints for interfaces"""
-
-        #  check if kernel driver is loaded, detach in case
-        if self.device.is_kernel_driver_active(self.def_intf):
-            try:
-                self.device.detach_kernel_driver(self.def_intf)
-                self.reattach = True
-            except usb.core.USBError as e:
-                sys.exit("Could not detatch kernel driver from interface({0}:{1}".format(self.def_intf, str(e)))
-
-        self.device.set_configuration()
-
-        # get an EndPoint instance
-        cfg = self.device.get_active_configuration()
-        intf = cfg[(1,0)]
+        self.s.close()
         
-        self.portW = usb.util.find_descriptor(
-            intf,
-            # match the first OUT endpoint
-            custom_match = \
-            lambda e: \
-                usb.util.endpoint_direction(e.bEndpointAddress) == \
-                usb.util.ENDPOINT_OUT)
+    def type(self):
+        """Return micro type"""
+        return self.T
 
-        self.portR = usb.util.find_descriptor(
-            intf,
-            # match the first IN endpoint
-            custom_match = \
-            lambda e: \
-                usb.util.endpoint_direction(e.bEndpointAddress) == \
-                usb.util.ENDPOINT_IN)
+    def detectType(self):
+        """Determine the type of the microcontoller, 0 - EN, 1 - TN"""
+        self.write("T\n")
+        try: 
+            resp = self.read()
+            if resp.startswith("MKRWAN"):
+                return 1
+            elif resp.startswith("AVR"):
+                return 0
+            else:
+                raise Exception("Unknown micro type")
+        except Exception as e:
+            print("Could not detect micro interface :{}".format(str(e)))
+            
         
-    def read(self, length=255, timeout=100):
-        """Read from device, returns string read"""
-        ret = self.portR.read(length, timeout)
+    def read(self, length=255):
+        """Read from device, returns string read line by line"""
+        ret = self.s.read_until(size=length)
         return ''.join([chr(x) for x in ret])
-        # assert len(sret) == length
-        # return ret
-        # sret = ''.join([chr(x) for x in ret])
-        # assert sret == msg
     
-    def write(self, msg, timeout=100):
+    def write(self, msg):
         """Write to device, returns number written"""
-        return self.portW.write(msg, timeout)
+        return self.s.write(msg.encode())
 
-microList = []
+microList  = []
 
 def findArduinos ():
-    """ Find Arduino(s) connected to the system, store and add them to List """
+    """ Find Arduino(s) connected to the system, store and add them to List
+
+        :raises EnvironmentError:
+            On unsupported or unknown platforms
+        :returns:
+            A list of the serial ports available on the system
+        @tfeldmann, option 1, but not possible to filter ACM.s
+    """
+    if sys.platform.startswith('win'):
+        ports = ['COM%s' % (i + 1) for i in range(256)]
+    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
+        # this excludes your current terminal "/dev/tty"
+        ports = glob.glob('/dev/tty[A-Za-z]*')
+    elif sys.platform.startswith('darwin'):
+        ports = glob.glob('/dev/tty.*')
+    else:
+        raise EnvironmentError('Unsupported platform')
+
+    for port in ports:
+        try:
+            s = serial.Serial(port)
+            s.close()
+            microList.append(Micro(port))
+        except (OSError, serial.SerialException):
+            pass
     
-    micros = usb.core.find(find_all=True, idVendor=0x2341)
-    for micro in micros:
-        if micro != None:
-            try:
-                if micro._manufacturer is None:
-                    micro._manufacturer = usb.util.get_string(micro, micro.iManufacturer)
-                if micro._product is None:
-                    micro._product = usb.util.get_string(micro, micro.iProduct)
-                microList.append(MicroUSB(micro))
-            except:
-                traceback.print_exc()
+    # import serial.tools.list_ports
+    # ports = serial.tools.list_ports.comports()
+    #
+    # for port, desc, hwid in sorted(ports):
+    #     print("{}: {} [{}]".format(port, desc, hwid))
+        # if "Arduino" in p.description:
+        # print "This is an Arduino!"
+        #
+
+    return microList
