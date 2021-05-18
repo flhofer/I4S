@@ -1,7 +1,26 @@
 import deviceMgmt
+import test
 import threading
 import time
 import traceback
+
+
+
+endnodes = []
+testers = []
+
+def configureTests():
+    '''
+    create and configure test devices
+    '''
+    deviceMgmt.findArduinos()
+    
+    #assign to test instances
+    for micro in deviceMgmt.microList:
+        if micro.type == 0:
+            endnodes.append(test.Test(micro))
+        else:
+            testers.append(test.Test(micro))
 
 """
 Main program
@@ -9,8 +28,6 @@ Main program
 Read present micros, configure and start the tests as indicated (parameters?)
 
 """ 
-
-deviceMgmt.findArduinos()
 
 # test
 time.sleep(1)
@@ -20,7 +37,10 @@ try:
         deviceMgmt.microList[0].write( uin +"\n")
         while True:
             try:
-                print(deviceMgmt.microList[0].read(1000))
+                read = deviceMgmt.microList[0].read()
+                if read == "" :
+                    break
+                print(read)
             except:
                 break;
         uin = input();
