@@ -18,7 +18,7 @@ class Test():
 
     def __init__(self, micro):
         '''
-        Constructor
+        Constructor and initialize default value
         '''
         self.micro = micro
         self._rstate = 0
@@ -27,7 +27,32 @@ class Test():
         self._conf = True
         self._OTAA = False
         self._repc = 5
+        self._chMsk = 0xff
+        self._power = 0
+        self._dlen = 1
+        self._drate = 5
+        self._updateL = False   # update LoRaWan parameters
     
+        '''
+        Runtime parameters, connection LoRa
+        '''
+        self._AEui  = "BE010000000000DF"
+        self._AKey  = "9ADE44A4AEF1CD77AEB44387BD976928"
+        self._DAdr  = "01234567"
+        self._ASKey = "01234567890abcdef01234567890abcd"
+        self._NSKey = "01234567890abcdef01234567890abcd"
+    
+    '''
+    Getters and setters
+    '''
+    @property
+    def mode(self):
+        return self._mode
+    
+    @mode.setter
+    def mode(self, nMode):
+        self._mode = nMode
+
     @property
     def freq(self):
         return self._freq
@@ -57,9 +82,59 @@ class Test():
         return self._repc
     
     @repeatCount.setter
-    def repeatCount(self, nrpc):
-        self._repc = nrpc
-                       
+    def repeatCount(self, nMsk):
+        self._repc = nMsk
+
+    @property
+    def channelMask(self):
+        return self._chMsk
+    
+    @channelMask.setter
+    def channelMask(self, nrpc):
+        self._chMsk = nrpc
+
+    @property
+    def powerIndex(self):
+        return self._power
+    
+    @powerIndex.setter
+    def powerIndex(self, nPwr):
+        self._power = nPwr
+
+    @property
+    def dataLength(self):
+        return self._dlen
+    
+    @dataLength.setter
+    def dataLength(self, nDlen):
+        self._dlen = nDlen
+
+    @property
+    def dataRate(self):
+        return self._drate
+    
+    @dataRate.setter
+    def dataRate(self, nDR):
+        self._drate = nDR
+    
+    @ABPparams.setter
+    def ABPparams(self, DAdr, ASKey, NSKey):
+        self._DAdr  = DAdr
+        self._ASKey = ASKey
+        self._NSKey = NSKey
+        self._OTAA = False
+        self._updateL = True
+
+    @OTAAparams.setter
+    def OTAAparams(self, AEui, AKey):
+        self._AEui  = AEui
+        self._AKey = AKey
+        self._OTAA = True
+        self._updateL = True
+                    
+    '''
+    Test execution methods
+    '''                                           
     def runTest(self):
         '''
         Start test
@@ -74,7 +149,7 @@ class Test():
         
     def poll(self):        
         '''
-        Poll test
+        Poll test, has to be run as thread!
         '''
         while self._rstate == 1:
             rbuf = self.micro.read()
@@ -98,10 +173,37 @@ class Test():
         else:
             pars += "u"
 
-        pars += "m" + self._mode
+        pars += "m" + str(self._mode)
         if self._mode == 0:
-            pars+= "f"+self._freq
+            pars+= "f" + str(self._freq)
 
-        pars += "r"+self._repc
-            
-        self.micro.write(pars + "\n")
+        pars += "r" + str(self._repc)
+        pars += "C" + "%0.2Xh" % self._chMsk
+        pars += "p" + str(self._power)
+        pars += "l" + str(self._dlen)
+        pars += "d" + str(self._drate) 
+        # pars += "n"
+        
+        print ("Parameter write {}", pars)
+        self.__writeMicro(pars)
+        
+        if self._updateL == True:
+            #TODO: review shortcuts
+            if self._OTAA == True:
+                self.__writeMicro("A" + self._AEui + "h")
+                self.__writeMicro("K" + self._AKey + "h")
+            else:
+                self.__writeMicro("D" + self._DAdr + "h")
+                self.__writeMicro("N" + self._NSKey + "h")
+                self.__writeMicro("S" + self._ASKey + "h")
+
+    def __writeMicro(self, parms):
+        '''
+        Write line to Micro and check for responses
+        '''
+        self.micro.write(parms + "\n")
+        response = self.micro.read()
+        if response != "":
+            raise Exception("Unable to set parameter on Micro")
+    
+    
