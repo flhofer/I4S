@@ -41,7 +41,7 @@ class Test():
         self._DAdr  = "01234567"
         self._ASKey = "01234567890abcdef01234567890abcd"
         self._NSKey = "01234567890abcdef01234567890abcd"
-    
+        
     '''
     Getters and setters
     '''
@@ -54,11 +54,11 @@ class Test():
         self._mode = nMode
 
     @property
-    def freq(self):
+    def frequency(self):
         return self._freq
     
-    @freq.setter
-    def freq(self, nfrq):
+    @frequency.setter
+    def frequency(self, nfrq):
         self._freq = nfrq
         
     @property
