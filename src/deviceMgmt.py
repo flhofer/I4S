@@ -16,10 +16,14 @@ if __name__ == '__main__':
     pass
                 
 class Micro():
-    """Class to store and manage attached devices"""
+    '''
+    Class to store and manage attached devices
+    '''
     
     def __init__(self, port):
-        """Constructor, initialize variables and I/O"""
+        '''
+        Constructor, initialize variables and I/O
+        '''
         self.s = self.openSerial(port)
         self.T = self.detectType()
         
@@ -32,15 +36,21 @@ class Micro():
         return sopen
             
     def __del__(self):
-        """Destructor, reset status"""
+        '''
+        Destructor, reset status
+        '''
         self.s.close()
         
     def type(self):
-        """Return micro type"""
+        '''
+        Return micro type
+        '''
         return self.T
 
     def detectType(self):
-        """Determine the type of the microcontoller, 0 - EN, 1 - TN"""
+        '''
+        Determine the type of the microcontoller, 0 - EN, 1 - TN
+        '''
         self.write("T\n")
         try: 
             resp = self.read()
@@ -55,25 +65,30 @@ class Micro():
             
         
     def read(self, length=255):
-        """Read from device, returns string read line by line"""
+        '''
+        Read from device, returns string read line by line
+        '''
         ret = self.s.read_until(size=length)
         return ''.join([chr(x) for x in ret])
     
     def write(self, msg):
-        """Write to device, returns number written"""
+        '''
+        Write to device, returns number written
+        '''
         return self.s.write(msg.encode())
 
 microList  = []
 
 def findArduinos ():
-    """ Find Arduino(s) connected to the system, store and add them to List
+    '''
+    Find Arduino(s) connected to the system, store and add them to List
 
-        :raises EnvironmentError:
-            On unsupported or unknown platforms
-        :returns:
-            A list of the serial ports available on the system
-        @tfeldmann, option 1, but not possible to filter ACM.s
-    """
+    :raises EnvironmentError:
+        On unsupported or unknown platforms
+    :returns:
+        A list of the serial ports available on the system
+    @tfeldmann, option 1, but not possible to filter ACM.s
+    '''
     if sys.platform.startswith('win'):
         ports = ['COM%s' % (i + 1) for i in range(256)]
     elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):

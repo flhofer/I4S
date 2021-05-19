@@ -9,7 +9,7 @@
 # -----------------------------------------------------------
 
 # Define enumerations used in class
-LORA, LORAWAN, LORAWANTT = 0, 1, 2
+DISABLED, LORA, LORAWAN, LORAWANTT = -1, 0, 1, 2
 
 class Test():
     '''
@@ -117,7 +117,6 @@ class Test():
     def dataRate(self, nDR):
         self._drate = nDR
     
-    @ABPparams.setter
     def ABPparams(self, DAdr, ASKey, NSKey):
         self._DAdr  = DAdr
         self._ASKey = ASKey
@@ -125,7 +124,6 @@ class Test():
         self._OTAA = False
         self._updateL = True
 
-    @OTAAparams.setter
     def OTAAparams(self, AEui, AKey):
         self._AEui  = AEui
         self._AKey = AKey
@@ -138,14 +136,38 @@ class Test():
     def runTest(self):
         '''
         Start test
+        
+        :raises Exception:
+            When configuration writing is not possible
+        :returns:
+            
         '''
-        self.__writeParams()
+        if self._mode == DISABLED:
+            print("Disabled")
+            raise Exception("Disabled")
+            
+        self.configureTest()
         try:
             self.micro.write("R\n")
             self._rstate = 1
         except:
             # TODO: manage error 
             pass
+
+    def configureTest(self):
+        '''
+        Configure test
+
+        :raises Exception:
+            When configuration writing is not possible
+        :returns:
+
+        '''
+        try:
+            self.__writeParams()
+        except Exception as e:
+            print("Parameter writing exception, {}", e)
+            self._mode = DISABLED
         
     def poll(self):        
         '''
@@ -159,8 +181,12 @@ class Test():
     def __writeParams(self):
         '''
         Write all test parameters
-        '''
+
+        :raises Exception:
+            When configuration writing is not possible
+        :returns:
         
+        '''
         pars = ""
 
         if self.otaa:
@@ -193,17 +219,22 @@ class Test():
                 self.__writeMicro("A" + self._AEui + "h")
                 self.__writeMicro("K" + self._AKey + "h")
             else:
-                self.__writeMicro("D" + self._DAdr + "h")
+                self.__writeMicro("D" + self._DAdr  + "h")
                 self.__writeMicro("N" + self._NSKey + "h")
                 self.__writeMicro("S" + self._ASKey + "h")
 
     def __writeMicro(self, parms):
         '''
         Write line to Micro and check for responses
+
+        :raises Exception:
+            When configuration writing is not possible
+        :returns:
+
         '''
         self.micro.write(parms + "\n")
         response = self.micro.read()
         if response != "":
-            raise Exception("Unable to set parameter on Micro")
+            raise Exception("Unable to set parameter on Micro {0}", response)
     
     
