@@ -21,7 +21,7 @@ class MicroMock(deviceMgmt.Micro):
         Read from device, returns string read line by line
         '''
         try: 
-            return self.s.readline()
+            return self.s.readline(length)
         except:
             print ("MOCK: unable to read from mock file")
             return ""
@@ -47,4 +47,9 @@ class MicroMock(deviceMgmt.Micro):
             self.s = open ( iofile, "r")
         except OSError as e: 
             raise Exception ("Unable to create mock! {}".format(str(e)))
+        
+        self._EUI = "0123456789ABCDEF"
     
+    @property
+    def EUI(self):
+        return self._EUI
