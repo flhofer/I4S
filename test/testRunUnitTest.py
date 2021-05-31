@@ -12,7 +12,7 @@ class Test(unittest.TestCase):
 
 
     def setUp(self):
-        mock = MicroMock(1, "mock.log")
+        mock = MicroMock(1, self._testMethodName + "Mock.log")
         self.test = testRun.Test(mock)
 
     def tearDown(self):
