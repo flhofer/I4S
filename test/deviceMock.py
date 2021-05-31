@@ -1,8 +1,13 @@
-'''
-Created on 31 May 2021
+# -----------------------------------------------------------
+# Test Executor for the I4S performance testRun - Device mock
+#
+# Created May, 31, 2021
+#
+# (C) 2017-2021 Hofer Florian, Bolzano, ITALY
+# Released under GNU Public License (GPL)
+# email info@florianhofer.it
+# -----------------------------------------------------------
 
-@author: florianhofer
-'''
 import deviceMgmt
 
 class MicroMock(deviceMgmt.Micro):
@@ -15,12 +20,13 @@ class MicroMock(deviceMgmt.Micro):
         Read from device, returns string read line by line
         '''
         
-        if self.run :
-            try: 
-                return self.iofile.readline()
-            except:
-                print ("MOCK: unable to read from mock file")
-                return ""
+#        if self.run :
+        print("READING")
+        try: 
+            return self.s.readline()
+        except:
+            print ("MOCK: unable to read from mock file")
+            return ""
     
     def write(self, msg):
         '''
@@ -39,7 +45,7 @@ class MicroMock(deviceMgmt.Micro):
         '''
         self.T = mType
         try : 
-            self.iofile = open ( iofile, "r")
-        except: 
-            print("Unable to create mock!")
+            self.s = open ( iofile, "r")
+        except OSError as e: 
+            raise Exception ("Unable to create mock! {}".format(str(e)))
     
