@@ -22,7 +22,7 @@ class Test():
         '''
         Constructor and initialize default value
         '''
-        self.micro = micro
+        self._micro = micro
         self._rstate = 0
         self._mode = LORA
         self._freq = 8683
@@ -44,6 +44,15 @@ class Test():
         self._ASKey = "01234567890abcdef01234567890abcd"
         self._NSKey = "01234567890abcdef01234567890abcd"
         
+        self._logFile = None
+    
+    def __del__(self):
+        '''
+        Destructor, close and clear
+        '''
+        if self._logFile:
+            self._logFile.close()
+   
     '''
     Getters and setters
     '''
@@ -131,6 +140,10 @@ class Test():
         self._AKey = AKey
         self._OTAA = True
         self._updateL = True
+    
+    @property
+    def logFile(self):
+        return self._logFile
                     
     '''
     Test execution methods
@@ -156,11 +169,17 @@ class Test():
             raise Exception("Disabled")
         
         try:
-            self.micro.write("R\n")
-            self._rstate = 1
-        except:
-            # TODO: manage error 
-            pass
+            self._micro.write("R\n")
+            self._rstate = 1            
+        except Exception as e:
+            raise Exception ("Unable to write start command {}".format(str(e))) 
+        finally:
+            try:
+                if self._logFile:
+                    self._logFile.close()
+                self._logFile = open (time.strftime("%Y%m%d-%H%M%S") + ".log", "w")
+            except Exception as e:
+                raise Exception ("Unable to create log-file {}".format(str(e))) 
 
     def configureTest(self):
         '''
@@ -182,12 +201,13 @@ class Test():
         Poll test, has to be run as thread!
         '''
         while self._rstate == 1:
-            rbuf = self.micro.read()
+            rbuf = self._micro.read()
             if rbuf != "" :
                 print(rbuf)
-            
+                self._logFile.write(rbuf)
+                
             time.sleep(0.1)
-            #parse -> output?
+            
         
     def __writeParams(self):
         '''
@@ -227,12 +247,12 @@ class Test():
         if self._updateL == True:
             #TODO: review shortcuts
             if self._OTAA == True:
-                self.__writeMicro("A" + self._AEui.upper() + "h")
+                self.__writeMicro("E" + self._AEui.upper() + "h")
                 self.__writeMicro("K" + self._AKey.upper() + "h")
             else:
                 self.__writeMicro("D" + self._DAdr.upper() + "h")
                 self.__writeMicro("N" + self._NSKey.upper()+ "h")
-                self.__writeMicro("S" + self._ASKey.upper()+ "h")
+                self.__writeMicro("A" + self._ASKey.upper()+ "h")
 
     def __writeMicro(self, parms):
         '''
@@ -243,9 +263,9 @@ class Test():
         :returns:
 
         '''
-        self.micro.write(parms + "\n")
-        response = self.micro.read()
+        self._micro.write(parms + "\n")
+        response = self._micro.read()
         if response != "":
             raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
-    
-    
+
+        
