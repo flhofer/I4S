@@ -1,12 +1,13 @@
-# -----------------------------------------------------------
-# Test Executor for the I4S performance testRun - Device mock
-#
-# Created May, 31, 2021
-#
-# (C) 2017-2021 Hofer Florian, Bolzano, ITALY
-# Released under GNU Public License (GPL)
-# email info@florianhofer.it
-# -----------------------------------------------------------
+''' 
+-----------------------------------------------------------
+Test Executor for the I4S performance testRun - Device mock
+
+Created May, 31, 2021
+(C) 2017-2021 Hofer Florian, Bolzano, ITALY
+Released under GNU Public License (GPL)
+email info@florianhofer.it
+-----------------------------------------------------------
+''' 
 
 import deviceMgmt
 

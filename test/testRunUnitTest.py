@@ -1,17 +1,24 @@
-'''
-Created on 31 May 2021
+''' 
+-----------------------------------------------------------
+Unit Test for the I4S performance testRun - Test Run
 
-@author: florianhofer
-'''
+Created May, 31, 2021
+(C) 2017-2021 Hofer Florian, Bolzano, ITALY
+Released under GNU Public License (GPL)
+email info@florianhofer.it
+-----------------------------------------------------------
+''' 
+
 import unittest
 import testRun
 import threading
 import time
 from deviceMock import MicroMock
+from io import StringIO
+import os
 
 
 class Test(unittest.TestCase):
-
 
     def setUp(self):
         mock = MicroMock(1, self._testMethodName + "Mock.log")
@@ -40,15 +47,21 @@ class Test(unittest.TestCase):
     def testRunDevice(self):
         self.test.runTest()
         assert (self.test._rstate == 1)
+        self.test.logFile.close()
+        os.remove(self.test.logFile.name)
         
     def testPoll(self):
         self.test._rstate = 1
+        self.test._logFile = StringIO()
+
         x = threading.Thread(target=self.test.poll, args = ())
         x.start()
-        time.sleep(1)
+        time.sleep(0.2)
         self.test._rstate = 0
         x.join(1)
+        
         assert (self.test._rstate == 0)
+        self.test._logFile.close()
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testWriteParameters']
