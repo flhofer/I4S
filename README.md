@@ -5,7 +5,9 @@ This repository contains scripts and instructions for the LoRaWan tests of the S
 ## Folders
 
     .
-    ├── docs         # Project gp-pages website
-    ├── startTest.sh # I4S test execution Bash script
+    ├── docs         # Project gp-pages website and other documents
+    ├── src          # Python3 code for the test execution
+    ├── test         # Python3 (unit) tests for the above code
+    ├── startTest.sh # I4S test runner Bash script
     └── README.md    # this file
   
