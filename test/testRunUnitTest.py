@@ -5,6 +5,8 @@ Created on 31 May 2021
 '''
 import unittest
 import testRun
+import threading
+import time
 from deviceMock import MicroMock
 
 
@@ -34,6 +36,19 @@ class Test(unittest.TestCase):
 
         self.test.configureTest()
         assert( self.test.mode != testRun.DISABLED )
+
+    def testRunDevice(self):
+        self.test.runTest()
+        assert (self.test._rstate == 1)
+        
+    def testPoll(self):
+        self.test._rstate = 1
+        x = threading.Thread(target=self.test.poll, args = ())
+        x.start()
+        time.sleep(1)
+        self.test._rstate = 0
+        x.join(1)
+        assert (self.test._rstate == 0)
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testWriteParameters']

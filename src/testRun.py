@@ -8,6 +8,8 @@
 # email info@florianhofer.it
 # -----------------------------------------------------------
 
+import time
+
 # Define enumerations used in class
 DISABLED, LORA, LORAWAN, LORAWANTT = -1, 0, 1, 2
 
@@ -147,6 +149,12 @@ class Test():
             raise Exception("Disabled")
             
         self.configureTest()
+        
+        ''' Check again after configuration '''
+        if self._mode == DISABLED:
+            print("Disabled")
+            raise Exception("Disabled")
+        
         try:
             self.micro.write("R\n")
             self._rstate = 1
@@ -175,7 +183,10 @@ class Test():
         '''
         while self._rstate == 1:
             rbuf = self.micro.read()
-            print(rbuf)
+            if rbuf != "" :
+                print(rbuf)
+            
+            time.sleep(0.1)
             #parse -> output?
         
     def __writeParams(self):
