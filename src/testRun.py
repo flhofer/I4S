@@ -34,16 +34,16 @@ class Test():
         self._power = 0
         self._dlen = 1
         self._drate = 5
-        self._updateL = False   # update LoRaWan parameters
     
         '''
         Runtime parameters, connection LoRa
         '''
-        self._AEui  = "BE010000000000DF"
-        self._AKey  = "9ADE44A4AEF1CD77AEB44387BD976928"
-        self._DAdr  = "01234567"
-        self._ASKey = "01234567890abcdef01234567890abcd"
-        self._NSKey = "01234567890abcdef01234567890abcd"
+        self._updateL = False   # update LoRaWan parameters
+        self._AEui  = ""
+        self._AKey  = ""
+        self._DAdr  = ""
+        self._ASKey = ""
+        self._NSKey = ""
         
         self._logFile = None
     
@@ -205,10 +205,13 @@ class Test():
             rbuf = self._micro.read()
             if rbuf != "" :
                 print(rbuf)
+                self.__parseBuffer(rbuf[:-1])
                 self._logFile.write(rbuf)
                 
             time.sleep(0.1)
-            
+    
+    def stopTest(self):
+        self._rstate = 0
         
     def __writeParams(self):
         '''
@@ -246,7 +249,6 @@ class Test():
         self.__writeMicro(pars)
         
         if self._updateL == True:
-            #TODO: review shortcuts
             if self._OTAA == True:
                 self.__writeMicro("E" + self._AEui.upper() + "h")
                 self.__writeMicro("K" + self._AKey.upper() + "h")
@@ -269,4 +271,7 @@ class Test():
         if response != "":
             raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
 
-        
+    def __parseBuffer(self, buf):
+        if buf.startswith("Done"):
+            self._rstate = 0
+            

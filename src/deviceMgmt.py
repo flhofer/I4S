@@ -27,7 +27,7 @@ class Micro():
         '''
         self.s = self.openSerial(port)
         self.T = self.detectType()
-        self.EUI()
+        self._EUI = self._readEUI()
         
     def openSerial(self, port): 
         try:
@@ -65,8 +65,7 @@ class Micro():
         except Exception as e:
             print("Could not detect micro interface :{}".format(str(e)))
     
-    @property
-    def EUI(self):
+    def _readEUI(self):
         '''
         Determine the EUI of the attached microcontoller
         '''
@@ -80,6 +79,10 @@ class Micro():
                 raise Exception("EUI read length error")
         except Exception as e:
             print("Could not read micro EUI :{}".format(str(e)))
+
+    @property
+    def EUI(self):
+        return self._EUI
         
     def read(self, length=255):
         '''

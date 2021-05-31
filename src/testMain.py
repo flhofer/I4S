@@ -34,6 +34,10 @@ testParameters = [{ "testRun" : 1,
                     "TestParam" : [{"mode" : 0, "freq" : 8683 },]},
                    ]
 
+deviceParameters = [{   "0123456789ABCDEF" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
+                        "EUI" : {"APPEUI" : "", "APPKEY" : "" , "DEVADDR" : "", "APPSKEY": "", "NWSKEY" : ""}
+                     }]
+
 def configureTestClasses():
     '''
     create and configure testRun devices
@@ -42,12 +46,40 @@ def configureTestClasses():
     
     #assign to testRun instances
     for micro in deviceMgmt.microList:
+        tMicro = testRun.Test(micro)
+        
+        if micro.EUI in deviceParameters :
+            tMicro.OTAAparams(deviceParameters[micro.EUI()]["APPEUI"], deviceParameters[micro.EUI()]["APPKEY"])
+            tMicro.ABPparams(deviceParameters[micro.EUI()]["DEVADDR"], deviceParameters[micro.EUI()]["APPSKEY"], deviceParameters[micro.EUI()]["NWSKEY"])
+            
         if micro.type == 0:
-            endnodes.append(testRun.Test(micro))
+            endnodes.append(tMicro)
         else:
-            testers.append(testRun.Test(micro))
+            testers.append(tMicro)
+        
 
-    #Todo: sample for testRun and exclude 
+    #TODO: sample for testRun and exclude 
+
+def assignParams(node, params):
+    for key in params:
+            if key == 'mode':
+                node.mode = params[key]
+            elif key == 'freq': 
+                node.frequency = params[key]
+            elif key == 'conf': 
+                node.confirmed = bool(params[key])
+            elif key == 'OTAA': 
+                node.otaa = bool(params[key]) 
+            elif key == 'repeat': 
+                node.repeatCount = params[key]
+            elif key == 'chnMsk': 
+                node.channelMask = params[key]
+            elif key == 'power': 
+                node.powerIndex = params[key]
+            elif key == 'datalen': 
+                node.dataLength = params[key]
+            elif key == 'DR': 
+                node.dataRate = params[key] 
 
 def prepareTest(testNumber):
     '''
@@ -62,25 +94,7 @@ def prepareTest(testNumber):
 
     for endnode in endnodes:
         with params["NodeParam"] as nodeParams:
-            for key in nodeParams: 
-                if key == 'mode':
-                    endnode.mode = nodeParams[key]
-                elif key == 'freq': 
-                    endnode.frequency = nodeParams[key]
-                elif key == 'conf': 
-                    endnode.confirmed = bool(nodeParams[key])
-                elif key == 'OTAA': 
-                    endnode.otaa = bool(nodeParams[key])
-                elif key == 'repeat': 
-                    endnode.repeatCount = nodeParams[key]
-                elif key == 'chnMsk': 
-                    endnode.channelMask = nodeParams[key]
-                elif key == 'power': 
-                    endnode.powerIndex = nodeParams[key]
-                elif key == 'datalen': 
-                    endnode.dataLength = nodeParams[key]
-                elif key == 'DR': 
-                    endnode.dataRate = nodeParams[key]                                     
+            assignParams(endnode, nodeParams)                        
     
     testnodes = iter(testers)
         
@@ -90,29 +104,30 @@ def prepareTest(testNumber):
         except StopIteration:
             raise Exception ("Not enough testRun micros available")        
         
-        for key in testParms:
-            if key == 'mode':
-                testnode.mode = testParms[key]
-            elif key == 'freq': 
-                testnode.frequency = testParms[key]
-            elif key == 'conf': 
-                testnode.confirmed = bool(testParms[key])
-            elif key == 'OTAA': 
-                testnode.otaa = bool(testParms[key]) 
-            elif key == 'repeat': 
-                testnode.repeatCount = testParms[key]
-            elif key == 'chnMsk': 
-                testnode.channelMask = testParms[key]
-            elif key == 'power': 
-                testnode.powerIndex = testParms[key]
-            elif key == 'datalen': 
-                testnode.dataLength = testParms[key]
-            elif key == 'DR': 
-                testnode.dataRate = testParms[key] 
+        assignParams(testnode, testParms)      
 
 def runTest():
-    pass
-
+    print("START Test")
+    for testNode in testers:
+        testNode.runTest()
+        
+    testerThreads = []
+    for testNode in testers:
+        x = threading.Thread(target=testNode.poll, args = ())
+        x.start()
+        testerThreads.append(x)
+    
+    for endnode in endnodes:
+        endnode.runTest()
+        endnode.poll()
+    
+    for testNode in testers:
+        testNode.stopTest()
+    
+    for x in testerThreads :
+        x.join(1) 
+    
+    print("END Test")
 
 """
 Main program
