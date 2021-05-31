@@ -19,9 +19,6 @@ class MicroMock(deviceMgmt.Micro):
         '''
         Read from device, returns string read line by line
         '''
-        
-#        if self.run :
-        print("READING")
         try: 
             return self.s.readline()
         except:
@@ -34,7 +31,7 @@ class MicroMock(deviceMgmt.Micro):
         '''
         print ("MOCK: ", msg)
         
-        if msg.contains("R"):
+        if "R" in msg:
             self.run = True
         
         return len(msg)
@@ -44,6 +41,7 @@ class MicroMock(deviceMgmt.Micro):
         Constructor
         '''
         self.T = mType
+        self.run = False
         try : 
             self.s = open ( iofile, "r")
         except OSError as e: 

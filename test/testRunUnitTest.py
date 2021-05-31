@@ -20,10 +20,20 @@ class Test(unittest.TestCase):
 
     def testWriteParameters(self):
         '''
-        Test configuration example
+        Test Microcontroller configuration example
         '''    
-        print("Configure testRun")
         self.test.configureTest()
+        assert( self.test.mode != testRun.DISABLED )
+        
+        self.test.OTAAparams("BE010000000000DF", "9ADE44A4AEF1CD77AEB44387BD976928")
+
+        self.test.configureTest()
+        assert( self.test.mode != testRun.DISABLED )
+
+        self.test.ABPparams("01234567", "01234567890abcdef01234567890abcd", "01234567890abcdef01234567890abcd")
+
+        self.test.configureTest()
+        assert( self.test.mode != testRun.DISABLED )
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testWriteParameters']

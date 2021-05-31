@@ -216,12 +216,12 @@ class Test():
         if self._updateL == True:
             #TODO: review shortcuts
             if self._OTAA == True:
-                self.__writeMicro("A" + self._AEui + "h")
-                self.__writeMicro("K" + self._AKey + "h")
+                self.__writeMicro("A" + self._AEui.upper() + "h")
+                self.__writeMicro("K" + self._AKey.upper() + "h")
             else:
-                self.__writeMicro("D" + self._DAdr  + "h")
-                self.__writeMicro("N" + self._NSKey + "h")
-                self.__writeMicro("S" + self._ASKey + "h")
+                self.__writeMicro("D" + self._DAdr.upper() + "h")
+                self.__writeMicro("N" + self._NSKey.upper()+ "h")
+                self.__writeMicro("S" + self._ASKey.upper()+ "h")
 
     def __writeMicro(self, parms):
         '''
@@ -235,6 +235,6 @@ class Test():
         self.micro.write(parms + "\n")
         response = self.micro.read()
         if response != "":
-            raise Exception("Unable to set parameter on Micro {0}", response)
+            raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
     
     
