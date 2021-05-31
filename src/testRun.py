@@ -210,7 +210,7 @@ class Test():
         pars += "d" + str(self._drate) 
         # pars += "n"
         
-        print ("Parameter write {}", pars)
+        print ("Parameter write: '{}'".format(pars))
         self.__writeMicro(pars)
         
         if self._updateL == True:

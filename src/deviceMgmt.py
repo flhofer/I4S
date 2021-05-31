@@ -1,5 +1,5 @@
 # -----------------------------------------------------------
-# Test Executor for the I4S performance test - Device module
+# Test Executor for the I4S performance testRun - Device module
 #
 # Created May, 13, 2021
 #

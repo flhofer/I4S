@@ -1,5 +1,5 @@
 import deviceMgmt
-import test
+import testRun
 import threading
 import time
 import traceback
@@ -8,7 +8,7 @@ endnodes = []
 testers = []
 
 #TODO: add read from file
-testParameters = [{ "test" : 1,
+testParameters = [{ "testRun" : 1,
                     "NodeParam" : { "mode" : 1, "chnMsk" : 0xFF, "conf" : 1, "OTAA": 0 },
                     "TestParam" : [{"mode" : 0, "freq" : 8683 },
                                    {"mode" : 0, "freq" : 8681 },
@@ -18,40 +18,35 @@ testParameters = [{ "test" : 1,
                                    {"mode" : 0, "freq" : 8675 },
                                    {"mode" : 0, "freq" : 8677 },
                                    {"mode" : 0, "freq" : 8679 },]},
-                  { "test" : 2,
+                  { "testRun" : 2,
                     "NodeParam" : { "mode" : 1, "chnMsk" : 0xFF, "conf" : 1, "OTAA": 0 },
                     "TestParam" : [{"mode" : 0, "freq" : 8683 },]},
                    ]
 
 def configureTestClasses():
     '''
-    create and configure test devices
+    create and configure testRun devices
     '''
     deviceMgmt.findArduinos()
     
-    #assign to test instances
+    #assign to testRun instances
     for micro in deviceMgmt.microList:
         if micro.type == 0:
-            endnodes.append(test.Test(micro))
+            endnodes.append(testRun.Test(micro))
         else:
-            testers.append(test.Test(micro))
+            testers.append(testRun.Test(micro))
 
-    #Todo: sample for test and exclude
-
-    # try:    
-    #     testers[0].__writeParams()
-    # except Exception as e:
-    #     pass    
+    #Todo: sample for testRun and exclude 
 
 def prepareTest(testNumber):
     '''
-    Configure end and test nodes with the set parameters
+    Configure end and testRun nodes with the set parameters
     
     :parameter Testnumber to look for in Testparameters
     
     '''
     
-    params = [x for x in testParameters if x["test"] == testNumber][0]    
+    params = [x for x in testParameters if x["testRun"] == testNumber][0]    
     print (params)
 
     for endnode in endnodes:
@@ -82,7 +77,7 @@ def prepareTest(testNumber):
         try:
             testnode = next(testnodes)
         except StopIteration:
-            raise Exception ("Not enough test micros available")        
+            raise Exception ("Not enough testRun micros available")        
         
         for key in testParms:
             if key == 'mode':
@@ -122,7 +117,7 @@ prepareTest(2)
 runTest()
 
 
-# test
+# testRun
 time.sleep(1)
 try:
     uin = input()
