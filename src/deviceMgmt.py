@@ -34,6 +34,8 @@ class Micro():
                               write_timeout = 0.1)  
         except (OSError, serial.SerialException) as e:
             sys.exit("Could not open serial port for interface ({0}:{1}".format(port, str(e)))
+            
+        sopen.read()
         return sopen
             
     def __del__(self):
@@ -69,10 +71,13 @@ class Micro():
         Determine the EUI of the attached microcontoller
         '''
         self.write("I\n")
-        try: 
-            resp = self.read()
-            if len(resp) == 17:
-                self._EUI = resp[:-1]
+        try:
+            resp = self.read(timeout=2)
+            while self.s.in_waiting > 0:
+                resp = self.read()
+            
+            if len(resp) == 18:
+                self._EUI = resp[:-2]
                 return self._EUI
             else:
                 raise Exception("EUI read length error")
@@ -83,12 +88,22 @@ class Micro():
     def EUI(self):
         return self._EUI
         
-    def read(self, length=255):
+    def read(self, length=255, timeout=None):
         '''
         Read from device, returns string read line by line
-        '''
-        ret = self.s.read_until(size=length)
-        return ''.join([chr(x) for x in ret])
+        
+        :input timeout if none, remain unchanged, otherwise update
+                for this reading instance only
+        '''  
+        if timeout != None:
+            tout= self.s.timeout         
+            self.s.timeout = timeout
+        try :     
+            ret = self.s.read_until(size=length)
+        finally:
+            if timeout != None:
+                self.s.timeout = tout
+            return ''.join([chr(x) for x in ret])
     
     def write(self, msg):
         '''
