@@ -10,8 +10,7 @@ email info@florianhofer.it
 ''' 
 
 import sys
-import serial
-import glob
+import serial.tools.list_ports
 
 if __name__ == '__main__':
     pass
@@ -107,33 +106,18 @@ def findArduinos ():
         On unsupported or unknown platforms
     :returns:
         A list of the serial ports available on the system
-    @tfeldmann, option 1, but not possible to filter ACM.s
+        
     '''
-    if sys.platform.startswith('win'):
-        ports = ['COM%s' % (i + 1) for i in range(256)]
-    elif sys.platform.startswith('linux') or sys.platform.startswith('cygwin'):
-        # this excludes your current terminal "/dev/tty"
-        ports = glob.glob('/dev/tty[A-Za-z]*')
-    elif sys.platform.startswith('darwin'):
-        ports = glob.glob('/dev/tty.*')
-    else:
-        raise EnvironmentError('Unsupported platform')
-
-    for port in ports:
-        try:
-            s = serial.Serial(port)
-            s.close()
-            microList.append(Micro(port))
-        except (OSError, serial.SerialException):
-            pass
     
-    # import serial.tools.list_ports
-    # ports = serial.tools.list_ports.comports()
-    #
-    # for port, desc, hwid in sorted(ports):
-    #     print("{}: {} [{}]".format(port, desc, hwid))
-        # if "Arduino" in p.description:
-        # print "This is an Arduino!"
-        #
+    ports = serial.tools.list_ports.comports()
+    
+    for port, desc, hwid in sorted(ports):
+        if "Arduino" in desc or "VID:PID=2341" in hwid:
+            microList.append(Micro(port))
+            print("->* ", end='')
+        else:
+            print("    ", end='')
+
+        print("{}: {} [{}]".format(port, desc, hwid))
 
     return microList
