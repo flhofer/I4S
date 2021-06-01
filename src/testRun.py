@@ -211,6 +211,12 @@ class Test():
             time.sleep(0.1)
     
     def stopTest(self):
+        try:
+            self._micro.write("S\n")
+        except Exception as e:
+            raise Exception ("Unable to write stop command {}".format(str(e)))       
+
+    def stopPoll(self):
         self._rstate = 0
         
     def __writeParams(self):
@@ -272,6 +278,6 @@ class Test():
             raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
 
     def __parseBuffer(self, buf):
-        if buf.startswith("Done"):
+        if buf.startswith("done"):
             self._rstate = 0
             
