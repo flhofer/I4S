@@ -90,7 +90,7 @@ def prepareTest(testNumber):
     '''
     
     params = [x for x in testParameters if x["testRun"] == testNumber][0]    
-    print (params)
+    print ("Parameters for test:", params)
 
     for endnode in endnodes:
         with params["NodeParam"] as nodeParams:
@@ -109,22 +109,27 @@ def prepareTest(testNumber):
 def runTest():
     print("START Test")
     for testNode in testers:
+        print("RUN Test node " + str(testers.index(testNode) + 1) )
         testNode.runTest()
         
     testerThreads = []
     for testNode in testers:
+        print("Threading Test node " + str(testers.index(testNode) + 1) )
         x = threading.Thread(target=testNode.poll, args = ())
         x.start()
         testerThreads.append(x)
     
     for endnode in endnodes:
+        print("RUN End node " + str(endnodes.index(endnode) + 1) )
         endnode.runTest()
         endnode.poll()
     
     for testNode in testers:
+        print("STOP Test node " + str(testers.index(testNode) + 1) )
         testNode.stopTest()
     
     for x in testerThreads :
+        print("JOIN Test node " + str(testers.index(testNode) + 1) )
         x.join(1) 
     
     print("END Test")
@@ -143,24 +148,24 @@ prepareTest(2)
 runTest()
 
 
-# testRun
-time.sleep(1)
-try:
-    uin = input()
-    while uin != "":
-        deviceMgmt.microList[0].write( uin +"\n")
-        while True:
-            try:
-                read = deviceMgmt.microList[0].read()
-                if read == "" :
-                    break
-                print(read)
-            except:
-                break;
-        uin = input();
-    
-except Exception as e:
-    traceback.print_exc()
+# # testRun
+# time.sleep(1)
+# try:
+#     uin = input()
+#     while uin != "":
+#         deviceMgmt.microList[0].write( uin +"\n")
+#         while True:
+#             try:
+#                 read = deviceMgmt.microList[0].read()
+#                 if read == "" :
+#                     break
+#                 print(read)
+#             except:
+#                 break;
+#         uin = input();
+#
+# except Exception as e:
+#     traceback.print_exc()
 
 
 # Trigger destructor call
