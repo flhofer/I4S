@@ -19,10 +19,19 @@ class Test(unittest.TestCase):
     def testParseTestsToRun(self):
         ''' Test commmand line test argument parsing '''
         
+        #Overwrite defaults to keep test consistent
+        testMain.testLength = {
+            "A": 3,
+            "B": 2,
+            "C": 1,
+            "D": 4
+            }
+        
         tests = [
-                [ [ "A1", "A2", "C1", "B4" ], [ "A1", "A2", "B4", "C1" ] ],
-                [ [ "A*" ], [ "A1", "A2", "A3", "A4" ] ],                
-                [ [ "A*", "C3" ], [ "A1", "A2", "A3", "A4", "C3" ] ],                                
+                [ [ "A1", "A2", "C1", "B2" ], [ "A1", "A2", "B2", "C1" ] ],
+                [ [ "A*" ], [ "A1", "A2", "A3" ] ],                
+                [ [ "A*", "C1" ], [ "A1", "A2", "A3", "C1" ] ],
+                [ None , ["A1", "A2", "A3", "B1", "B2", "C1", "D1", "D2", "D3", "D4"] ]                       
                 ]
 
         for inp,out in tests:

@@ -14,10 +14,18 @@ import testRun
 import threading
 import time
 import sys, getopt
+from pip._internal.cli.cmdoptions import retries
+from _ast import arg
 
 #Hardware configurations
 endnodes = []
 testers = []
+
+#defaults settings
+testLength = { "A": 4,
+               "B": 5,
+               "C": 3,
+               "D": 4}
 
 #TODO: add read from file
 testParameters = [{ "testRun" : "A1",
@@ -131,7 +139,8 @@ def runTest():
         x = threading.Thread(target=testNode.poll, args = ())
         x.start()
         testerThreads.append(x)
-    
+   
+    time.sleep(1) 
     for endnode in endnodes:
         print("RUN End node " + str(endnodes.index(endnode) + 1) )
         endnode.runTest()
@@ -140,17 +149,43 @@ def runTest():
     for testNode in testers:
         print("STOP Test node " + str(testers.index(testNode) + 1) )
         testNode.stopTest()
-    
+
+    time.sleep(1) 
+        
     for x in testerThreads :
         print("JOIN Test node " + str(testerThreads.index(x) + 1) )
         x.join(1) 
     
     print("END Test")
 
-def parseTestsToRun(arglist):
-    
-    
-    return ["A1", "A2"]
+def parseTestsToRun(argList):
+
+    if argList == None:
+        argList = ["**"]
+
+    testList = []
+    for arg in argList:
+        if len(arg) > 2:
+            raise Exception("Invalid test parameter exception, '{}'".format(arg))
+        if arg[1] == '*':
+            if arg[0] == '*':
+                for grp in testLength:
+                    for no in range(1, testLength[grp] + 1):
+                        testList.append( grp + str(no))
+            else:        
+                for no in range(1, testLength[arg[0]] + 1):
+                            testList.append(arg[0] + str(no))
+        elif arg[0] == '*':
+            for grp in testLength:
+                testList.append(grp + arg[1])
+            
+        else:
+            if testLength[arg[0]] < int(arg[1]):
+                raise Exception("Invalid test parameter exception, '{}'\nOut of bounds!".format(arg))
+                
+            testList.append(arg)
+                
+    return sorted(testList)
 
 def main(argv):
     """
@@ -158,9 +193,8 @@ def main(argv):
     
     Read present micros, configure and start the tests as indicated (parameters?)
     
-    """ 
-
-
+    """
+     
     dirTarget = ''
     logName = ''
     try:
@@ -188,27 +222,6 @@ def main(argv):
         prepareTest(tNo)
     
         runTest()
-    
-    
-    # # testRun
-    # time.sleep(1)
-    # try:
-    #     uin = input()
-    #     while uin != "":
-    #         deviceMgmt.microList[0].write( uin +"\n")
-    #         while True:
-    #             try:
-    #                 read = deviceMgmt.microList[0].read()
-    #                 if read == "" :
-    #                     break
-    #                 print(read)
-    #             except:
-    #                 break;
-    #         uin = input();
-    #
-    # except Exception as e:
-    #     traceback.print_exc()
-    
     
     # Trigger destructor call
     del deviceMgmt.microList
