@@ -48,9 +48,11 @@ def configureTestClasses():
     '''
     deviceMgmt.findArduinos()
     
+    i=0
+    j=0
     #assign to testRun instances
     for micro in deviceMgmt.microList:
-        tMicro = testRun.Test(micro)
+        tMicro = testRun.Test(micro, j)
         
         if micro.EUI in deviceParameters :
             tMicro.OTAAparams(deviceParameters[micro.EUI()]["APPEUI"], deviceParameters[micro.EUI()]["APPKEY"])
@@ -58,11 +60,11 @@ def configureTestClasses():
             
         if micro.type == 0:
             endnodes.append(tMicro)
+            tMicro.num = 10+i
+            i+=1
         else:
             testers.append(tMicro)
-        
-
-    #TODO: sample for testRun and exclude 
+            j+=1
 
 def assignParams(node, params):
     for key in params:
@@ -108,7 +110,14 @@ def prepareTest(testNumber):
         except StopIteration:
             raise Exception ("Not enough testRun micros available")        
         
-        assignParams(testnode, testParms)      
+        assignParams(testnode, testParms)
+    
+    while True:
+        try:
+            testnode = next(testnodes)
+            assignParams(testnode, {"mode": 0} )
+        except:
+            break   
 
 def runTest():
     print("START Test")
@@ -133,7 +142,7 @@ def runTest():
         testNode.stopTest()
     
     for x in testerThreads :
-        print("JOIN Test node " + str(testers.index(testNode) + 1) )
+        print("JOIN Test node " + str(testerThreads.index(x) + 1) )
         x.join(1) 
     
     print("END Test")
