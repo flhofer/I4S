@@ -58,13 +58,15 @@ function printUsage() {
 
 	cat <<EOF
 
-Usage: $0 test [-r] [group] [number]
- or    $0 [prepcmd] 
+Usage: $0 test [-r] [-d workdir] [-l logprefix] [group/number] .. [group/number] 
+ or    $0 [prepcmd]
+ 
+ex.    $0 test A2 B*  
 
 where:
 
 group     test group to execute: [ A, B, C, D, * ]
-number		test numbers to execute, e.g. "1,2,3", * for all
+number		test numbers to execute, e.g. "A1 B2 D3", use * for all
 prepcmd		prep command to execute: [clean, reset]
 
 Defaults are:
@@ -76,7 +78,7 @@ EOF
 }
 
 function checkLibraries(){
-	eval "pip list | grep -F pyusb > /dev/null"
+	eval "pip list | grep -F pyserial > /dev/null"
 	if [ "$?" -eq 0 ] ; then
 		return 0
 	else
@@ -107,10 +109,18 @@ if [[ $cmd == "test" ]]; then
 		exit 1
 	fi
 	
-    setupSerial
-    # createRamDisk
-	eval $PYTHON3 testMain.py	
-	
+    # setupSerial 	# not needed anymore 
+    # createRamDisk	# Maybe needed to save flash mem
+	eval $PYTHON3 testMain.py $@
+
+elif [[ $cmd == "clean" ]]; then
+	echo "Not implemented"
+	exit 1
+
+elif [[ $cmd == "reset" ]]; then
+	echo "Not implemented"
+	exit 1
+		
 else
     echo "Unknown command!!"
     printUsage
