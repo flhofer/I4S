@@ -252,14 +252,14 @@ class Test():
             pars += "u"
 
         pars += "m" + str(self._mode)
-        if self._mode == 0:
+        if self._mode == 1:
             pars+= "f" + str(self._freq)
-
-        pars += "r" + str(self._repc)
-        pars += "C" + "%0.2Xh" % self._chMsk
-        pars += "p" + str(self._power)
+        elif self._mode > 1:
+            pars += "r" + str(self._repc)
+            pars += "C" + "%0.2Xh" % self._chMsk
+            pars += "p" + str(self._power)
+            pars += "d" + str(self._drate) 
         pars += "l" + str(self._dlen)
-        pars += "d" + str(self._drate) 
         # pars += "n"
         
         print ("Parameter write: '{}'".format(pars))
