@@ -211,12 +211,14 @@ class Test():
         Poll test, has to be run as thread!
         '''
         while self._rstate == 1:
+            
             rbuf = self._micro.read()
-            if rbuf != "" :
-                print(rbuf)
+            while rbuf != "":
+                print(rbuf, end='')
                 self.__parseBuffer(rbuf[:-1])
                 self._logFile.write(rbuf)
-                
+                rbuf = self._micro.read()
+
             time.sleep(0.1)
     
     def stopTest(self):
