@@ -147,39 +147,71 @@ def runTest():
     
     print("END Test")
 
-"""
-Main program
+def parseTestsToRun(arglist):
+    
+    
+    return ["A1", "A2"]
 
-Read present micros, configure and start the tests as indicated (parameters?)
-
-""" 
-
-configureTestClasses()
-
-prepareTest(2)
-
-runTest()
-
-
-# # testRun
-# time.sleep(1)
-# try:
-#     uin = input()
-#     while uin != "":
-#         deviceMgmt.microList[0].write( uin +"\n")
-#         while True:
-#             try:
-#                 read = deviceMgmt.microList[0].read()
-#                 if read == "" :
-#                     break
-#                 print(read)
-#             except:
-#                 break;
-#         uin = input();
-#
-# except Exception as e:
-#     traceback.print_exc()
+def main(argv):
+    """
+    Main program
+    
+    Read present micros, configure and start the tests as indicated (parameters?)
+    
+    """ 
 
 
-# Trigger destructor call
-del deviceMgmt.microList
+    dirTarget = ''
+    logName = ''
+    try:
+        opts, args = getopt.getopt(argv,"hd:l:",["","dir=","log="])
+    except getopt.GetoptError:
+        print('testMain.py -d <targetdir> -l <logprefix>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt == '-h':
+            print ('testMain.py -d <targetdir> -l <logprefix>')
+            sys.exit()
+        elif opt in ("-d", "--dir"):
+            dirTarget = arg
+        elif opt in ("-l", "--log"):
+            logName = arg
+    print ('Input file is "', dirTarget)
+    print ('Output file is "', logName)
+
+    #List of tests to run, not opt'ed arguments
+    testsToRun = parseTestsToRun(args)
+           
+    configureTestClasses()
+    
+    for tNo in testsToRun:
+        prepareTest(tNo)
+    
+        runTest()
+    
+    
+    # # testRun
+    # time.sleep(1)
+    # try:
+    #     uin = input()
+    #     while uin != "":
+    #         deviceMgmt.microList[0].write( uin +"\n")
+    #         while True:
+    #             try:
+    #                 read = deviceMgmt.microList[0].read()
+    #                 if read == "" :
+    #                     break
+    #                 print(read)
+    #             except:
+    #                 break;
+    #         uin = input();
+    #
+    # except Exception as e:
+    #     traceback.print_exc()
+    
+    
+    # Trigger destructor call
+    del deviceMgmt.microList
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
