@@ -12,14 +12,14 @@ email info@florianhofer.it
 import time
 
 # Define enumerations used in class
-DISABLED, LORA, LORAWAN, LORAWANTT = -1, 0, 1, 2
+DISABLED, OFF, LORA, LORAWAN, LORAWANRT = -1, 0, 1, 2, 3
 
 class Test():
     '''
     Test main execution module
     '''
 
-    def __init__(self, micro):
+    def __init__(self, micro, num):
         '''
         Constructor and initialize default value
         '''
@@ -34,6 +34,7 @@ class Test():
         self._power = 0
         self._dlen = 1
         self._drate = 5
+        self._num = num
     
         '''
         Runtime parameters, connection LoRa
@@ -145,7 +146,15 @@ class Test():
     @property
     def logFile(self):
         return self._logFile
-                    
+
+    @property
+    def num(self):
+        return self._num
+    
+    @num.setter
+    def num(self, nnum):
+        self._num = nnum
+                            
     '''
     Test execution methods
     '''                                           
@@ -178,7 +187,7 @@ class Test():
             try:
                 if self._logFile:
                     self._logFile.close()
-                self._logFile = open (time.strftime("%Y%m%d-%H%M%S") + ".log", "w")
+                self._logFile = open (time.strftime("%Y%m%d-%H%M%S") + "-tdev{0:02d}".format(self._num) + ".log", "w")
             except Exception as e:
                 raise Exception ("Unable to create log-file {}".format(str(e))) 
 
