@@ -29,13 +29,15 @@ class MicroMock(deviceMgmt.Micro):
     def write(self, msg):
         '''
         Write to device, returns number written
-        '''
-        print ("MOCK: ", msg)
-        
+        '''        
         if "R" in msg:
             self.run = True
         
+        self._msgBuff.append(msg)
         return len(msg)
+
+    def clearBuffer(self):
+        self._msgBuff = []
 
     def __init__(self, mType, iofile):
         '''
@@ -49,7 +51,12 @@ class MicroMock(deviceMgmt.Micro):
             raise Exception ("Unable to create mock! {}".format(str(e)))
         
         self._EUI = "0123456789ABCDEF"
-    
+        self.clearBuffer()    
+        
     @property
     def EUI(self):
         return self._EUI
+    
+    @property
+    def buffer(self):
+        return self._msgBuff

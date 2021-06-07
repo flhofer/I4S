@@ -19,7 +19,7 @@ class Test():
     Test main execution module
     '''
 
-    def __init__(self, micro, num):
+    def __init__(self, micro, num=1):
         '''
         Constructor and initialize default value
         '''

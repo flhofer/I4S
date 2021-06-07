@@ -17,7 +17,6 @@ from deviceMock import MicroMock
 from io import StringIO
 import os
 
-
 class Test(unittest.TestCase):
 
     def setUp(self):
@@ -31,22 +30,43 @@ class Test(unittest.TestCase):
         '''
         Test Microcontroller configuration example
         '''    
+  
+        self.test.mode = 0
         self.test.configureTest()
-        assert( self.test.mode != testRun.DISABLED )
+        self.assertNotEqual(self.test.mode, testRun.DISABLED )
+        self.assertListEqual( self.test._micro.buffer , ["acm0l1\n"])
+
+        self.test._micro.clearBuffer()
+        
+        self.test.mode = 1
+        self.test.configureTest()
+        self.assertNotEqual(self.test.mode, testRun.DISABLED )
+        self.assertListEqual( self.test._micro.buffer , ["acm1f8683l1\n"])
+
+        self.test._micro.clearBuffer()
         
         self.test.OTAAparams("BE010000000000DF", "9ADE44A4AEF1CD77AEB44387BD976928")
-
         self.test.configureTest()
-        assert( self.test.mode != testRun.DISABLED )
+        self.assertNotEqual(self.test.mode, testRun.DISABLED )
+        self.assertListEqual( self.test._micro.buffer , ["ocm1f8683l1\n", "EBE010000000000DFh\n", "K9ADE44A4AEF1CD77AEB44387BD976928h\n"])
 
+        self.test._micro.clearBuffer()
+               
         self.test.ABPparams("01234567", "01234567890abcdef01234567890abcd", "01234567890abcdef01234567890abcd")
-
         self.test.configureTest()
-        assert( self.test.mode != testRun.DISABLED )
+        self.assertNotEqual(self.test.mode, testRun.DISABLED )
+        self.assertListEqual( self.test._micro.buffer , ["acm1f8683l1\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
+
+        self.test._micro.clearBuffer()
+
+        self.test.mode = 2
+        self.test.configureTest()
+        self.assertNotEqual(self.test.mode, testRun.DISABLED )
+        self.assertListEqual( self.test._micro.buffer , ["acm2r5CFFhp0d5l1\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
 
     def testRunDevice(self):
         self.test.runTest()
-        assert (self.test._rstate == 1)
+        self.assertEquals(self.test._rstate, 1)
         self.test.logFile.close()
         os.remove(self.test.logFile.name)
         
@@ -60,7 +80,7 @@ class Test(unittest.TestCase):
         self.test._rstate = 0
         x.join(1)
         
-        assert (self.test._rstate == 0)
+        self.assertEquals (self.test._rstate, 0)
         self.test._logFile.close()
 
 if __name__ == "__main__":
