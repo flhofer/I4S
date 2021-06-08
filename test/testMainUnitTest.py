@@ -20,7 +20,7 @@ class Test(unittest.TestCase):
         pass
 
     def testParseTestsToRun(self):
-        ''' Test commmand line test argument parsing '''
+        ''' Test command line test argument parsing '''
         
         #Overwrite defaults to keep test consistent
         testMain.testLength = {
