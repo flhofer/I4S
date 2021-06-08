@@ -14,9 +14,6 @@ import testRun
 import threading
 import time
 import sys, getopt
-from pip._internal.cli.cmdoptions import retries
-from _ast import arg, Try
-from itertools import count
 
 #Hardware configurations
 endnodes = []

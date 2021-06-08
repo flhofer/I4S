@@ -5,7 +5,9 @@ Created on 7 Jun 2021
 '''
 import unittest
 import testMain
+import testRun
 from testMain import NotEnoughMicrosError
+from deviceMock import MicroMock
 
 class Test(unittest.TestCase):
 
@@ -47,12 +49,21 @@ class Test(unittest.TestCase):
             
     def testPrepareTest(self):
         
+        # Test exceptions
         with self.assertRaises(ValueError):
             testMain.prepareTest("")
 
         with self.assertRaises(NotEnoughMicrosError):
             testMain.prepareTest("A1")
 
+        #Test normal op
+        for i in range(8):
+            testMain.testers.append(testRun.Test(i,MicroMock(1, "testEmtpyMock.log")))
+        
+        testMain.prepareTest("A1");
+        
+        for tester in testMain.testers:
+            self.assertEqual(1, tester.mode )      
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testParseTestsToRun']
