@@ -15,7 +15,8 @@ import threading
 import time
 import sys, getopt
 from pip._internal.cli.cmdoptions import retries
-from _ast import arg
+from _ast import arg, Try
+from itertools import count
 
 #Hardware configurations
 endnodes = []
@@ -50,6 +51,25 @@ deviceParameters = [{   "0123456789ABCDEF" : {"APPEUI" : "BE010000000000DF", "AP
                         "a8610a3037277e08" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
                      }]
 
+'''
+Custom exception classes
+'''
+class NotEnoughMicrosError(Exception):
+    """Exception raised for insufficient amount of test devices.
+
+    :attributes
+        count   -- number of present micros 
+        message -- explanation of the error
+    """
+
+    def __init__(self, count, message="Not enough testRun micros available"):
+        self.count = count
+        self.message = message
+        super().__init__(self.message)
+
+    def __str__(self):
+        return f'{self.count} -> {self.message}'
+
 def configureTestClasses():
     '''
     create and configure testRun devices
@@ -75,6 +95,15 @@ def configureTestClasses():
             j+=1
 
 def assignParams(node, params):
+    '''
+    Assign parameters to micro controller device
+    
+    :parameter  node: micro controller node to configure
+                params: list of parameters to set
+            
+    :raises    could raise exceptions from called methods (not expected)
+    
+    '''
     for key in params:
             if key == 'mode':
                 node.mode = params[key]
@@ -99,13 +128,18 @@ def prepareTest(testNumber):
     '''
     Configure end and testRun nodes with the set parameters
     
-    :parameter Testnumber to look for in Testparameters
+    :parameter testNumber to look for in the list of test parameters
+    
+    :raises    ValueError if test is not defined
+               NotEnoughMicrosError if the test defines more micros than available
     
     '''
-    
-    params = [x for x in testParameters if x["testRun"] == testNumber][0]    
-    print ("Parameters for test:", params)
-
+    try: 
+        params = [x for x in testParameters if x["testRun"] == testNumber][0]    
+        print ("Parameters for test:", params)
+    except IndexError as e:
+        raise ValueError("Parameters for '{}' not found".format(testNumber)) from e
+        
     for endnode in endnodes:
         with params["NodeParam"] as nodeParams:
             assignParams(endnode, nodeParams)                        
@@ -116,7 +150,7 @@ def prepareTest(testNumber):
         try:
             testnode = next(testnodes)
         except StopIteration:
-            raise Exception ("Not enough testRun micros available")        
+            raise NotEnoughMicrosError (testnodes.count)        
         
         assignParams(testnode, testParms)
     
@@ -124,9 +158,11 @@ def prepareTest(testNumber):
         try:
             testnode = next(testnodes)
             assignParams(testnode, {"mode": 0} )
-        except:
-            break   
-
+        except StopIteration:
+            break
+        except: # forward all other exceptions, Explicit!
+            raise 
+        
 def runTest():
     print("START Test")
     for testNode in testers:
