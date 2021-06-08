@@ -5,6 +5,7 @@ Created on 7 Jun 2021
 '''
 import unittest
 import testMain
+from testMain import NotEnoughMicrosError
 
 class Test(unittest.TestCase):
 
@@ -43,7 +44,16 @@ class Test(unittest.TestCase):
 
         with self.assertRaises(ValueError):
             testMain.parseTestsToRun(["A3", "B4D", "C1"])
+            
+    def testPrepareTest(self):
+        
+        with self.assertRaises(ValueError):
+            testMain.prepareTest("")
 
+        with self.assertRaises(NotEnoughMicrosError):
+            testMain.prepareTest("A1")
+
+        
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testParseTestsToRun']
     unittest.main()

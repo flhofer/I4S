@@ -150,7 +150,7 @@ def prepareTest(testNumber):
         try:
             testnode = next(testnodes)
         except StopIteration:
-            raise NotEnoughMicrosError (testnodes.count)        
+            raise NotEnoughMicrosError (testers.count)
         
         assignParams(testnode, testParms)
     
@@ -164,6 +164,13 @@ def prepareTest(testNumber):
             raise 
         
 def runTest():
+    '''
+    Sequentially start and run test and end nodes
+    
+    Loops are executed in separate threads
+    
+    '''
+    
     print("START Test")
     for testNode in testers:
         print("RUN Test node " + str(testers.index(testNode) + 1) )
@@ -195,7 +202,14 @@ def runTest():
     print("END Test")
 
 def parseTestsToRun(argList):
-
+    '''
+    Parse command line arguments to create list of tests to execute
+    
+    :parameter    argList contains a list of strings to parse with wildcards ecc
+    
+    :returns      a sorted list of strings containing each test's ID
+    
+    '''
     if argList == None:
         argList = ["**"]
 
@@ -228,6 +242,8 @@ def main(argv):
     Main program
     
     Read present micros, configure and start the tests as indicated (parameters?)
+    
+    :parameter    argv arguments list passed to main command 
     
     """
      
