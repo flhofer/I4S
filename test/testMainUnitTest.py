@@ -37,7 +37,12 @@ class Test(unittest.TestCase):
         for inp,out in tests:
             self.assertListEqual(testMain.parseTestsToRun(inp), out)
 
-        #TODO test for exception
+        #test for exception
+        with self.assertRaises(LookupError):
+            testMain.parseTestsToRun(["A3", "B4", "C1"])
+
+        with self.assertRaises(ValueError):
+            testMain.parseTestsToRun(["A3", "B4D", "C1"])
 
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testParseTestsToRun']

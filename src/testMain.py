@@ -166,7 +166,7 @@ def parseTestsToRun(argList):
     testList = []
     for arg in argList:
         if len(arg) > 2:
-            raise Exception("Invalid test parameter exception, '{}'".format(arg))
+            raise ValueError("Invalid test parameter, '{}'".format(arg))
         if arg[1] == '*':
             if arg[0] == '*':
                 for grp in testLength:
@@ -181,7 +181,7 @@ def parseTestsToRun(argList):
             
         else:
             if testLength[arg[0]] < int(arg[1]):
-                raise Exception("Invalid test parameter exception, '{}'\nOut of bounds!".format(arg))
+                raise LookupError("Test parameter index out of bounds, '{}'".format(arg))
                 
             testList.append(arg)
                 
