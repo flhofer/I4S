@@ -60,3 +60,6 @@ class MicroMock(deviceMgmt.Micro):
     @property
     def buffer(self):
         return self._msgBuff
+    
+if __name__ == "__main__":
+    pass

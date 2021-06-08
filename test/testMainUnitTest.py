@@ -49,6 +49,17 @@ class Test(unittest.TestCase):
             
     def testPrepareTest(self):
         
+        testMain.testParameters = [{ "testRun" : "A1",
+                                     "TestParam" :[{"mode" : 1, "freq" : 8683 },
+                                                   {"mode" : 1, "freq" : 8681 },
+                                                   {"mode" : 1, "freq" : 8685 },
+                                                   {"mode" : 1, "freq" : 8671 },
+                                                   {"mode" : 1, "freq" : 8689 },
+                                                   {"mode" : 1, "freq" : 8675 },
+                                                   {"mode" : 1, "freq" : 8677 },
+                                                   {"mode" : 1, "freq" : 8679 } ],
+                                    }]
+        
         # Test exceptions
         with self.assertRaises(ValueError):
             testMain.prepareTest("")

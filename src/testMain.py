@@ -11,42 +11,12 @@ email info@florianhofer.it
 
 import deviceMgmt
 import testRun
-import threading
-import time
-import sys, getopt
+import sys, getopt, time, threading
+from testParameters import deviceParameters, testLength, testParameters
 
 #Hardware configurations
 endnodes = []
 testers = []
-
-#defaults settings
-testLength = { "A": 4,
-               "B": 5,
-               "C": 3,
-               "D": 4}
-
-#TODO: add read from file
-testParameters = [{ "testRun" : "A1",
-                    "NodeParam" : { "mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "OTAA": 0 },
-                    "TestParam" : [{"mode" : 1, "freq" : 8683 },
-                                   {"mode" : 1, "freq" : 8681 },
-                                   {"mode" : 1, "freq" : 8685 },
-                                   {"mode" : 1, "freq" : 8671 },
-                                   {"mode" : 1, "freq" : 8689 },
-                                   {"mode" : 1, "freq" : 8675 },
-                                   {"mode" : 1, "freq" : 8677 },
-                                   {"mode" : 1, "freq" : 8679 },]},
-                  { "testRun" : "A2",
-                    "NodeParam" : { "mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "OTAA": 0 },
-                    "TestParam" : [{"mode" : 1, "freq" : 8683 },]},
-                   ]
-
-deviceParameters = [{   "0123456789ABCDEF" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
-                        "a8610a30372e6008" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
-                        "a8610a303933660b" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
-                        "a8610a303925650b" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
-                        "a8610a3037277e08" : {"APPEUI" : "BE010000000000DF", "APPKEY" : "9ADE44A4AEF1CD77AEB44387BD976928", "DEVADDR" : "01234567", "APPSKEY": "01234567890abcdef01234567890abcd", "NWSKEY" : "01234567890abcdef01234567890abcd"},
-                     }]
 
 '''
 Custom exception classes
