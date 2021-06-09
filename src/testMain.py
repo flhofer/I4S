@@ -61,6 +61,8 @@ def configureTestClasses():
             testers.append(tMicro)
             j+=1
 
+#TODO function to check for list of parameters, i.e. changes, repeat ecc 
+
 def assignParams(node, params):
     '''
     Assign parameters to micro controller device
@@ -71,6 +73,9 @@ def assignParams(node, params):
     :raises    could raise exceptions from called methods (not expected)
     
     '''
+    #TODO: add DR as array
+    #TODO: add joinRepeat as option
+    #TODO: align definitions of power and powerIndex for the two boards
     for key in params:
             if key == 'mode':
                 node.mode = params[key]
@@ -86,9 +91,9 @@ def assignParams(node, params):
                 node.channelMask = params[key]
             elif key == 'power': 
                 node.powerIndex = params[key]
-            elif key == 'datalen': 
+            elif key == 'dataLen': 
                 node.dataLength = params[key]
-            elif key == 'DR': 
+            elif key == 'dataRate': 
                 node.dataRate = params[key] 
 
 def prepareTest(testNumber):
@@ -101,6 +106,7 @@ def prepareTest(testNumber):
                NotEnoughMicrosError if the test defines more micros than available
     
     '''
+    #TODO reset parameters to default for each device -> to implement on device
     try: 
         params = [x for x in testParameters if x["testRun"] == testNumber][0]    
         print ("Parameters for test:", params)
