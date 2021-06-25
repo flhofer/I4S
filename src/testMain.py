@@ -73,28 +73,31 @@ def assignParams(node, params):
     :raises    could raise exceptions from called methods (not expected)
     
     '''
-    #TODO: add DR as array
     #TODO: add joinRepeat as option
     #TODO: align definitions of power and powerIndex for the two boards
     for key in params:
+            if type(params[key]) == list:
+                param = params[key][0]
+            else:
+                param = params[key]
             if key == 'mode':
-                node.mode = params[key]
+                node.mode = param
             elif key == 'freq': 
-                node.frequency = params[key]
+                node.frequency = param
             elif key == 'conf': 
-                node.confirmed = bool(params[key])
+                node.confirmed = bool(param)
             elif key == 'OTAA': 
-                node.otaa = bool(params[key]) 
+                node.otaa = bool(param) 
             elif key == 'repeat': 
-                node.repeatCount = params[key]
+                node.repeatCount = param
             elif key == 'chnMsk': 
-                node.channelMask = params[key]
+                node.channelMask = param
             elif key == 'power': 
-                node.powerIndex = params[key]
-            elif key == 'dataLen': 
-                node.dataLength = params[key]
+                node.powerIndex = param
+            elif key == 'dataLen':
+                node.dataLength = param
             elif key == 'dataRate': 
-                node.dataRate = params[key] 
+                node.dataRate = param
 
 def prepareTest(testNumber):
     '''
