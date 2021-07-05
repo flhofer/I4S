@@ -98,6 +98,8 @@ def assignParams(node, params):
                 node.dataLength = param
             elif key == 'dataRate': 
                 node.dataRate = param
+            elif key == 'usePB':
+                node.usePB = param
 
 def prepareTest(testNumber):
     '''
