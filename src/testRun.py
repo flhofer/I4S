@@ -53,6 +53,7 @@ class Test():
         self._power = 1 # ETSI 14dBm default
         self._dlen = 1
         self._drate = 255
+        self._usePB = True
         
     def __del__(self):
         '''
@@ -158,7 +159,15 @@ class Test():
     @num.setter
     def num(self, nnum):
         self._num = nnum
-                            
+ 
+    @property
+    def usePB(self):
+        return self._usePB
+    
+    @usePB.setter
+    def usePB(self, use):
+        self._usePB = use   
+                                
     '''
     Test execution methods
     '''                                           
@@ -266,17 +275,25 @@ class Test():
         pars += "l" + str(self._dlen)
         # pars += "n"
         
-        print ("Parameter write: '{}'".format(pars))
         self.__writeMicro(pars)
         
         if self._mode > 1:
-            if self._OTAA == True:
-                self.__writeMicro("E" + self._AEui.upper() + "h")
-                self.__writeMicro("K" + self._AKey.upper() + "h")
+            if self._usePB:
+                if self._OTAA == True:
+                    self.__writeMicro("E" + self._AEui.upper() + "h")
+                    self.__writeMicro("K" + self._AKey.upper() + "h")
+                else:
+                    self.__writeMicro("D" + self._DAdr.upper() + "h")
+                    self.__writeMicro("N" + self._NSKey.upper()+ "h")
+                    self.__writeMicro("A" + self._ASKey.upper()+ "h")
             else:
-                self.__writeMicro("D" + self._DAdr.upper() + "h")
-                self.__writeMicro("N" + self._NSKey.upper()+ "h")
-                self.__writeMicro("A" + self._ASKey.upper()+ "h")
+                if self._OTAA == True:
+                    self.__writeMicro("E01234567890abcdef01234567890abcdh")
+                    self.__writeMicro("K01234567890abcdef01234567890abcdh")
+                else:
+                    self.__writeMicro("D01234567h")
+                    self.__writeMicro("N01234567890abcdef01234567890abcdh")
+                    self.__writeMicro("A01234567890abcdef01234567890abcdh")               
 
     def __writeMicro(self, parms):
         '''
