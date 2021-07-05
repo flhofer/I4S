@@ -22,7 +22,7 @@ fi
 ############################### global variables ####################################
 
 PYTHON3="python3"
-
+ports=( )
 
 ############################### device comm functions ####################################
 
@@ -34,11 +34,15 @@ function setupSerial() {
 
         for port in /dev/ttyUSB* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty $baudRate -F $port raw -echo
+            types+=getMicroType $port
         done
         for port in /dev/ttyACM* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty $baudRate -F $port raw -echo
+            types+=getMicroType $port
         done
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -46,7 +50,9 @@ function setupSerial() {
 
         for port in /dev/cu.usbmodem* ; do
             [ -e "$port" ] || continue
+            ports+=($port)
             stty -f $port $baudRate raw -echo
+            types+=getMicroType $port            
         done
 
     fi
@@ -120,7 +126,15 @@ elif [[ $cmd == "clean" ]]; then
 elif [[ $cmd == "reset" ]]; then
 	echo "Not implemented"
 	exit 1
-		
+
+elif [[ $cmd == "program" ]]; then
+	setupSerial
+	
+    echo ${ports[@]}
+    
+    eval arduino-cli 
+ 	echo "Not implemented"
+	exit 1   
 else
     echo "Unknown command!!"
     printUsage
