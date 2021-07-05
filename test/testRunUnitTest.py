@@ -34,35 +34,29 @@ class Test(unittest.TestCase):
         self.test.mode = 0
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["acm0l1\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m0l1\n"])
 
         self.test._micro.clearBuffer()
         
         self.test.mode = 1
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["acm1f8683l1\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m1f8683l1\n"])
 
         self.test._micro.clearBuffer()
         
+        self.test.mode = 2
         self.test.OTAAparams("BE010000000000DF", "9ADE44A4AEF1CD77AEB44387BD976928")
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["ocm1f8683l1\n", "EBE010000000000DFh\n", "K9ADE44A4AEF1CD77AEB44387BD976928h\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m2ocr5CFFhp0d5l1\n", "EBE010000000000DFh\n", "K9ADE44A4AEF1CD77AEB44387BD976928h\n"])
 
         self.test._micro.clearBuffer()
                
         self.test.ABPparams("01234567", "01234567890abcdef01234567890abcd", "01234567890abcdef01234567890abcd")
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["acm1f8683l1\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
-
-        self.test._micro.clearBuffer()
-
-        self.test.mode = 2
-        self.test.configureTest()
-        self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["acm2r5CFFhp0d5l1\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m2acr5CFFhp0d5l1\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
 
     def testRunDevice(self):
         self.test.runTest()

@@ -240,21 +240,21 @@ class Test():
         
         '''
         pars = ""
-
-        if self.otaa:
-            pars += "o"
-        else:
-            pars += "a"
         
-        if self._conf:
-            pars += "c"
-        else:
-            pars += "u"
-
         pars += "m" + str(self._mode)
         if self._mode == 1:
             pars+= "f" + str(self._freq)
         elif self._mode > 1:
+            if self.otaa:
+                pars += "o"
+            else:
+                pars += "a"
+                
+            if self._conf:
+                pars += "c"
+            else:
+                pars += "u"
+
             pars += "r" + str(self._repc)
             pars += "C" + "%0.2Xh" % self._chMsk
             pars += "p" + str(self._power)
@@ -265,14 +265,15 @@ class Test():
         print ("Parameter write: '{}'".format(pars))
         self.__writeMicro(pars)
         
-        if self._updateL == True:
-            if self._OTAA == True:
-                self.__writeMicro("E" + self._AEui.upper() + "h")
-                self.__writeMicro("K" + self._AKey.upper() + "h")
-            else:
-                self.__writeMicro("D" + self._DAdr.upper() + "h")
-                self.__writeMicro("N" + self._NSKey.upper()+ "h")
-                self.__writeMicro("A" + self._ASKey.upper()+ "h")
+        if self._mode > 1:
+            if self._updateL == True:
+                if self._OTAA == True:
+                    self.__writeMicro("E" + self._AEui.upper() + "h")
+                    self.__writeMicro("K" + self._AKey.upper() + "h")
+                else:
+                    self.__writeMicro("D" + self._DAdr.upper() + "h")
+                    self.__writeMicro("N" + self._NSKey.upper()+ "h")
+                    self.__writeMicro("A" + self._ASKey.upper()+ "h")
 
     def __writeMicro(self, parms):
         '''
