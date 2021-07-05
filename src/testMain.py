@@ -50,8 +50,8 @@ def configureTestClasses():
         tMicro = testRun.Test(micro, j)
         
         if micro.EUI in deviceParameters :
-            tMicro.OTAAparams(deviceParameters[micro.EUI()]["APPEUI"], deviceParameters[micro.EUI()]["APPKEY"])
-            tMicro.ABPparams(deviceParameters[micro.EUI()]["DEVADDR"], deviceParameters[micro.EUI()]["APPSKEY"], deviceParameters[micro.EUI()]["NWSKEY"])
+            tMicro.OTAAparams(deviceParameters[micro.EUI]["APPEUI"], deviceParameters[micro.EUI]["APPKEY"])
+            tMicro.ABPparams(deviceParameters[micro.EUI]["DEVADDR"], deviceParameters[micro.EUI]["APPSKEY"], deviceParameters[micro.EUI]["NWSKEY"])
             
         if micro.type == 0:
             endnodes.append(tMicro)
