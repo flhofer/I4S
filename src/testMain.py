@@ -73,8 +73,8 @@ def assignParams(node, params):
     :raises    could raise exceptions from called methods (not expected)
     
     '''
-    #TODO: add joinRepeat as option
-    #TODO: align definitions of power and powerIndex for the two boards
+    
+    node.clearParameters()
     for key in params:
             if type(params[key]) == list:
                 param = params[key][0]

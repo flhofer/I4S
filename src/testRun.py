@@ -12,7 +12,7 @@ email info@florianhofer.it
 import time
 
 # Define enumerations used in class
-DISABLED, OFF, LORA, LORAWAN, LORAWANRT = -1, 0, 1, 2, 3
+DISABLED, OFF, LORA, LORAWAN, LORAWANRT, LORAJOIN = -1, 0, 1, 2, 3, 4
 
 class Test():
     '''
@@ -24,6 +24,25 @@ class Test():
         Constructor and initialize default value
         '''
         self._micro = micro
+        self._logFile = None
+        self._num = num
+        
+        '''
+        Runtime parameters, connection LoRa
+        '''
+        self._AEui  = ""
+        self._AKey  = ""
+        self._DAdr  = ""
+        self._ASKey = ""
+        self._NSKey = ""
+        
+        self.clearParameters()
+
+    def clearParameters(self):
+        '''
+        Clear and reset to default the runtime parameters
+        '''
+        
         self._rstate = 0
         self._mode = LORA
         self._freq = 8683
@@ -34,19 +53,7 @@ class Test():
         self._power = 1 # ETSI 14dBm default
         self._dlen = 1
         self._drate = 255
-        self._num = num
-    
-        '''
-        Runtime parameters, connection LoRa
-        '''
-        self._AEui  = ""
-        self._AKey  = ""
-        self._DAdr  = ""
-        self._ASKey = ""
-        self._NSKey = ""
         
-        self._logFile = None
-    
     def __del__(self):
         '''
         Destructor, close and clear
