@@ -31,15 +31,14 @@ class Test():
         self._OTAA = False
         self._repc = 5
         self._chMsk = 0xff
-        self._power = 0
+        self._power = 1 # ETSI 14dBm default
         self._dlen = 1
-        self._drate = 5
+        self._drate = 255
         self._num = num
     
         '''
         Runtime parameters, connection LoRa
         '''
-        self._updateL = False   # update LoRaWan parameters
         self._AEui  = ""
         self._AKey  = ""
         self._DAdr  = ""
@@ -135,13 +134,11 @@ class Test():
         self._ASKey = ASKey
         self._NSKey = NSKey
         self._OTAA = False
-        self._updateL = True
 
     def OTAAparams(self, AEui, AKey):
         self._AEui  = AEui
         self._AKey = AKey
         self._OTAA = True
-        self._updateL = True
     
     @property
     def logFile(self):
@@ -266,14 +263,13 @@ class Test():
         self.__writeMicro(pars)
         
         if self._mode > 1:
-            if self._updateL == True:
-                if self._OTAA == True:
-                    self.__writeMicro("E" + self._AEui.upper() + "h")
-                    self.__writeMicro("K" + self._AKey.upper() + "h")
-                else:
-                    self.__writeMicro("D" + self._DAdr.upper() + "h")
-                    self.__writeMicro("N" + self._NSKey.upper()+ "h")
-                    self.__writeMicro("A" + self._ASKey.upper()+ "h")
+            if self._OTAA == True:
+                self.__writeMicro("E" + self._AEui.upper() + "h")
+                self.__writeMicro("K" + self._AKey.upper() + "h")
+            else:
+                self.__writeMicro("D" + self._DAdr.upper() + "h")
+                self.__writeMicro("N" + self._NSKey.upper()+ "h")
+                self.__writeMicro("A" + self._ASKey.upper()+ "h")
 
     def __writeMicro(self, parms):
         '''
