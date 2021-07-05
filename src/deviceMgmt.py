@@ -9,7 +9,7 @@ email info@florianhofer.it
 -----------------------------------------------------------
 ''' 
 
-import sys
+import sys, time
 import serial.tools.list_ports
 
 if __name__ == '__main__':
@@ -44,6 +44,7 @@ class Micro():
         '''
         self.s.close()
         
+    @property
     def type(self):
         '''
         Return micro type
@@ -71,10 +72,12 @@ class Micro():
         Determine the EUI of the attached microcontoller
         '''
         self.write("I\n")
+        time.sleep(1)
         try:
             resp = self.read(timeout=2)
             while self.s.in_waiting > 0:
                 resp = self.read()
+                time.sleep(0.1)
             
             if len(resp) == 18:
                 self._EUI = resp[:-2]
