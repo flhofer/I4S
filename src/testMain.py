@@ -119,8 +119,7 @@ def prepareTest(testNumber):
         raise ValueError("Parameters for '{}' not found".format(testNumber)) from e
         
     for endnode in endnodes:
-        with params["NodeParam"] as nodeParams:
-            assignParams(endnode, nodeParams)                        
+        assignParams(endnode, params["NodeParam"])                        
     
     testnodes = iter(testers)
         
@@ -188,7 +187,7 @@ def parseTestsToRun(argList):
     :returns      a sorted list of strings containing each test's ID
     
     '''
-    if argList == None:
+    if argList == []:
         argList = ["**"]
 
     testList = []
