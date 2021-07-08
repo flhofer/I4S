@@ -24,11 +24,11 @@ class Micro():
         '''
         Constructor, initialize variables and I/O
         '''
-        self.s = self.openSerial(port)
-        self.T = self.detectType()
+        self.s = self._openSerial(port)
+        self.T = self._detectType()
         self._EUI = self._readEUI()
         
-    def openSerial(self, port): 
+    def _openSerial(self, port): 
         try:
             sopen = serial.Serial(port, timeout = 0.1, #Defaults 9600, EIGHTBITS, PARITY_NONE, STOPBITS_ONE)
                               write_timeout = 0.1)  
@@ -51,7 +51,7 @@ class Micro():
         '''
         return self.T
 
-    def detectType(self):
+    def _detectType(self):
         '''
         Determine the type of the microcontoller, 0 - EN, 1 - TN
         '''
