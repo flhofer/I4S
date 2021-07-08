@@ -159,7 +159,9 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0):
             break
         except: # forward all other exceptions, Explicit!
             raise 
-        
+
+testerThreads = []
+            
 def runTest():
     '''
     Sequentially start and run test and end nodes
@@ -168,12 +170,13 @@ def runTest():
     
     '''
     
+    testerThreads.clear()
     print("START Test")
     for testNode in testers:
         print("RUN Test node " + str(testers.index(testNode) + 1) )
         testNode.runTest()
         
-    testerThreads = []
+
     for testNode in testers:
         print("Threading Test node " + str(testers.index(testNode) + 1) )
         x = threading.Thread(target=testNode.poll, args = ())
@@ -185,6 +188,11 @@ def runTest():
         print("RUN End node " + str(endnodes.index(endnode) + 1) )
         endnode.runTest()
         endnode.poll()
+
+def stopTest():
+    '''
+    Stop previously started tests
+    '''
     
     for testNode in testers:
         print("STOP Test node " + str(testers.index(testNode) + 1) )
@@ -196,7 +204,7 @@ def runTest():
         print("JOIN Test node " + str(testerThreads.index(x) + 1) )
         x.join(1) 
     
-    print("END Test")
+    print("END Test")    
 
 def parseTestsToRun(argList):
     '''
@@ -280,6 +288,8 @@ def main(argv):
         prepareTest(tNo, skipNodes, skipTest)
     
         runTest()
+        
+        stopTest()
     
     # Trigger destructor call
     del deviceMgmt.microList
