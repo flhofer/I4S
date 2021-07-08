@@ -75,12 +75,12 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                   
                    # Test with reduced power..  A1 for non reduced power + obstacles
                   { "testRun" : "B2",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "power": 5 }],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "power": 5 }],
                     "TestParam" : []},
                   
                    # Test with default channels + nearby disturbing frequencies
                   { "testRun" : "B3",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x07, "conf" : 1 }],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0x07, "conf" : 1 }],
                     "TestParam" : [{"mode" : 1, "freq" : 8680 },
                                    {"mode" : 1, "freq" : 8682 },
                                    {"mode" : 1, "freq" : 8684 },
@@ -88,7 +88,7 @@ testParameters = [ # Test single device alone timing, all channels , ADR
 
                    # Test default channels intentional obstruction
                   { "testRun" : "C1",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
                     "TestParam" : [{"mode" : 1, "freq" : 8683, "dataLen": 242 },
                                    {"mode" : 1, "freq" : 8681, "dataLen": 242 },
                                    {"mode" : 1, "freq" : 8685, "dataLen": 242 },
@@ -107,7 +107,7 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                   
                    # Test run frequency exhaustion with ADR
                   { "testRun" : "C3",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0xFF, "conf" : 1}],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1}],
                     "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
                                    {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
                                    {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
@@ -119,7 +119,7 @@ testParameters = [ # Test single device alone timing, all channels , ADR
 
                    # Test run preamble exhaustion GW
                   { "testRun" : "C4",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
                     "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
                                    {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
                                    {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
@@ -131,7 +131,7 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                   
                    # Test NW server exhaustion -> Join flood
                   { "testRun" : "C5",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "OTAA" : 1 }],
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1, "OTAA" : 1 }],
                     "TestParam" : [{"mode" : 4, "chnMsk" : 0xFF, "conf" : 0, "repeat" : 0 },
                                    {"mode" : 4, "chnMsk" : 0xFF, "conf" : 0, "repeat" : 0 },
                                    {"mode" : 4, "chnMsk" : 0xFF, "conf" : 0, "repeat" : 0 },

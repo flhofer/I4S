@@ -101,7 +101,7 @@ def assignParams(node, params):
             elif key == 'usePB':
                 node.usePB = param
 
-def prepareTest(testNumber):
+def prepareTest(testNumber, skipNodes=0, skipTest=0):
     '''
     Configure end and testRun nodes with the set parameters
     
@@ -111,7 +111,7 @@ def prepareTest(testNumber):
                NotEnoughMicrosError if the test defines more micros than available
     
     '''
-    #TODO reset parameters to default for each device -> to implement on device
+
     try: 
         params = [x for x in testParameters if x["testRun"] == testNumber][0]    
         print ("Parameters for test:", params)
@@ -120,12 +120,15 @@ def prepareTest(testNumber):
      
     nodes = iter(endnodes)
     for nodeParams in params["NodeParam"]:
-        try:
-            endnode = next(nodes)
-        except StopIteration:
-            raise NotEnoughMicrosError (endnodes.count)
-    
-        assignParams(endnode, nodeParams)                        
+        if skipNodes > 0:
+            skipNodes -= 1
+        else:
+            try:
+                endnode = next(nodes)
+            except StopIteration:
+                raise NotEnoughMicrosError (endnodes.count)
+        
+            assignParams(endnode, nodeParams)                        
   
     while True:
         try:
@@ -137,14 +140,16 @@ def prepareTest(testNumber):
             raise 
           
     testnodes = iter(testers)
-        
     for testParms in params["TestParam"]:
-        try:
-            testnode = next(testnodes)
-        except StopIteration:
-            raise NotEnoughMicrosError (testers.count)
-        
-        assignParams(testnode, testParms)
+        if skipTest > 0:
+            skipTest -= 1
+        else:
+            try:
+                testnode = next(testnodes)
+            except StopIteration:
+                raise NotEnoughMicrosError (testers.count)
+            
+            assignParams(testnode, testParms)
     
     while True:
         try:
@@ -241,8 +246,10 @@ def main(argv):
      
     dirTarget = ''
     logName = ''
+    skipNodes = 0
+    skipTest = 0
     try:
-        opts, args = getopt.getopt(argv,"hd:l:",["","dir=","log="])
+        opts, args = getopt.getopt(argv,"hd:e:l:t:",["","dir=","","log="])
     except getopt.GetoptError:
         print('testMain.py -d <targetdir> -l <logprefix>')
         sys.exit(2)
@@ -254,6 +261,10 @@ def main(argv):
             dirTarget = arg
         elif opt in ("-l", "--log"):
             logName = arg
+        elif opt in ("-e"):
+            skipNodes = int(arg)
+        elif opt in ("-t"):
+            skipTest = int(arg)
     print ('Log directory is "', dirTarget)
     print ('Base log name "', logName)
 
@@ -266,7 +277,7 @@ def main(argv):
     configureTestClasses(dirTarget, logName)
     
     for tNo in testsToRun:
-        prepareTest(tNo)
+        prepareTest(tNo, skipNodes, skipTest)
     
         runTest()
     
