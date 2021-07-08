@@ -242,6 +242,14 @@ def parseTestsToRun(argList):
                 
     return sorted(testList)
 
+def syncSetup(mode):
+    pass
+
+def syncComm(mode):
+    if mode == 0:
+        return
+    pass
+
 def main(argv):
     """
     Main program
@@ -256,8 +264,9 @@ def main(argv):
     logName = ''
     skipNodes = 0
     skipTest = 0
+    sync = 0
     try:
-        opts, args = getopt.getopt(argv,"hd:e:l:t:",["","dir=","","log="])
+        opts, args = getopt.getopt(argv,"hd:e:l:Sst:",["dir=","log="])
     except getopt.GetoptError:
         print('testMain.py -d <targetdir> -l <logprefix>')
         sys.exit(2)
@@ -273,6 +282,12 @@ def main(argv):
             skipNodes = int(arg)
         elif opt in ("-t"):
             skipTest = int(arg)
+        elif opt in ("-S"):
+            sync = 2
+            syncSetup(2)
+        elif opt in ("-s"):
+            sync = 1
+            syncSetup(1)
     print ('Log directory is "', dirTarget)
     print ('Base log name "', logName)
 
@@ -287,10 +302,12 @@ def main(argv):
     for tNo in testsToRun:
         prepareTest(tNo, skipNodes, skipTest)
     
+        syncComm(sync)        
         runTest()
-        
+        syncComm(sync)        
         stopTest()
-    
+        syncComm(sync)
+        
     # Trigger destructor call
     del deviceMgmt.microList
 
