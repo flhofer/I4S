@@ -19,12 +19,14 @@ class Test():
     Test main execution module
     '''
 
-    def __init__(self, micro, num=1):
+    def __init__(self, micro, num=1, logDir="", logPre=""):
         '''
         Constructor and initialize default value
         '''
         self._micro = micro
         self._logFile = None
+        self._logDir = logDir
+        self._logPre = logPre
         self._num = num
         
         '''
@@ -200,7 +202,15 @@ class Test():
             try:
                 if self._logFile:
                     self._logFile.close()
-                self._logFile = open (time.strftime("%Y%m%d-%H%M%S") + "-tdev{0:02d}".format(self._num) + ".log", "w")
+                path = ''
+                if self._logDir != '':
+                    self._logDir+'/'
+                if self._logPre != '':
+                    path += self._logPre
+                else:
+                    path += time.strftime("%Y%m%d-%H%M%S") 
+                path += "-tdev{0:02d}".format(self._num) + ".log"
+                self._logFile = open (path, "w")
             except Exception as e:
                 raise Exception ("Unable to create log-file {}".format(str(e))) 
 

@@ -11,7 +11,7 @@ email info@florianhofer.it
 
 import deviceMgmt
 import testRun
-import sys, getopt, time, threading
+import sys, getopt, time, threading, os
 from testParameters import deviceParameters, testLength, testParameters
 
 #Hardware configurations
@@ -37,7 +37,7 @@ class NotEnoughMicrosError(Exception):
     def __str__(self):
         return f'{self.count} -> {self.message}'
 
-def configureTestClasses():
+def configureTestClasses(logDir="", logPre=""):
     '''
     create and configure testRun devices
     '''
@@ -47,7 +47,7 @@ def configureTestClasses():
     j=0
     #assign to testRun instances
     for micro in deviceMgmt.microList:
-        tMicro = testRun.Test(micro, j)
+        tMicro = testRun.Test(micro, j, logDir, logPre)
         
         if micro.EUI in deviceParameters :
             tMicro.OTAAparams(deviceParameters[micro.EUI]["APPEUI"], deviceParameters[micro.EUI]["APPKEY"])
@@ -239,13 +239,16 @@ def main(argv):
             dirTarget = arg
         elif opt in ("-l", "--log"):
             logName = arg
-    print ('Input file is "', dirTarget)
-    print ('Output file is "', logName)
+    print ('Log directory is "', dirTarget)
+    print ('Base log name "', logName)
+
+    if not os.path.isdir(dirTarget):
+        dirTarget = ''
 
     #List of tests to run, not opt'ed arguments
     testsToRun = parseTestsToRun(args)
            
-    configureTestClasses()
+    configureTestClasses(dirTarget, logName)
     
     for tNo in testsToRun:
         prepareTest(tNo)
