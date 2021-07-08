@@ -29,7 +29,7 @@ class NotEnoughMicrosError(Exception):
         message -- explanation of the error
     """
 
-    def __init__(self, count, message="Not enough testRun micros available"):
+    def __init__(self, count, message="Not enough micros available"):
         self.count = count
         self.message = message
         super().__init__(self.message)
@@ -117,10 +117,25 @@ def prepareTest(testNumber):
         print ("Parameters for test:", params)
     except IndexError as e:
         raise ValueError("Parameters for '{}' not found".format(testNumber)) from e
-        
-    for endnode in endnodes:
-        assignParams(endnode, params["NodeParam"])                        
+     
+    nodes = iter(endnodes)
+    for nodeParams in params["NodeParam"]:
+        try:
+            endnode = next(nodes)
+        except StopIteration:
+            raise NotEnoughMicrosError (endnodes.count)
     
+        assignParams(endnode, nodeParams)                        
+  
+    while True:
+        try:
+            endnode = next(nodes)
+            assignParams(endnode, {"mode": 0} )
+        except StopIteration:
+            break
+        except: # forward all other exceptions, Explicit!
+            raise 
+          
     testnodes = iter(testers)
         
     for testParms in params["TestParam"]:

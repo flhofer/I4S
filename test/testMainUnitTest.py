@@ -50,6 +50,7 @@ class Test(unittest.TestCase):
     def testPrepareTest(self):
         
         testMain.testParameters = [{ "testRun" : "A1",
+                                     "NodeParam" : [],
                                      "TestParam" :[{"mode" : 1, "freq" : 8683 },
                                                    {"mode" : 1, "freq" : 8681 },
                                                    {"mode" : 1, "freq" : 8685 },
