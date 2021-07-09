@@ -314,8 +314,8 @@ def main(argv):
     
     """
      
-    dirTarget = ''
-    logName = ''
+    dirTarget = '/tmp'
+    logName = 'test'
     skipNodes = 0
     skipTest = 0
     sync = 0
