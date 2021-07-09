@@ -15,7 +15,6 @@ import deviceMgmt, testRun
 import sys, getopt, time, threading, os, socket
 #import test parameters from parameter module
 from testParameters import deviceParameters, testLength, testParameters
-from serial.serialjava import comm
 
 #Hardware configurations
 endnodes = []
@@ -250,7 +249,9 @@ def parseTestsToRun(argList):
 def syncSetup(mode):
     
     port = 3212
+    global commSock
     if mode == 1: 
+        print("Establishing connection..")
         while True:                
             try:
                 commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -264,6 +265,7 @@ def syncSetup(mode):
         commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         host = socket.gethostbyname("")  # get local machine name
         commSock.bind((host, port))
+        print("Waiting for incoming..")
         commSock.listen(1)          # accept only one connection
         commSock, addr = commSock.accept() # replace with listener
         print("Connection from: " + str(addr))
@@ -271,16 +273,16 @@ def syncSetup(mode):
 def syncComm(mode):
     if mode == 0:
         return
-    
+    global commSock
     if mode == 1:
         data = ""
-        while data and data != "s":
+        while data != "s":
             commSock.send("S".encode('utf-8'))
             data = commSock.recv(128).decode('utf-8')
     else:
         while True:
             data = commSock.recv(128).decode('utf-8')
-            if not data or data == "S":
+            if data == "S":
                 commSock.send("s".encode('utf-8'))
                 break
 
