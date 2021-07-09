@@ -12,9 +12,10 @@ email info@florianhofer.it
 #import project modules
 import deviceMgmt, testRun
 #import python modules
-import sys, getopt, time, threading, os, socket
+import sys, getopt, time, threading, os, socket, ipaddress
 #import test parameters from parameter module
 from testParameters import deviceParameters, testLength, testParameters
+from pip._vendor.urllib3.packages.ssl_match_hostname._implementation import ipaddress
 
 #Hardware configurations
 endnodes = []
@@ -246,6 +247,17 @@ def parseTestsToRun(argList):
                 
     return sorted(testList)
 
+def get_ip():
+    s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    try:
+        s.connect(('10.255.255.255', 1))
+        IP = s.getsockname()[0]
+    except Exception:
+        IP = '127.0.0.1'
+    finally:
+        s.close()
+    return IP
+
 def syncSetup(mode):
     
     port = 3212
@@ -255,7 +267,7 @@ def syncSetup(mode):
         while True:                
             try:
                 commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                host = socket.gethostbyname("")
+                host = str(ipaddress.ip_address(get_ip())+1) # By default we match IP addresses next to each other
                 commSock.connect((host, port))
                 break
             except ConnectionRefusedError:
@@ -263,7 +275,7 @@ def syncSetup(mode):
             
     else:
         commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        host = socket.gethostbyname("")  # get local machine name
+        host = get_ip() # get local machine name
         commSock.bind((host, port))
         print("Waiting for incoming..")
         commSock.listen(1)          # accept only one connection
