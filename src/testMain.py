@@ -9,14 +9,19 @@ email info@florianhofer.it
 -----------------------------------------------------------
 ''' 
 
-import deviceMgmt
-import testRun
-import sys, getopt, time, threading, os
+#import project modules
+import deviceMgmt, testRun
+#import python modules
+import sys, getopt, time, threading, os, socket
+#import test parameters from parameter module
 from testParameters import deviceParameters, testLength, testParameters
+from serial.serialjava import comm
 
 #Hardware configurations
 endnodes = []
 testers = []
+
+commSock = None
 
 '''
 Custom exception classes
@@ -243,12 +248,41 @@ def parseTestsToRun(argList):
     return sorted(testList)
 
 def syncSetup(mode):
-    pass
+    
+    port = 3212
+    if mode == 1: 
+        while True:                
+            try:
+                commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+                host = socket.gethostbyname("")
+                commSock.connect((host, port))
+                break
+            except ConnectionRefusedError:
+                time.sleep(1)
+            
+    else:
+        commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        host = socket.gethostbyname("")  # get local machine name
+        commSock.bind((host, port))
+        commSock.listen(1)          # accept only one connection
+        commSock, addr = commSock.accept() # replace with listener
+        print("Connection from: " + str(addr))
 
 def syncComm(mode):
     if mode == 0:
         return
-    pass
+    
+    if mode == 1:
+        data = ""
+        while data and data != "s":
+            commSock.send("S".encode('utf-8'))
+            data = commSock.recv(128).decode('utf-8')
+    else:
+        while True:
+            data = commSock.recv(128).decode('utf-8')
+            if not data or data == "S":
+                commSock.send("s".encode('utf-8'))
+                break
 
 def main(argv):
     """
@@ -282,10 +316,10 @@ def main(argv):
             skipNodes = int(arg)
         elif opt in ("-t"):
             skipTest = int(arg)
-        elif opt in ("-S"):
+        elif opt in ("-S"): # server - slave
             sync = 2
             syncSetup(2)
-        elif opt in ("-s"):
+        elif opt in ("-s"): # client - master
             sync = 1
             syncSetup(1)
     print ('Log directory is "', dirTarget)
@@ -308,6 +342,9 @@ def main(argv):
         stopTest()
         syncComm(sync)
         
+    if commSock:
+        commSock.close()
+   
     # Trigger destructor call
     del deviceMgmt.microList
 
