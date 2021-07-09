@@ -278,13 +278,19 @@ def syncComm(mode):
         data = ""
         while data != "s":
             commSock.send("S".encode('utf-8'))
-            data = commSock.recv(128).decode('utf-8')
+            data = commSock.recv(1024).decode('utf-8')
+            if data.startswith("ERROR"):
+                print(data)
     else:
         while True:
-            data = commSock.recv(128).decode('utf-8')
+            data = commSock.recv(1024).decode('utf-8')
             if data == "S":
                 commSock.send("s".encode('utf-8'))
                 break
+
+def sendToClient(string):
+    global commSock
+    commSock.send(("ERROR from slave: " + string).encode('utf-8'))
 
 def main(argv):
     """
@@ -336,13 +342,18 @@ def main(argv):
     configureTestClasses(dirTarget, logName)
     
     for tNo in testsToRun:
-        prepareTest(tNo, skipNodes, skipTest)
+        try:
+            prepareTest(tNo, skipNodes, skipTest)
     
-        syncComm(sync)        
-        runTest()
-        syncComm(sync)        
-        stopTest()
-        syncComm(sync)
+            syncComm(sync)        
+            runTest()
+            syncComm(sync)        
+            stopTest()
+            syncComm(sync)
+        except Exception as e:
+            if sync == 2:
+                sendToClient(str(e))
+            raise
         
     if commSock:
         commSock.close()
