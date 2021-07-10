@@ -9,7 +9,7 @@ email info@florianhofer.it
 -----------------------------------------------------------
 ''' 
 
-import time
+import time, sys
 
 # Define enumerations used in class
 DISABLED, OFF, LORA, LORAWAN, LORAWANRT, LORAJOIN = -1, 0, 1, 2, 3, 4
@@ -56,6 +56,7 @@ class Test():
         self._dlen = 1
         self._drate = 255
         self._usePB = True
+        self._writeLog = False
         
     def __del__(self):
         '''
@@ -204,13 +205,13 @@ class Test():
                     self._logFile.close()
                 path = ''
                 if self._logDir != '':
-                    self._logDir+'/'
+                    path += self._logDir + '/'
                 if self._logPre != '':
                     path += self._logPre
                 else:
                     path += time.strftime("%Y%m%d-%H%M%S") 
                 path += "-tdev{0:02d}".format(self._num) + ".log"
-                self._logFile = open (path, "w")
+                self._logFile = open (path, "a")
             except Exception as e:
                 raise Exception ("Unable to create log-file {}".format(str(e))) 
 
@@ -237,7 +238,6 @@ class Test():
             
             rbuf = self._micro.read()
             while rbuf != "":
-                print(rbuf, end='')
                 self.__parseBuffer(rbuf[:-1])
                 self._logFile.write(rbuf)
                 rbuf = self._micro.read()
@@ -320,6 +320,15 @@ class Test():
             raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
 
     def __parseBuffer(self, buf):
+        if buf.startswith("Results"):
+            self._writeLog = True 
+        
+        if self._micro.T == 0: 
+            print(buf, file=sys.stderr)
+            if self._writeLog == True:
+                print(buf) # print results to stdout
+
         if buf.startswith("done"):
             self._rstate = 0
+            self._writeLog = False
             
