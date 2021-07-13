@@ -67,6 +67,40 @@ def configureTestClasses(logDir="", logPre=""):
 
 #TODO function to check for list of parameters, i.e. changes, repeat ecc 
 
+def setParam(node, key, param):
+    '''
+    Set a parameter parameters of the micro
+        
+    :parameter  node: micro controller node to configure
+                key: key to set
+                param: list of parameters to set
+            
+    :raises    could raise exceptions from called methods (not expected)
+    
+    '''
+        
+    if key == 'mode':
+        node.mode = param
+    elif key == 'freq': 
+        node.frequency = param
+    elif key == 'conf': 
+        node.confirmed = bool(param)
+    elif key == 'OTAA': 
+        node.otaa = bool(param) 
+    elif key == 'repeat': 
+        node.repeatCount = param
+    elif key == 'chnMsk': 
+        node.channelMask = param
+    elif key == 'power': 
+        node.powerIndex = param
+    elif key == 'dataLen':
+        node.dataLength = param
+    elif key == 'dataRate': 
+        node.dataRate = param
+    elif key == 'usePB':
+        node.usePB = param
+
+
 def assignParams(node, params):
     '''
     Assign parameters to micro controller device
@@ -77,34 +111,37 @@ def assignParams(node, params):
     :raises    could raise exceptions from called methods (not expected)
     
     '''
-    
+       
     node.clearParameters()
     for key in params:
-            if type(params[key]) == list:
-                param = params[key][0]
-            else:
-                param = params[key]
-            if key == 'mode':
-                node.mode = param
-            elif key == 'freq': 
-                node.frequency = param
-            elif key == 'conf': 
-                node.confirmed = bool(param)
-            elif key == 'OTAA': 
-                node.otaa = bool(param) 
-            elif key == 'repeat': 
-                node.repeatCount = param
-            elif key == 'chnMsk': 
-                node.channelMask = param
-            elif key == 'power': 
-                node.powerIndex = param
-            elif key == 'dataLen':
-                node.dataLength = param
-            elif key == 'dataRate': 
-                node.dataRate = param
-            elif key == 'usePB':
-                node.usePB = param
+        if type(params[key]) == list:
+            param = params[key][0]
+        else:
+            param = params[key]
+        
+        setParam(node, key, param)
 
+
+def generateVarParam(node, params):
+    '''
+    Generate a list of parameters to vary during test execution
+    
+    :parameter  node: micro controller node to configure
+                params: list of parameters to set
+            
+    :raises    could raise exceptions from called methods (not expected)
+    
+    '''
+
+    nodeList = []
+    for key in params:
+        if type(params[key]) == list:
+            for param in params[key]:
+                nodeList.append({node, key, param})
+                
+    return nodeList
+
+            
 def prepareTest(testNumber, skipNodes=0, skipTest=0):
     '''
     Configure end and testRun nodes with the set parameters
