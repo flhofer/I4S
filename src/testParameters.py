@@ -13,7 +13,8 @@ email info@florianhofer.it
 testLength = { "A": 5,  # Solo tests
                "B": 3,  # Unintentional disturbance
                "C": 5,  # Intentional disturbance
-               "D": 0}
+               "D": 0,  # Distributed tests      
+               }
 
 #Test parameters for all tests
 #TODO: add values for changing parameters and variables
@@ -63,7 +64,7 @@ testParameters = [ # Test single device alone timing, all channels , ADR
 
                    # Test single interference single channel same settings (mixing DR) with ADR
                   { "testRun" : "B1",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1, "repeat" : 0 }],
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
                     "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 0, "repeat" : 0 },
                                    { "mode" : 2, "chnMsk" : 0x01, "conf" : 0, "repeat" : 0 },
                                    { "mode" : 2, "chnMsk" : 0x01, "conf" : 0, "repeat" : 0 },

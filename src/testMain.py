@@ -15,7 +15,6 @@ import deviceMgmt, testRun
 import sys, getopt, time, threading, os, socket, ipaddress
 #import test parameters from parameter module
 from testParameters import deviceParameters, testLength, testParameters
-from pip._vendor.urllib3.packages.ssl_match_hostname._implementation import ipaddress
 
 #Hardware configurations
 endnodes = []
@@ -342,8 +341,8 @@ def main(argv):
         elif opt in ("-s"): # client - master
             sync = 1
             syncSetup(1)
-    print ('Log directory is "', dirTarget)
-    print ('Base log name "', logName)
+    print ('Log directory is "{}"'.format(dirTarget))
+    print ('Base log name "{}"'.format(logName))
 
     if not os.path.isdir(dirTarget):
         dirTarget = ''
