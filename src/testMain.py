@@ -122,7 +122,7 @@ def assignParams(node, params):
         setParam(node, key, param)
 
 
-def generateVarParam(node, params):
+def generateVarParam(params):
     '''
     Generate a list of parameters to vary during test execution
     
@@ -137,8 +137,8 @@ def generateVarParam(node, params):
     for key in params:
         if type(params[key]) == list:
             for param in params[key]:
-                nodeList.append({node, key, param})
-                
+                nodeList.append({key : param})
+    
     return nodeList
 
             

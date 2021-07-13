@@ -75,7 +75,36 @@ class Test(unittest.TestCase):
         testMain.prepareTest("A1");
         
         for tester in testMain.testers:
-            self.assertEqual(1, tester.mode )      
+            self.assertEqual(1, tester.mode )
+    
+    def testGenerateParameters(self):
+        
+        testMain.testParameters = [{ "testRun" : "A1",
+                             "NodeParam" :[{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1, 'dataRate': [0,5]}],
+                             "TestParam" :[{"mode" : 1, "freq" : 8683, 'dataLen': [0, 64, 242] },
+                                           {"mode" : 1, "freq" : 8681 },
+                                           {"mode" : 1, "freq" : 8685, 'repeat': 2, 'dataRate': [0,4]},
+                                           {"mode" : 1, "freq" : 8671 },
+                                           {"mode" : 1, "freq" : 8689 },
+                                           {"mode" : 1, "freq" : 8675 },
+                                           {"mode" : 1, "freq" : 8677 },
+                                           {"mode" : 1, "freq" : 8679 } ],
+                            }]
+        
+        tests = []
+        for params in testMain.testParameters[0]["NodeParam"]:
+            nodeT = testMain.generateVarParam(params)
+            if nodeT != []:
+                tests.append(nodeT)
+
+        for params in testMain.testParameters[0]["TestParam"]:
+            nodeT = testMain.generateVarParam(params)
+            if nodeT != []:
+                tests.append(nodeT)
+
+        self.assertEqual(tests, [ [{'dataRate' : 0}, {'dataRate': 5}],
+                                  [{'dataLen'  : 0}, {'dataLen' : 64}, {'dataLen': 242}],
+                                  [{'dataRate' : 0}, {'dataRate': 4}]])
         
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testParseTestsToRun']
