@@ -227,15 +227,16 @@ class Test():
         try:
             self.__writeParams()
         except Exception as e:
-            print("Parameter writing exception, {}", e)
+            print("Parameter writing exception, {}".format(e))
             self._mode = DISABLED
         
     def poll(self):        
         '''
         Poll test, has to be run as thread!
         '''
-        while self._rstate == 1:
-            
+        rbuf = " " 
+        while (rbuf != "") or (self._rstate == 1):
+
             rbuf = self._micro.read()
             while rbuf != "":
                 self.__parseBuffer(rbuf[:-1])
