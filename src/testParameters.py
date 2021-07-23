@@ -16,6 +16,15 @@ testLength = { "A": 5,  # Solo tests
                "D": 0,  # Distributed tests      
                }
 
+nodeDlen  = [#0,         # No data
+             1,         # "Some" data
+             16,        # Typical SL data
+#            31,        # Typical SM data
+             121]       # Max data for LoRaWan telegram, in binary Bytes -> HEX = *2
+
+#Data rate from 0 - 7
+maxDataLen = [ 51, 51, 51, 115, 242, 242, 242, 242 ]
+
 #Test parameters for all tests
 #TODO: add values for changing parameters and variables
 testParameters = [ # Test single device alone timing, all channels , ADR
@@ -90,14 +99,14 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                    # Test default channels intentional obstruction
                   { "testRun" : "C1",
                     "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 1, "freq" : 8683, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8681, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8685, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8671, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8689, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8675, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8677, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8679, "dataLen": 242 },]},
+                    "TestParam" : [{"mode" : 1, "freq" : 8683, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8681, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8685, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8671, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8689, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8675, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8677, "dataLen": 121 },
+                                   {"mode" : 1, "freq" : 8679, "dataLen": 121 },]},
 
                    # Test intentional collision, NO ADR
                   { "testRun" : "C2",
@@ -109,14 +118,14 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                    # Test run frequency exhaustion with ADR
                   { "testRun" : "C3",
                     "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1}],
-                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 242, "usePB" : 1, "repeat" : 0 },]},
+                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 121, "usePB" : 1, "repeat" : 0 },]},
 
                    # Test run preamble exhaustion GW
                   { "testRun" : "C4",
