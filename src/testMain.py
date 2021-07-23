@@ -14,7 +14,8 @@ import deviceMgmt, testRun
 #import python modules
 import sys, getopt, time, threading, os, socket, ipaddress
 #import test parameters from parameter module
-from testParameters import deviceParameters, testLength, testParameters
+from testParameters import deviceParameters, testLength, testParameters,\
+    nodeDlen, maxDataLen
 
 #Hardware configurations
 endnodes = []
@@ -142,7 +143,7 @@ def generateVarParam(params):
     return nodeList
 
             
-def prepareTest(testNumber, skipNodes=0, skipTest=0):
+def prepareTest(testNumber, skipNodes=0, skipTest=0, dlen=0):
     '''
     Configure end and testRun nodes with the set parameters
     
@@ -169,7 +170,10 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0):
             except StopIteration:
                 raise NotEnoughMicrosError (endnodes.count)
         
-            assignParams(endnode, nodeParams)                        
+            assignParams(endnode, nodeParams)   # all parameters
+            dlen = min(int(maxDataLen[endnode.dataLength]/2), dlen)
+            setParam(endnode, "dataLen", dlen)  # data length for this test
+            endnode.poll()
   
     while True:
         try:
@@ -191,6 +195,7 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0):
                 raise NotEnoughMicrosError (testers.count)
             
             assignParams(testnode, testParms)
+            testnode.poll()
     
     while True:
         try:
@@ -226,9 +231,12 @@ def runTest():
    
     time.sleep(1) 
     for endnode in endnodes:
-        print("RUN End node " + str(endnodes.index(endnode) + 1) )
-        endnode.runTest()
-        endnode.poll()
+        if endnode.mode == 0:
+            pass
+        else:            
+            print("RUN End node " + str(endnodes.index(endnode) + 1) )
+            endnode.runTest()
+            endnode.poll()
 
 def stopTest():
     '''
@@ -390,18 +398,19 @@ def main(argv):
     configureTestClasses(dirTarget, logName)
     
     for tNo in testsToRun:
-        try:
-            prepareTest(tNo, skipNodes, skipTest)
-    
-            syncComm(sync)        
-            runTest()
-            syncComm(sync)        
-            stopTest()
-            syncComm(sync)
-        except Exception as e:
-            if sync == 2:
-                sendToClient(str(e))
-            raise
+        for dlen in nodeDlen:
+            try:
+                prepareTest(tNo, skipNodes, skipTest, dlen)
+        
+                syncComm(sync)        
+                runTest()
+                syncComm(sync)        
+                stopTest()
+                syncComm(sync)
+            except Exception as e:
+                if sync == 2:
+                    sendToClient(str(e))
+                raise
         
     if commSock:
         commSock.close()
