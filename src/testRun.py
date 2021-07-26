@@ -48,12 +48,12 @@ class Test():
         self._rstate = 0
         self._mode = LORA
         self._freq = 8683
-        self._conf = True
+        self._conf = False
         self._OTAA = False
-        self._repc = 5
+        self._repc = 1
         self._chMsk = 0xff
         self._power = 1 # ETSI 14dBm default
-        self._dlen = 1
+        self._dlen = 16
         self._drate = 255
         self._usePB = True
         self._writeLog = False
