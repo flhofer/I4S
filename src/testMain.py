@@ -171,7 +171,10 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0, dlen=0):
                 raise NotEnoughMicrosError (endnodes.count)
         
             assignParams(endnode, nodeParams)   # all parameters
-            dlen = min(int(maxDataLen[endnode.dataLength]/2), dlen)
+            if  (endnode.dataRate == 255):
+                dlen = min(int(maxDataLen[0]), dlen)
+            else:
+                dlen = min(int(maxDataLen[endnode.dataRate]), dlen)
             setParam(endnode, "dataLen", dlen)  # data length for this test
             endnode.poll()
   
