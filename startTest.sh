@@ -23,9 +23,26 @@ fi
 
 PYTHON3="python3"
 ports=( )
+testFile="binaries/LoRaWanTest.bin"
+nodeFile="binaries/LoRaWanNode.hex"
+bossac="~/.arduino15/packages/arduino/tools/bossac/1.7.0-arduino3/bossac"
+avrdudeD="$HOME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17"
+avrdude="${avrdudeD}/bin/avrdude"
 
 ############################### device comm functions ####################################
 
+
+function updateAVR() {
+	port=${1:-""} 
+	eval "${avrdude} -C${avrdudeD}/etc/avrdude.conf -patmega32u4 -cavr109 -P${port} -b57600 -D -Uflash:w:${nodeFile}:i" 
+	
+}
+
+
+function updateMKR() {
+	port=${1:-""} 
+	eval ${bossac} --port=${port} -U true -i -e -w -v ${testFile} -R 
+}
 
 function setupSerial() {
 
@@ -36,13 +53,11 @@ function setupSerial() {
             [ -e "$port" ] || continue
             ports+=($port)
             stty $baudRate -F $port raw -echo
-            types+=getMicroType $port
         done
         for port in /dev/ttyACM* ; do
             [ -e "$port" ] || continue
             ports+=($port)
             stty $baudRate -F $port raw -echo
-            types+=getMicroType $port
         done
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
@@ -51,8 +66,7 @@ function setupSerial() {
         for port in /dev/cu.usbmodem* ; do
             [ -e "$port" ] || continue
             ports+=($port)
-            stty -f $port $baudRate raw -echo
-            types+=getMicroType $port            
+            stty -f $port $baudRate raw -echo        
         done
 
     fi
@@ -132,9 +146,12 @@ elif [[ $cmd == "program" ]]; then
 	
     echo ${ports[@]}
     
-    eval arduino-cli 
- 	echo "Not implemented"
-	exit 1   
+	for port in ${ports}; do
+		updateAVR $port
+	done
+	for port in ${ports}; do
+		updateMKR $port
+	done
 else
     echo "Unknown command!!"
     printUsage
