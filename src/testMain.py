@@ -402,6 +402,7 @@ def main(argv):
     
     for tNo in testsToRun:
         for dlen in nodeDlen:
+            print('Test/Datalen: ', tNo, dlen)
             try:
                 prepareTest(tNo, skipNodes, skipTest, dlen)
         
