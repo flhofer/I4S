@@ -18,9 +18,11 @@ testLength = { "A": 5,  # Solo tests
 
 nodeDlen  = [#0,         # No data
              1,         # "Some" data
+             11,        # Typical SL Low "Some" data
              16,        # Typical SL data
 #            31,        # Typical SM data
-             121]       # Max data for LoRaWan telegram, in binary Bytes -> HEX = *2
+             230]       # Max data for LoRaWan telegram, in binary Bytes -> HEX = *2
+            #TODO: AVR v1.0.5 limits to 230 erroneously 
 
 #Data rate from 0 - 7
 maxDataLen = [ 51, 51, 51, 115, 242, 242, 242, 242 ]
