@@ -143,7 +143,7 @@ def generateVarParam(params):
     return nodeList
 
             
-def prepareTest(testNumber, skipNodes=0, skipTest=0, dlen=0):
+def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
     '''
     Configure end and testRun nodes with the set parameters
     
@@ -168,7 +168,10 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0, dlen=0):
             try:
                 endnode = next(nodes)
             except StopIteration:
-                raise NotEnoughMicrosError (endnodes.count)
+                if sync != 1:
+                    raise NotEnoughMicrosError (endnodes.count)
+                else:
+                    break
         
             assignParams(endnode, nodeParams)   # all parameters
             if  (endnode.dataRate == 255):
@@ -195,7 +198,10 @@ def prepareTest(testNumber, skipNodes=0, skipTest=0, dlen=0):
             try:
                 testnode = next(testnodes)
             except StopIteration:
-                raise NotEnoughMicrosError (testers.count)
+                if sync != 1:
+                    raise NotEnoughMicrosError (testers.count)
+                else:
+                    break
             
             assignParams(testnode, testParms)
             testnode.poll()
@@ -404,7 +410,7 @@ def main(argv):
         for dlen in nodeDlen:
             print('Test/Datalen: ', tNo, dlen)
             try:
-                prepareTest(tNo, skipNodes, skipTest, dlen)
+                prepareTest(tNo, sync, skipNodes, skipTest, dlen)
         
                 syncComm(sync)        
                 runTest()
