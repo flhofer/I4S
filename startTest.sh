@@ -131,7 +131,7 @@ if [[ $cmd == "test" ]]; then
 	
     # setupSerial 	# not needed anymore 
     # createRamDisk	# Maybe needed to save flash mem
-	eval $PYTHON3 testMain.py $@
+	eval $PYTHON3 src/testMain.py $@
 
 elif [[ $cmd == "clean" ]]; then
 	echo "Not implemented"
@@ -146,10 +146,10 @@ elif [[ $cmd == "program" ]]; then
 	
     echo ${ports[@]}
     
-	for port in ${ports}; do
+	for port in ${ports[@]} ; do
 		updateAVR $port
 	done
-	for port in ${ports}; do
+	for port in ${ports[@]} ; do
 		updateMKR $port
 	done
 else
