@@ -316,11 +316,11 @@ def syncSetup(mode):
     port = 3212
     global commSock
     if mode == 1: 
-        print("Establishing connection..")
         while True:                
             try:
                 commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 host = str(ipaddress.ip_address(get_ip())+1) # By default we match IP addresses next to each other
+                print("Establishing connection..", host)
                 commSock.connect((host, port))
                 break
             except ConnectionRefusedError:
@@ -330,7 +330,7 @@ def syncSetup(mode):
         commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         host = get_ip() # get local machine name
         commSock.bind((host, port))
-        print("Waiting for incoming..")
+        print("Waiting for incoming..", host)
         commSock.listen(1)          # accept only one connection
         commSock, addr = commSock.accept() # replace with listener
         print("Connection from: " + str(addr))
