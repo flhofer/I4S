@@ -318,7 +318,7 @@ class Test():
         self._micro.write(parms + "\n")
         response = self._micro.read()
         if response != "":
-            raise Exception("Unable to set parameter on Micro, it responds '{0}'".format(response[:-1]))
+            raise Exception("Unable to set parameter on Micro {1}, it responds '{0}'".format(response[:-1], parms))
 
     def __parseBuffer(self, buf):
         if buf.startswith("Results"):
