@@ -331,7 +331,7 @@ def get_ip():
         s.close()
     return IP
 
-def syncSetup(mode, useIp):
+def syncSetup(mode, host):
     
     port = 3212
     global commSock
@@ -339,7 +339,6 @@ def syncSetup(mode, useIp):
         while True:                
             try:
                 commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-                host = str(ipaddress.ip_address(useIp)+1) # By default we match IP addresses next to each other
                 print("Establishing connection..", host)
                 commSock.connect((host, port))
                 break
@@ -348,7 +347,6 @@ def syncSetup(mode, useIp):
             
     else:
         commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        host = useIp
         commSock.bind((host, port))
         print("Waiting for incoming..", host)
         commSock.listen(1)          # accept only one connection
@@ -392,7 +390,7 @@ def main(argv):
     skipNodes = 0
     skipTest = 0
     sync = 0
-    useIp = get_ip() # get local machine name
+    useIp = ""
 
     try:
         opts, args = getopt.getopt(argv,"hd:e:i:l:Sst:",["dir=","log="])
@@ -413,8 +411,12 @@ def main(argv):
             skipTest = int(arg)
         elif opt in ("-S"): # server - slave
             sync = 2
+            if useIp == "":
+                useIp = str(ipaddress.ip_address(useIp)+1) # By default we match IP addresses next to each other
         elif opt in ("-s"): # client - master
             sync = 1
+            if useIp == "":
+                useIp = get_ip() # get local machine name
         elif opt in ("-i"):
             useIp = arg
     print ('Log directory is "{}"'.format(dirTarget))
