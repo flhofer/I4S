@@ -132,14 +132,14 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                    # Test run preamble exhaustion GW
                   { "testRun" : "C4",
                     "NodeParam" : [{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
+                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "spreadFactor": 7, "codeRate": 5, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
                   
                    # Test NW server exhaustion -> Join flood
                   { "testRun" : "C5",
