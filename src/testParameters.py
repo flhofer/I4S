@@ -29,7 +29,12 @@ maxDataLen = [ 51, 51, 51, 115, 242, 242, 242, 242 ]
 
 #Test parameters for all tests
 #TODO: add values for changing parameters and variables
-testParameters = [ # Test single device alone timing, all channels , ADR
+testParameters = [
+                   # 
+                   # Group A, isolation tests, normal operation, w/o interfering in communication
+                   #
+                   
+                   # Test single device alone timing, all channels , ADR
                   { "testRun" : "A1",
                     "NodeParam" : [{ "mode" : 2, "conf" : 1 }],
                     "TestParam" : []
@@ -73,6 +78,10 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                                    { "mode" : 2, "chnMsk" : 0x04, "repeat" : 0 },
                                    { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
 
+                   # 
+                   # Group B, involuntary collision or disturbance, coexistence -- normal operation with others using same network
+                   #
+
                    # Test single interference single channel same settings (mixing DR) with ADR
                   { "testRun" : "B1",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
@@ -97,6 +106,10 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                                    {"mode" : 1, "freq" : 8682 },
                                    {"mode" : 1, "freq" : 8684 },
                                    {"mode" : 1, "freq" : 8686 },]},
+
+                   # 
+                   # Group C, voluntary collision or disturbance, attacker
+                   #
 
                    # Test default channels intentional obstruction
                   { "testRun" : "C1",
@@ -152,6 +165,10 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                                    {"mode" : 4, "repeat" : 0 },
                                    {"mode" : 4, "repeat" : 0 },
                                    {"mode" : 4, "repeat" : 0 },]},
+
+                   # 
+                   # Group D, mixed tests, distributed setup
+                   #
                   
                   # Test split boxes, Main remote, second close to GW
                   { "testRun" : "D1",
