@@ -44,6 +44,25 @@ function updateMKR() {
 	eval ${bossac} --port=${port} -U true -i -e -w -v ${testFile} -R 
 }
 
+function resetSerial() {
+	port=$1
+	sleep 1
+    if [[ "$OSTYPE" == "linux-gnu"* ]]; then
+        # ...
+            stty "1200" -F $port
+        done
+
+    elif [[ "$OSTYPE" == "darwin"* ]]; then
+        # Mac OSX
+            stty -f $port "1200"   
+        done
+    fi
+	while true ; do
+        sleep 0.5
+        [ -c "${port}" ] && break
+    done
+}
+
 function setupSerial() {
 
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -150,14 +169,16 @@ elif [[ $cmd == "program" ]]; then
 	setupSerial
 	
     echo ${ports[@]}
-    
+ 
     if [[ "$1" == "avr" ]] ; then
 		for port in ${ports[@]} ; do
+			resetSerial
 			updateAVR $port
 		done
 	fi
 	if [[ "$1" == "mkr" ]] ; then 
 		for port in ${ports[@]} ; do
+			resetSerial
 			updateMKR $port
 		done
 	fi
