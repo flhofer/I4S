@@ -78,7 +78,8 @@ function printUsage() {
 
 	cat <<EOF
 
-Usage: $0 test [-r] [-d workdir] [-l logprefix] [group/number] .. [group/number] 
+Usage: $0 test [-rsS] [-i <ip>] [-d <workdir>] [-l <logprefix>] [group/number] .. [group/number] 
+ or    $0 test [-rsS] [-i <ip>] [--dir=<workdir>] [--log=<logprefix>] [group/number] .. [group/number] 
  or    $0 [prepcmd]
  
 ex.    $0 test A2 B*  
@@ -128,10 +129,14 @@ if [[ $cmd == "test" ]]; then
 		echo "Refer to README for details"
 		exit 1
 	fi
-	
+
     # setupSerial 	# not needed anymore 
     # createRamDisk	# Maybe needed to save flash mem
 	eval $PYTHON3 src/testMain.py $@
+
+	# move results if in tmp dir to disk
+	eval mkdir -p results
+	eval mv /tmp/*.log results/
 
 elif [[ $cmd == "clean" ]]; then
 	echo "Not implemented"
