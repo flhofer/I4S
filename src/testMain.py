@@ -14,8 +14,8 @@ import deviceMgmt, testRun
 #import python modules
 import sys, getopt, time, threading, os, socket, ipaddress
 #import test parameters from parameter module
-from testParameters import deviceParameters, testLength, testParameters,\
-    nodeDlen, maxDataLen
+from testParameters import testLength, testParameters, nodeDlen, maxDataLen
+from deviceParameters import deviceParameters
 
 #Hardware configurations
 endnodes = []

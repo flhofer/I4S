@@ -156,7 +156,5 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                   #TODO: Class D tests
                 ]
 
-# Device parameters dictionary ordered by EUI - Test Devices, Test Application, Private network SN
-deviceParameters = {    "1234567890ABCDEF" : {"APPEUI" : "ABCDEF1234567890", "APPKEY" : "ABCDEF1234567890ABCDEF1234567890", "DEVADDR" : "ABC12345", "APPSKEY": "ABCDEF1234567890ABCDEF1234567890", "NWSKEY" : "ABCDEF1234567890ABCDEF1234567890"},
-                     }
+
         
