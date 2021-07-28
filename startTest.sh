@@ -49,13 +49,11 @@ function resetSerial() {
 	sleep 1
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
         # ...
-            stty "1200" -F $port
-        done
+        stty "1200" -F $port
 
     elif [[ "$OSTYPE" == "darwin"* ]]; then
         # Mac OSX
-            stty -f $port "1200"   
-        done
+        stty -f $port "1200"   
     fi
 	while true ; do
         sleep 0.5
