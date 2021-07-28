@@ -98,9 +98,14 @@ def setParam(node, key, param):
         node.dataLength = param
     elif key == 'dataRate': 
         node.dataRate = param
+    elif key == 'bandWidth':
+        node.BW = param
+    elif key == 'codeRate':
+        node.CR = param
+    elif key == 'spreadFactor':
+        node.SF = param
     elif key == 'usePB':
         node.usePB = param
-
 
 def assignParams(node, params):
     '''
