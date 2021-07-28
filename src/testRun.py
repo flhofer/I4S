@@ -57,6 +57,9 @@ class Test():
         self._drate = 255
         self._usePB = True
         self._writeLog = False
+        self._bw = 125
+        self._sf = 12
+        self._cr = 8
         
     def __del__(self):
         '''
@@ -170,7 +173,19 @@ class Test():
     @usePB.setter
     def usePB(self, use):
         self._usePB = use   
-                                
+
+    @SF.setter
+    def SF(self, newSF):
+        self._SF = newSF  
+    
+    @CR.setter
+    def CR(self, newCR):
+        self._CR = newCR  
+
+    @BW.setter
+    def BW(self, newBW):
+        self._BW = newBW  
+                                                    
     '''
     Test execution methods
     '''                                           
@@ -268,6 +283,9 @@ class Test():
         pars += "m" + str(self._mode)
         if self._mode == 1:
             pars+= "f" + str(self._freq)
+            pars+= "b" + str(self._bw)
+            pars+= "s" + str(self._sf)
+            pars+= "c" + str(self._cr)
         elif self._mode > 1:
             if self.otaa:
                 pars += "o"
