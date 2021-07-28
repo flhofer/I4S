@@ -105,7 +105,7 @@ where:
 
 group     test group to execute: [ A, B, C, D, * ]
 number		test numbers to execute, e.g. "A1 B2 D3", use * for all
-prepcmd		prep command to execute: [clean, reset]
+prepcmd		prep command to execute: [clean, reset, program]
 
 Defaults are:
 group = A     execute test group A
@@ -156,14 +156,21 @@ if [[ $cmd == "test" ]]; then
 	eval mv /tmp/*.log results/
 
 elif [[ $cmd == "clean" ]]; then
-	echo "Not implemented"
-	exit 1
+	eval rm -rf ./src/__pycache__
 
 elif [[ $cmd == "reset" ]]; then
-	echo "Not implemented"
-	exit 1
-
+	setupSerial
+	
+	for port in ${ports[@]} ; do
+		echo "Resetting ${port}..."
+		resetSerial $port
+	done
 elif [[ $cmd == "program" ]]; then
+	if [[ -z "$1" ]]; then
+		echo "Select the type of device to program, 'avr' or 'mkr'"
+		echo "e.g. $0 program avr"
+	fi
+
 	setupSerial
 	
     echo ${ports[@]}
