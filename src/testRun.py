@@ -57,9 +57,9 @@ class Test():
         self._drate = 255
         self._usePB = True
         self._writeLog = False
-        self._bw = 125
-        self._sf = 12
-        self._cr = 8
+        self._BW = 125
+        self._SF = 12
+        self._CR = 8
         
     def __del__(self):
         '''
@@ -77,6 +77,8 @@ class Test():
     
     @mode.setter
     def mode(self, nMode):
+        if self._rstate > 0:
+            raise Exception("Can not change value while running!!")        
         self._mode = nMode
 
     @property
@@ -85,6 +87,8 @@ class Test():
     
     @frequency.setter
     def frequency(self, nfrq):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
         self._freq = nfrq
         
     @property
@@ -93,6 +97,8 @@ class Test():
     
     @confirmed.setter
     def confirmed(self, ncnf):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._conf = ncnf
         
     @property
@@ -101,6 +107,8 @@ class Test():
     
     @otaa.setter
     def otaa(self, notaa):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._OTAA = notaa
 
     @property
@@ -117,6 +125,8 @@ class Test():
     
     @channelMask.setter
     def channelMask(self, nrpc):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._chMsk = nrpc
 
     @property
@@ -141,15 +151,21 @@ class Test():
     
     @dataRate.setter
     def dataRate(self, nDR):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._drate = nDR
     
     def ABPparams(self, DAdr, ASKey, NSKey):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._DAdr  = DAdr
         self._ASKey = ASKey
         self._NSKey = NSKey
         self._OTAA = False
 
     def OTAAparams(self, AEui, AKey):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._AEui  = AEui
         self._AKey = AKey
         self._OTAA = True
@@ -164,6 +180,8 @@ class Test():
     
     @num.setter
     def num(self, nnum):
+        if self._rstate > 0:
+            raise Exception("Can not change value while running!!")
         self._num = nnum
  
     @property
@@ -172,18 +190,38 @@ class Test():
     
     @usePB.setter
     def usePB(self, use):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
         self._usePB = use   
+
+    @property
+    def SF(self):
+        return self._SF
 
     @SF.setter
     def SF(self, newSF):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
         self._SF = newSF  
     
+    @property
+    def CR(self):
+        return self._CR
+
     @CR.setter
     def CR(self, newCR):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
         self._CR = newCR  
+
+    @property
+    def BW(self):
+        return self._BW
 
     @BW.setter
     def BW(self, newBW):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
         self._BW = newBW  
                                                     
     '''
@@ -283,9 +321,9 @@ class Test():
         pars += "m" + str(self._mode)
         if self._mode == 1:
             pars+= "f" + str(self._freq)
-            pars+= "b" + str(self._bw)
-            pars+= "s" + str(self._sf)
-            pars+= "c" + str(self._cr)
+            pars+= "b" + str(self._BW)
+            pars+= "s" + str(self._SF)
+            pars+= "c" + str(self._CR)
         elif self._mode > 1:
             if self.otaa:
                 pars += "o"
