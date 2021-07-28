@@ -347,8 +347,8 @@ def syncSetup(mode, host):
             
     else:
         commSock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        commSock.bind((host, port))
         print("Waiting for incoming..", host)
+        commSock.bind((host, port))
         commSock.listen(1)          # accept only one connection
         commSock, addr = commSock.accept() # replace with listener
         print("Connection from: " + str(addr))
@@ -412,11 +412,11 @@ def main(argv):
         elif opt in ("-S"): # server - slave
             sync = 2
             if useIp == "":
-                useIp = str(ipaddress.ip_address(useIp)+1) # By default we match IP addresses next to each other
+                useIp = get_ip() # get local machine name
         elif opt in ("-s"): # client - master
             sync = 1
             if useIp == "":
-                useIp = get_ip() # get local machine name
+                useIp = str(ipaddress.ip_address(get_ip())+1) # By default we match IP addresses next to each other
         elif opt in ("-i"):
             useIp = arg
     print ('Log directory is "{}"'.format(dirTarget))
