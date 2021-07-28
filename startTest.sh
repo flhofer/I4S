@@ -151,12 +151,16 @@ elif [[ $cmd == "program" ]]; then
 	
     echo ${ports[@]}
     
-	for port in ${ports[@]} ; do
-		updateAVR $port
-	done
-	for port in ${ports[@]} ; do
-		updateMKR $port
-	done
+    if [[ "$1" == "avr" ]] ; then
+		for port in ${ports[@]} ; do
+			updateAVR $port
+		done
+	fi
+	if [[ "$1" == "mkr" ]] ; then 
+		for port in ${ports[@]} ; do
+			updateMKR $port
+		done
+	fi
 else
     echo "Unknown command!!"
     printUsage
