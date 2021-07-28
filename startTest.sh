@@ -170,13 +170,13 @@ elif [[ $cmd == "program" ]]; then
  
     if [[ "$1" == "avr" ]] ; then
 		for port in ${ports[@]} ; do
-			resetSerial
+			resetSerial $port
 			updateAVR $port
 		done
 	fi
 	if [[ "$1" == "mkr" ]] ; then 
 		for port in ${ports[@]} ; do
-			resetSerial
+			resetSerial $port
 			updateMKR $port
 		done
 	fi
