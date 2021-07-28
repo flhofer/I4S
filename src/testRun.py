@@ -156,16 +156,12 @@ class Test():
         self._drate = nDR
     
     def ABPparams(self, DAdr, ASKey, NSKey):
-        if self._mode < 2:
-            raise Exception("Incorrect device mode for this setting!!")
         self._DAdr  = DAdr
         self._ASKey = ASKey
         self._NSKey = NSKey
         self._OTAA = False
 
     def OTAAparams(self, AEui, AKey):
-        if self._mode < 2:
-            raise Exception("Incorrect device mode for this setting!!")
         self._AEui  = AEui
         self._AKey = AKey
         self._OTAA = True
