@@ -13,7 +13,7 @@ email info@florianhofer.it
 testLength = { "A": 5,  # Solo tests
                "B": 3,  # Unintentional disturbance
                "C": 5,  # Intentional disturbance
-               "D": 0,  # Distributed tests      
+               "D": 2,  # Distributed tests      
                }
 
 nodeDlen  = [#0,         # No data
@@ -153,8 +153,31 @@ testParameters = [ # Test single device alone timing, all channels , ADR
                                    {"mode" : 4, "repeat" : 0 },
                                    {"mode" : 4, "repeat" : 0 },]},
                   
-                  #TODO: Class D tests
-                ]
+                  # Test split boxes, Main remote, second close to GW
+                  { "testRun" : "D1",
+                    "NodeParam" : [{"mode" : 2, "conf" : 1 }],
+                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
 
+                  # Test split boxes, Main remote, second close to GW
+                  { "testRun" : "D2",
+                    "NodeParam" : [{"mode" : 0},
+                                   {"mode" : 2, "conf" : 1 }],
+                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
+                                  
+                ]
 
         
