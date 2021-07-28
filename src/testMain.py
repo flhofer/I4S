@@ -12,7 +12,7 @@ email info@florianhofer.it
 #import project modules
 import deviceMgmt, testRun
 #import python modules
-import sys, getopt, time, threading, os, socket, ipaddress
+import sys, getopt, time, threading, os, socket, ipaddress, itertools
 #import test parameters from parameter module
 from testParameters import testLength, testParameters, nodeDlen, maxDataLen
 from deviceParameters import deviceParameters
@@ -128,7 +128,8 @@ def assignParams(node, params):
         setParam(node, key, param)
 
 
-def generateVarParam(params):
+#TODO: experimental, not working yet
+def generateParams(testParam):
     '''
     Generate a list of parameters to vary during test execution
     
@@ -139,14 +140,28 @@ def generateVarParam(params):
     
     '''
 
-    nodeList = []
-    for key in params:
-        if type(params[key]) == list:
-            for param in params[key]:
-                nodeList.append({key : param})
-    
-    return nodeList
+    def generateVarParam(params):
+        nodeList = []
+        for key in params:
+            if type(params[key]) == list:
+                for param in params[key]:
+                    nodeList.append({key : param})
+        
+        return nodeList
 
+    tests = []
+    for params in testParam["NodeParam"]:
+        nodeT = generateVarParam(params)
+        if nodeT != []:
+            tests.append(nodeT)
+
+    for params in testParam["TestParam"]:
+        nodeT = generateVarParam(params)
+        if nodeT != []:
+            tests.append(nodeT)
+            
+    # a = [[1,2,3],[4,5,6],[7,8,9,10]]
+    return list(itertools.product(*tests))
             
 def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
     '''
