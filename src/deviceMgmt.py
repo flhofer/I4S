@@ -85,7 +85,7 @@ class Micro():
             else:
                 raise Exception("EUI read length error")
         except Exception as e:
-            print("Could not read micro EUI :{}".format(str(e)))
+            raise Exception("Could not read micro EUI :{}".format(str(e))) from e
 
     @property
     def EUI(self):
