@@ -60,6 +60,7 @@ function resetSerial() {
         sleep 0.5
         [ -c "${port}" ] && break
     done
+    sleep 1
 }
 
 function setupSerial() {
