@@ -334,8 +334,9 @@ class Test():
             pars += "r" + str(self._repc)
             pars += "C" + "%0.2Xh" % self._chMsk
             pars += "d" + str(self._drate) 
-        pars += "p" + str(self._power)
-        pars += "l" + str(self._dlen)
+        if self._mode > 0 :
+            pars += "p" + str(self._power)
+            pars += "l" + str(self._dlen)
         # pars += "n"
         
         self.__writeMicro(pars)
