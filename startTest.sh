@@ -28,6 +28,7 @@ nodeFile="binaries/LoRaWanNode.hex"
 bossac="~/.arduino15/packages/arduino/tools/bossac/1.7.0-arduino3/bossac"
 avrdudeD="$HOME/.arduino15/packages/arduino/tools/avrdude/6.3.0-arduino17"
 avrdude="${avrdudeD}/bin/avrdude"
+bushub="1-1"
 
 ############################### device comm functions ####################################
 
@@ -126,7 +127,7 @@ function checkLibraries(){
 
 function createRamDisk() {
     echo "Creating RamDisk for logs"
-    mkdir -P /dev/ramlog
+    mkdir -P /mnt/ramlog
     mount -t tmpfs -o size=128m tmpfs /mnt/ramlog
 }
 
@@ -152,18 +153,23 @@ if [[ $cmd == "test" ]]; then
 	eval $PYTHON3 src/testMain.py $@
 
 	# move results if in tmp dir to disk
-	eval mkdir -p results
-	eval mv /tmp/*.log results/
+#	eval mkdir -p results
+#	eval mv /tmp/*.log results/
 
 elif [[ $cmd == "clean" ]]; then
 	eval rm -rf ./src/__pycache__
 
 elif [[ $cmd == "reset" ]]; then
+
+	echo $bushub > sudo tee /sys/bus/usb/drivers/usb/unbind
+	sleep 1
+	echo $bushub > sudo tee /sys/bus/usb/drivers/usb/bind
+
 	setupSerial
-	
+		
 	for port in ${ports[@]} ; do
 		echo "Resetting ${port}..."
-		resetSerial $port
+		echo "S" > $port ; sleep 0.1 ; cat $port > /dev/null
 	done
 elif [[ $cmd == "program" ]]; then
 	if [[ -z "$1" ]]; then
