@@ -60,6 +60,8 @@ class Test():
         self._BW = 125
         self._SF = 12
         self._CR = 8
+        self._rx1d = 1000
+        self._rx2d = 2000
         
     def __del__(self):
         '''
@@ -330,6 +332,10 @@ class Test():
                 pars += "c"
             else:
                 pars += "u"
+
+            if self._micro.T == 0: 
+                pars += "x" + str(self._rx1d)
+                pars += "y" + str(self._rx2d)
 
             pars += "r" + str(self._repc)
             pars += "C" + "%0.2Xh" % self._chMsk
