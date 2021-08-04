@@ -16,6 +16,8 @@ import sys, getopt, time, threading, os, socket, ipaddress, itertools
 #import test parameters from parameter module
 from testParameters import testLength, testParameters, nodeDlen, maxDataLen
 from deviceParameters import deviceParameters
+import readline
+from posix import read
 
 #Hardware configurations
 endnodes = []
@@ -258,14 +260,18 @@ def runTest():
         x.start()
         testerThreads.append(x)
    
-    time.sleep(1) 
+    time.sleep(1)
+    ran = 0 
     for endnode in endnodes:
         if endnode.mode == 0:
             pass
         else:            
+            ran = 1
             print("RUN End node " + str(endnodes.index(endnode) + 1) )
             endnode.runTest()
             endnode.poll()
+
+    return ran
 
 def stopTest():
     '''
@@ -440,7 +446,8 @@ def main(argv):
                 prepareTest(tNo, sync, skipNodes, skipTest, dlen)
         
                 syncComm(sync)        
-                runTest()
+                if runTest() == 0 and sync == 0:
+                    input('Press enter to stop...')
                 syncComm(sync)        
                 stopTest()
                 syncComm(sync)
