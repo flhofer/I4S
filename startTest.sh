@@ -107,7 +107,7 @@ where:
 
 group     test group to execute: [ A, B, C, D, * ]
 number		test numbers to execute, e.g. "A1 B2 D3", use * for all
-prepcmd		prep command to execute: [clean, reset, program]
+prepcmd		prep command to execute: [clean, reset, program, check]
 
 Defaults are:
 group = A     execute test group A
@@ -140,7 +140,7 @@ function createRamDisk() {
 cmd=${1:-'test'}
 shift
 
-if [[ $cmd == "test" ]]; then
+if [[ $cmd == "check" ]]; then
 
 	checkLibraries
 	if [ "$?" -ne 0 ]; then
@@ -149,7 +149,9 @@ if [[ $cmd == "test" ]]; then
 		exit 1
 	fi
 
-    # setupSerial 	# not needed anymore 
+elif [[ $cmd == "test" ]]; then
+
+    setupSerial 	# prepares ports, avoids initial hangup
     # createRamDisk	# Maybe needed to save flash mem
 	eval $PYTHON3 src/testMain.py $@
 
