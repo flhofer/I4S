@@ -182,8 +182,14 @@ elif [[ $cmd == "program" ]]; then
 
 	setupSerial
 	
-    echo ${ports[@]}
  
+ 	# do only one port?
+ 	if [[ "$2" != "" ]] ; then 
+ 		ports=${2}
+ 	fi
+
+    echo ${ports[@]}
+ 	
     if [[ "$1" == "avr" ]] ; then
 		for port in ${ports[@]} ; do
 			resetSerial $port
