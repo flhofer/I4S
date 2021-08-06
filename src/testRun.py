@@ -61,7 +61,6 @@ class Test():
         self._SF = 12
         self._CR = 8
         self._rx1d = 1000
-        self._rx2d = 2000
         
     def __del__(self):
         '''
@@ -221,7 +220,17 @@ class Test():
         if self._mode != 1:
             raise Exception("Incorrect device mode for this setting!!")
         self._BW = newBW  
-                                                    
+
+    @property
+    def rx1Delay(self):
+        return self._rx1d
+
+    @rx1Delay.setter
+    def rx1Delay(self, newDel):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._rx1d = newDel
+                                                            
     '''
     Test execution methods
     '''                                           
@@ -332,14 +341,10 @@ class Test():
                 pars += "c"
             else:
                 pars += "u"
-
-            if self._micro.T == 0: 
-                pars += "x" + str(self._rx1d)
-                pars += "y" + str(self._rx2d)
-
             pars += "r" + str(self._repc)
             pars += "C" + "%0.2Xh" % self._chMsk
-            pars += "d" + str(self._drate) 
+            pars += "d" + str(self._drate)
+            pars += "x" + str(self._rx1d) 
         if self._mode > 0 :
             pars += "p" + str(self._power)
             pars += "l" + str(self._dlen)
