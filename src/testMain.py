@@ -16,8 +16,6 @@ import sys, getopt, time, threading, os, socket, ipaddress, itertools
 #import test parameters from parameter module
 from testParameters import testLength, testParameters, nodeDlen, maxDataLen
 from deviceParameters import deviceParameters
-import readline
-from posix import read
 
 #Hardware configurations
 endnodes = []
@@ -108,6 +106,8 @@ def setParam(node, key, param):
         node.SF = param
     elif key == 'usePB':
         node.usePB = param
+    elif key == 'rx1Delay':
+        node.rx1Delay = param
 
 def assignParams(node, params):
     '''
