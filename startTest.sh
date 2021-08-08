@@ -185,7 +185,7 @@ elif [[ $cmd == "program" ]]; then
  
  	# do only one port?
  	if [[ "$2" != "" ]] ; then 
- 		ports=${2}
+ 		ports=($2)
  	fi
 
     echo ${ports[@]}
