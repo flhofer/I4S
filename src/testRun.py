@@ -10,6 +10,7 @@ email info@florianhofer.it
 ''' 
 
 import time, sys
+from datetime import datetime
 
 # Define enumerations used in class
 DISABLED, OFF, LORA, LORAWAN, LORAWANRT, LORAJOIN = -1, 0, 1, 2, 3, 4
@@ -300,7 +301,7 @@ class Test():
             rbuf = self._micro.read()
             while rbuf != "":
                 self.__parseBuffer(rbuf[:-1])
-                self._logFile.write(rbuf)
+                self._logFile.write("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), rbuf))
                 rbuf = self._micro.read()
 
             time.sleep(0.1)
@@ -389,9 +390,9 @@ class Test():
             self._writeLog = True 
         
         if self._micro.T == 0: 
-            print(buf, file=sys.stderr)
+            print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf), file=sys.stderr)
             if self._writeLog == True:
-                print(buf) # print results to stdout
+                print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf)) # print results to stdout
 
         if buf.startswith("done"):
             self._rstate = 0
