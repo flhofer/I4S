@@ -400,9 +400,10 @@ def main(argv):
     skipTest = 0
     sync = 0
     useIp = ""
+    firstOnly = False
 
     try:
-        opts, args = getopt.getopt(argv,"hd:e:i:l:Sst:",["dir=","log="])
+        opts, args = getopt.getopt(argv,"hd:e:fi:l:Sst:",["dir=","log="])
     except getopt.GetoptError:
         print('testMain.py -d <targetdir> -l <logprefix>')
         sys.exit(2)
@@ -416,6 +417,8 @@ def main(argv):
             logName = arg
         elif opt in ("-e"):
             skipNodes = int(arg)
+        elif opt in ("-f"):
+            firstOnly = True
         elif opt in ("-t"):
             skipTest = int(arg)
         elif opt in ("-S"): # server - slave
@@ -458,6 +461,9 @@ def main(argv):
                 if sync == 2:
                     sendToClient(str(e))
                 raise
+            
+            if firstOnly == True:
+                break
         
     if commSock:
         commSock.close()
