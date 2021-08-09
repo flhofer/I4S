@@ -34,14 +34,14 @@ class Test(unittest.TestCase):
         self.test.mode = 0
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["m0l16\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m0\n"])
 
         self.test._micro.clearBuffer()
         
         self.test.mode = 1
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["m1f8683b125s12c8l16\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m1f8683b125s12c8p1l16\n"])
 
         self.test._micro.clearBuffer()
         
@@ -49,14 +49,14 @@ class Test(unittest.TestCase):
         self.test.OTAAparams("BE010000000000DF", "9ADE44A4AEF1CD77AEB44387BD976928")
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["m2our1CFFhp1d255l16\n", "EBE010000000000DFh\n", "K9ADE44A4AEF1CD77AEB44387BD976928h\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m2our1CFFhd255x1000p1l16\n", "EBE010000000000DFh\n", "K9ADE44A4AEF1CD77AEB44387BD976928h\n"])
 
         self.test._micro.clearBuffer()
                
         self.test.ABPparams("01234567", "01234567890abcdef01234567890abcd", "01234567890abcdef01234567890abcd")
         self.test.configureTest()
         self.assertNotEqual(self.test.mode, testRun.DISABLED )
-        self.assertListEqual( self.test._micro.buffer , ["m2aur1CFFhp1d255l16\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
+        self.assertListEqual( self.test._micro.buffer , ["m2aur1CFFhd255x1000p1l16\n", "D01234567h\n", "N01234567890ABCDEF01234567890ABCDh\n", "A01234567890ABCDEF01234567890ABCDh\n"])
 
     def testRunDevice(self):
         self.test.runTest()
