@@ -260,7 +260,7 @@ def runTest():
         x.start()
         testerThreads.append(x)
    
-    time.sleep(1)
+    time.sleep(5)
     ran = 0 
     for endnode in endnodes:
         if endnode.mode == 0:
