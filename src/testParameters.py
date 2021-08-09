@@ -10,7 +10,7 @@ email info@florianhofer.it
 ''' 
 
 #defaults settings
-testLength = { "A": 5,  # Solo tests
+testLength = { "A": 3,  # Solo tests
                "B": 3,  # Unintentional disturbance
                "C": 5,  # Intentional disturbance
                "D": 2,  # Distributed tests      
@@ -36,47 +36,50 @@ testParameters = [
                    
                    # Test single device alone timing, all channels , ADR
                   { "testRun" : "A1",
-                    "NodeParam" : [{ "mode" : 2, "conf" : 1 }],
+                    "NodeParam" : [{ "mode" : 2, "conf" : 1, "limit": 0 }],
                     "TestParam" : []
                     },
                   
                    # Test single device single channel resource, ADR
                   { "testRun" : "A2",
-                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1, "limit": 0 }],
                      "TestParam" : []
                      },
 
-                   # Test single channel, others around it are used, ADR
+                   # Test single channel, other data rates used, NO ADR, EX A4
+                   # Default len 16
                   { "testRun" : "A3",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 5000 }]},
 
-                   # Test single channel, other data rates used, NO ADR
-                  { "testRun" : "A4",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "conf" : 1 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "repeat" : 0 }]},
+                  #  # Test single channel, others around it are used, ADR
+                  # Tested IV, does not have any effect
+                  # { "testRun" : "A3",
+                  #   "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1 }],
+                  #   "TestParam" : [{ "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
 
                    # Test single channel, other data rated + nearby used, NO ADR, + ADR nearby
-                  { "testRun" : "A5",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1, "dataRate" : 0 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x02, "dataRate" : 1, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 2, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 3, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 4, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x04, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
+                   # Tested IV, does not have any effect
+                  # { "testRun" : "A5",
+                  #   "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1, "dataRate" : 0 }],
+                  #   "TestParam" : [{ "mode" : 2, "chnMsk" : 0x02, "dataRate" : 1, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 2, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 3, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 4, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x04, "repeat" : 0 },
+                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
 
                    # 
                    # Group B, involuntary collision or disturbance, coexistence -- normal operation with others using same network
