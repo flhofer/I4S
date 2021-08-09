@@ -117,14 +117,14 @@ testParameters = [
                    # Test default channels intentional obstruction
                   { "testRun" : "C1",
                     "NodeParam" : [{"mode" : 2, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 1, "freq" : 8683, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8681, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8685, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8671, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8673, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8675, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8677, "dataLen": 242 },
-                                   {"mode" : 1, "freq" : 8679, "dataLen": 242 },]},
+                    "TestParam" : [{"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8671, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8673, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8675, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },
+                                   {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 5, "dataLen": 1 },]},
 
                    # Test intentional collision, NO ADR
                   { "testRun" : "C2",
