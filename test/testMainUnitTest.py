@@ -50,7 +50,7 @@ class Test(unittest.TestCase):
     def testPrepareTest(self):
         
         testMain.testParameters = [{ "testRun" : "A1",
-                                     "NodeParam" : [],
+                                    "NodeParam" :[{"mode" : 2, "chnMsk" : 0xFF, "conf" : 1 }],
                                      "TestParam" :[{"mode" : 1, "freq" : 8683 },
                                                    {"mode" : 1, "freq" : 8681 },
                                                    {"mode" : 1, "freq" : 8685 },
@@ -70,12 +70,24 @@ class Test(unittest.TestCase):
 
         #Test normal op
         for i in range(8):
-            testMain.testers.append(testRun.Test(i,MicroMock(1, "testEmtpyMock.log")))
-        
-        testMain.prepareTest("A1");
-        
+            testMain.testers.append(testRun.Test(MicroMock(1, "testEmtpyMock.log"), i))
+
+        testMain.endnodes.append(testRun.Test(MicroMock(0, "testEmtpyMock.log"), 10))
+
+        testMain.prepareTest("A1", dlen=100);
         for tester in testMain.testers:
             self.assertEqual(1, tester.mode )
+        self.assertEqual(51, testMain.endnodes[0].dataLength)
+
+        testMain.testParameters[0]["NodeParam"][0]["limit"]= 0
+        testMain.prepareTest("A1", dlen=222);
+        self.assertEqual(222, testMain.endnodes[0].dataLength)
+            
+        testMain.testParameters[0]["NodeParam"][0]["limit"]= 1
+        testMain.testParameters[0]["NodeParam"][0]["dataRate"]= 3      
+        testMain.prepareTest("A1", dlen=222);
+        self.assertEqual(115, testMain.endnodes[0].dataLength)
+             
     
     def testGenerateParameters(self):
         
@@ -105,7 +117,7 @@ class Test(unittest.TestCase):
         self.assertEqual(tests, [ [{'dataRate' : 0}, {'dataRate': 5}],
                                   [{'dataLen'  : 0}, {'dataLen' : 64}, {'dataLen': 242}],
                                   [{'dataRate' : 0}, {'dataRate': 4}]])
-        
+               
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testParseTestsToRun']
     unittest.main()
