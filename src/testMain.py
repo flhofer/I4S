@@ -196,10 +196,11 @@ def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
                     break
         
             assignParams(endnode, nodeParams)   # all parameters
-            if  (endnode.dataRate == 255):
-                dlen = min(int(maxDataLen[0]), dlen)
-            else:
-                dlen = min(int(maxDataLen[endnode.dataRate]), dlen)
+            if not "limit" in nodeParams or nodeParams["limit"]!= 0:
+                if  (endnode.dataRate == 255):
+                    dlen = min(int(maxDataLen[0]), dlen)
+                else:
+                    dlen = min(int(maxDataLen[endnode.dataRate]), dlen)
             setParam(endnode, "dataLen", dlen)  # data length for this test
             endnode.poll()
   
