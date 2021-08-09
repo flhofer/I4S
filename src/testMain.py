@@ -131,6 +131,15 @@ def assignParams(node, params):
 
 
 #TODO: experimental, not working yet
+def generateVarParam(params):
+    nodeList = []
+    for key in params:
+        if type(params[key]) == list:
+            for param in params[key]:
+                nodeList.append({key : param})
+    
+    return nodeList
+
 def generateParams(testParam):
     '''
     Generate a list of parameters to vary during test execution
@@ -141,15 +150,6 @@ def generateParams(testParam):
     :raises    could raise exceptions from called methods (not expected)
     
     '''
-
-    def generateVarParam(params):
-        nodeList = []
-        for key in params:
-            if type(params[key]) == list:
-                for param in params[key]:
-                    nodeList.append({key : param})
-        
-        return nodeList
 
     tests = []
     for params in testParam["NodeParam"]:
