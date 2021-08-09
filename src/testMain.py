@@ -108,6 +108,8 @@ def setParam(node, key, param):
         node.usePB = param
     elif key == 'rx1Delay':
         node.rx1Delay = param
+    elif key == 'noReset':
+        node.noReset = True
 
 def assignParams(node, params):
     '''

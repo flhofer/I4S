@@ -42,7 +42,7 @@ testParameters = [
                   
                    # Test single device single channel resource, ADR
                   { "testRun" : "A2",
-                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1, "limit": 0 }],
+                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1, "limit": 0, "noReset": 1 }],
                      "TestParam" : []
                      },
 
