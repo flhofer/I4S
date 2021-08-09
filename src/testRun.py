@@ -357,7 +357,7 @@ class Test():
             pars += "C" + "%0.2Xh" % self._chMsk
             pars += "d" + str(self._drate)
             pars += "x" + str(self._rx1d) 
-            if self._noReset:
+            if self._noReset == True:
                 pars += "n"
         if self._mode > 0 :
             pars += "p" + str(self._power)
