@@ -109,7 +109,9 @@ def setParam(node, key, param):
     elif key == 'rx1Delay':
         node.rx1Delay = param
     elif key == 'noReset':
-        node.noReset = True
+        node.noReset = bool(param)
+    elif key == 'noDCycle':
+        node.noDCycle = bool(param)
 
 def assignParams(node, params):
     '''
@@ -203,10 +205,11 @@ def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
                     dlen = min(int(maxDataLen[0]), dlen)
                 else:
                     dlen = min(int(maxDataLen[endnode.dataRate]), dlen)
-            setParam(endnode, "dataLen", dlen)  # data length for this test
             if not "noStop" in nodeParams or nodeParams["noStop"]!= 1:
+                setParam(endnode, "dataLen", dlen)  # data length for this test
                 endnode.noStop = False
             else:
+                # ignore dataLen from test, use parameter
                 endnode.noStop = True
 
             endnode.poll()

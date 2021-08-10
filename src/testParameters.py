@@ -176,7 +176,7 @@ testParameters = [
                   # Test split boxes, Main closer to GW
                   { "testRun" : "D1",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1},
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 14000, "dataLen" : 16, "noStop": 1 }], # sets Rx1 and has 1s fixed Rx2 = 15s 
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 14000, "noStop": 1, "noDCycle": 1 }], # sets Rx1 and has 1s fixed Rx2 = 15s 
                     "TestParam" : [{ "mode" : 0 },
                                    { "mode" : 0 },
                                    { "mode" : 0 },

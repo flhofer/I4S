@@ -63,6 +63,7 @@ class Test():
         self._CR = 8
         self._rx1d = 1000
         self._noReset = False
+        self._noDCycle = False
         
     def __del__(self):
         '''
@@ -242,7 +243,17 @@ class Test():
         if self._mode < 2:
             raise Exception("Incorrect device mode for this setting!!")
         self._noReset = noreset
-                                                                   
+
+    @property
+    def noDCycle(self):
+        return self._noDCycle
+    
+    @noDCycle.setter
+    def noDCycle(self, nodcycle):
+        if self._mode < 2:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._noDCycle = nodcycle
+                                                                           
     '''
     Test execution methods
     '''                                           
@@ -359,6 +370,9 @@ class Test():
             pars += "x" + str(self._rx1d) 
             if self._noReset == True:
                 pars += "n"
+            if self._micro.T == 0: 
+                if self._noDCycle == True:
+                    pars += "f"
         if self._mode > 0 :
             pars += "p" + str(self._power)
             pars += "l" + str(self._dlen)
