@@ -50,11 +50,11 @@ testParameters = [
                    # Default len 16
                   { "testRun" : "A3",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 5000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 5000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 5000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 5000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 5000 }]},
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
 
                   #  # Test single channel, others around it are used, ADR
                   # Tested IV, does not have any effect
@@ -105,7 +105,7 @@ testParameters = [
                    # Test with default channels + nearby disturbing frequencies
                   { "testRun" : "B3",
                     "NodeParam" : [{"mode" : 2, "chnMsk" : 0x07, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 1, "freq" : 8680 },
+                    "TestParam" : [{"mode" : 1, "freq" : 8680 }, # 250 / 125
                                    {"mode" : 1, "freq" : 8682 },
                                    {"mode" : 1, "freq" : 8684 },
                                    {"mode" : 1, "freq" : 8686 },]},
@@ -173,17 +173,18 @@ testParameters = [
                    # Group D, mixed tests, distributed setup
                    #
                   
-                  # Test split boxes, Main remote, second close to GW
+                  # Test split boxes, Main closer to GW
                   { "testRun" : "D1",
-                    "NodeParam" : [{"mode" : 2, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1},
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 14000, "dataLen" : 16, "noStop": 1 }], # sets Rx1 and has 1s fixed Rx2 = 15s 
+                    "TestParam" : [{ "mode" : 0 },
+                                   { "mode" : 0 },
+                                   { "mode" : 0 },
+                                   { "mode" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
 
                   # Test split boxes, Main remote, second close to GW
                   { "testRun" : "D2",
