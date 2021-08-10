@@ -204,12 +204,18 @@ def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
                 else:
                     dlen = min(int(maxDataLen[endnode.dataRate]), dlen)
             setParam(endnode, "dataLen", dlen)  # data length for this test
+            if not "noStop" in nodeParams or nodeParams["noStop"]!= 1:
+                endnode.noStop = False
+            else:
+                endnode.noStop = True
+
             endnode.poll()
   
     while True:
         try:
             endnode = next(nodes)
             assignParams(endnode, {"mode": 0} )
+            endnode.noStop = False
         except StopIteration:
             break
         except: # forward all other exceptions, Explicit!
@@ -241,6 +247,7 @@ def prepareTest(testNumber, sync=0, skipNodes=0, skipTest=0, dlen=0):
             raise 
 
 testerThreads = []
+endnodeThreads = []
             
 def runTest():
     '''
@@ -251,6 +258,7 @@ def runTest():
     '''
     
     testerThreads.clear()
+    endnodeThreads.clear()
     print("START Test")
     for testNode in testers:
         print("RUN Test node " + str(testers.index(testNode) + 1) )
@@ -269,10 +277,15 @@ def runTest():
         if endnode.mode == 0:
             pass
         else:            
-            ran = 1
             print("RUN End node " + str(endnodes.index(endnode) + 1) )
             endnode.runTest()
-            endnode.poll()
+            if endnode.noStop == True:
+                x = threading.Thread(target=endnode.poll, args = ())
+                x.start()
+                endnodeThreads.append(x)
+            else: 
+                ran = 1
+                endnode.poll()
 
     return ran
 
@@ -285,10 +298,21 @@ def stopTest():
         print("STOP Test node " + str(testers.index(testNode) + 1) )
         testNode.stopTest()
 
+    for endnode in endnodes:
+        if endnode.mode != 0 and endnode.noStop == True:
+            print("STOP End node " + str(endnodes.index(endnode) + 1) )
+            endnode.stopTest()
+        else:            
+            pass
+
     time.sleep(1) 
         
     for x in testerThreads :
         print("JOIN Test node " + str(testerThreads.index(x) + 1) )
+        x.join(1) 
+
+    for x in endnodeThreads :
+        print("JOIN End node " + str(endnodeThreads.index(x) + 1) )
         x.join(1) 
     
     print("END Test")    
