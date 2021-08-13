@@ -420,6 +420,7 @@ class Test():
             pars+= "b" + str(self._BW)
             pars+= "s" + str(self._SF)
             pars+= "c" + str(self._CR)
+            pars+= "i" + str(self._preLen)             
             if self._private:
                 pars+= "P"
             if self._xHeader:
@@ -444,11 +445,10 @@ class Test():
             pars += "C" + "%0.2Xh" % self._chMsk
             pars += "d" + str(self._drate)
             pars += "x" + str(self._rx1d) 
-            pars += "i" + str(self._preLen)             
-            if self._noReset == True:
+            if self._noReset:
                 pars += "n"
             if self._micro.T == 0: 
-                if self._noDCycle == True:
+                if self._noDCycle:
                     pars += "f"
         if self._mode > 0 :
             pars += "p" + str(self._power)
@@ -458,7 +458,7 @@ class Test():
         
         if self._mode > 1:
             if self._usePB:
-                if self._OTAA == True:
+                if self._OTAA:
                     self.__writeMicro("E" + self._AEui.upper() + "h")
                     self.__writeMicro("K" + self._AKey.upper() + "h")
                 else:
@@ -466,7 +466,7 @@ class Test():
                     self.__writeMicro("N" + self._NSKey.upper()+ "h")
                     self.__writeMicro("A" + self._ASKey.upper()+ "h")
             else:
-                if self._OTAA == True:
+                if self._OTAA:
                     self.__writeMicro("E01234567890abcdef01234567890abcdh")
                     self.__writeMicro("K01234567890abcdef01234567890abcdh")
                 else:
@@ -498,7 +498,7 @@ class Test():
             self._writeLog = True 
         
         if self._micro.T == 0: 
-            if self._writeLog == True:
+            if self._writeLog:
                 print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf)) # print results to stdout
             else:
                 print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf), file=sys.stderr)
