@@ -122,6 +122,8 @@ def setParam(node, key, param):
         node.useCRC = bool(param)
     elif key == 'simLWan':
         node.simLWan = bool(param)
+    else: 
+        raise Exception("Unknown parameter '{}:{}'".format(key, param))
 
 def assignParams(node, params):
     '''
