@@ -13,7 +13,8 @@ email info@florianhofer.it
 testLength = { "A": 3,  # Solo tests
                "B": 3,  # Unintentional disturbance
                "C": 5,  # Intentional disturbance
-               "D": 3,  # Distributed tests      
+               "D": 3,  # Distributed tests
+               "E": 2,  # Lamp obstruction tests
                }
 
 nodeDlen  = [#0,         # No data
@@ -22,13 +23,11 @@ nodeDlen  = [#0,         # No data
              16,        # Typical SL data
 #            31,        # Typical SM data
              222]       # Max data for LoRaWan telegram running over a router, in binary Bytes -> HEX = *2
-            #TODO: AVR v1.0.5 limits to 230 erroneously 
+            #NOTE: AVR v1.0.5 limits to 230 erroneously 
 
 #Data rate from 0 - 7
 maxDataLen = [ 51, 51, 51, 115, 242, 242, 242, 242 ]
 
-#Test parameters for all tests
-#TODO: add values for changing parameters and variables
 testParameters = [
                    # 
                    # Group A, isolation tests, normal operation, w/o interfering in communication
@@ -212,7 +211,28 @@ testParameters = [
                                    {"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },
                                    {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },
                                    {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },]},
-                                 
+
+                   # 
+                   # Group E, disturb tests
+                   #
+
+                   # Test run preamble exhaustion Box 1 no-stop
+                  { "testRun" : "E1",
+                    "NodeParam" : [],
+                    "TestParam" : [{"mode" : 1, "freq" : 8683, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8681, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8685, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8671, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8673, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },]},
+
+                   # Test run preamble exhaustion Box 2 no-stop
+                  { "testRun" : "E2",
+                    "NodeParam" : [],
+                    "TestParam" : [{"mode" : 1, "freq" : 8673, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8675, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8677, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
+                                   {"mode" : 1, "freq" : 8679, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },]},
+                                                   
                 ]
 
         
