@@ -123,6 +123,8 @@ def setParam(node, key, param):
         node.useCRC = bool(param)
     elif key == 'simLWan':
         node.simLWan = bool(param)
+    elif key == 'preamble':
+        node.preLen = param
     elif key == 'limit':
         pass
     else: 

@@ -62,6 +62,7 @@ class Test():
         self._SF = 12
         self._CR = 8
         self._rx1d = 1000
+        self._preLen = 8
         self._noReset = False
         self._noDCycle = False
         self._private = False
@@ -308,7 +309,17 @@ class Test():
         if self._mode != 1:
             raise Exception("Incorrect device mode for this setting!!")
         self._simLWan = nsimLWan
-                                                                           
+
+    @property
+    def preLen(self):
+        return self._preLen
+    
+    @preLen.setter
+    def preLen(self, npreLen):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._preLen = npreLen
+            
     '''
     Test execution methods
     '''                                           
@@ -433,6 +444,7 @@ class Test():
             pars += "C" + "%0.2Xh" % self._chMsk
             pars += "d" + str(self._drate)
             pars += "x" + str(self._rx1d) 
+            pars += "i" + str(self._preLen)             
             if self._noReset == True:
                 pars += "n"
             if self._micro.T == 0: 
