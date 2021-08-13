@@ -106,7 +106,7 @@ def setParam(node, key, param):
     elif key == 'spreadFactor':
         node.SF = param
     elif key == 'usePB':
-        node.usePB = param
+        node.usePB = bool(param)
     elif key == 'rx1Delay':
         node.rx1Delay = param
     elif key == 'noReset':
