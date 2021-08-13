@@ -64,6 +64,11 @@ class Test():
         self._rx1d = 1000
         self._noReset = False
         self._noDCycle = False
+        self._private = False
+        self._xHeader = False
+        self._invertQ = False
+        self._simLWan = False
+        self._useCRC = False
         
     def __del__(self):
         '''
@@ -253,6 +258,56 @@ class Test():
         if self._mode < 2:
             raise Exception("Incorrect device mode for this setting!!")
         self._noDCycle = nodcycle
+
+    @property
+    def private(self):
+        return self._private
+    
+    @private.setter
+    def private(self, nprivate):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._private = nprivate
+
+    @property
+    def xHeader(self):
+        return self._xHeader
+    
+    @xHeader.setter
+    def xHeader(self, nxHeader):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._xHeader = nxHeader
+
+    @property
+    def invertQ(self):
+        return self._invertQ
+    
+    @invertQ.setter
+    def invertQ(self, ninvertQ):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._invertQ = ninvertQ
+
+    @property
+    def useCRC(self):
+        return self._noDCycle
+    
+    @useCRC.setter
+    def useCRC(self, nuseCRC):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._useCRC = nuseCRC
+
+    @property
+    def simLWan(self):
+        return self._simLWan
+    
+    @simLWan.setter
+    def simLWan(self, nsimLWan):
+        if self._mode != 1:
+            raise Exception("Incorrect device mode for this setting!!")
+        self._simLWan = nsimLWan
                                                                            
     '''
     Test execution methods
@@ -354,6 +409,16 @@ class Test():
             pars+= "b" + str(self._BW)
             pars+= "s" + str(self._SF)
             pars+= "c" + str(self._CR)
+            if self._private:
+                pars+= "P"
+            if self._xHeader:
+                pars+= "E"
+            if self._invertQ:
+                pars+= "Q"
+            if self._useCRC:
+                pars+= "C"
+            if self._simLWan:
+                pars+= "L"
         elif self._mode > 1:
             if self.otaa:
                 pars += "o"

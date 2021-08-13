@@ -112,6 +112,16 @@ def setParam(node, key, param):
         node.noReset = bool(param)
     elif key == 'noDCycle':
         node.noDCycle = bool(param)
+    elif key == 'private':
+        node.private = bool(param)
+    elif key == 'xHeader':
+        node.xHeader = bool(param)
+    elif key == 'invertQ':
+        node.invertQ = bool(param)
+    elif key == 'useCRC':
+        node.useCRC = bool(param)
+    elif key == 'simLWan':
+        node.simLWan = bool(param)
 
 def assignParams(node, params):
     '''
