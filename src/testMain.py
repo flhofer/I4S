@@ -64,7 +64,7 @@ def configureTestClasses(logDir="", logPre="", skipNodes=0, skipTest=0):
             i+=1
         else:
             testers.append(tMicro)
-            tMicro.num = 10+i+skipTest
+            tMicro.num = j+skipTest
             j+=1
 
 #TODO function to check for list of parameters, i.e. changes, repeat ecc 

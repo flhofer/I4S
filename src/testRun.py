@@ -473,11 +473,11 @@ class Test():
         '''
         self._micro.write(parms + "\n")
         if self._logFile:
-            self._logFile.write("{}: >{}".format(datetime.now().strftime("%H:%M:%S.%f"), parms))
+            self._logFile.write("{}: >{}\n".format(datetime.now().strftime("%H:%M:%S.%f"), parms))
         response = self._micro.read()
         if response != "":
             if self._logFile:
-                self._logFile.write("{}: >{}".format(datetime.now().strftime("%H:%M:%S.%f"), response))
+                self._logFile.write("{}: >{}\n".format(datetime.now().strftime("%H:%M:%S.%f"), response))
             raise Exception("Unable to set parameter on Micro {1}, it responds '{0}'".format(response[:-1], parms))
             
 
