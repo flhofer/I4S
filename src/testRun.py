@@ -324,6 +324,21 @@ class Test():
         if self._mode == DISABLED:
             print("Disabled")
             raise Exception("Disabled")
+
+        try:
+            if self._logFile:
+                self._logFile.close()
+            path = ''
+            if self._logDir != '':
+                path += self._logDir + '/'
+            if self._logPre != '':
+                path += self._logPre
+            else:
+                path += time.strftime("%Y%m%d-%H%M%S") 
+            path += "-tdev{0:02d}".format(self._num) + ".log"
+            self._logFile = open (path, "a")
+        except Exception as e:
+            raise Exception ("Unable to create log-file {}".format(str(e))) 
             
         self.configureTest()
         
@@ -337,21 +352,6 @@ class Test():
             self._rstate = 1            
         except Exception as e:
             raise Exception ("Unable to write start command {}".format(str(e))) 
-        finally:
-            try:
-                if self._logFile:
-                    self._logFile.close()
-                path = ''
-                if self._logDir != '':
-                    path += self._logDir + '/'
-                if self._logPre != '':
-                    path += self._logPre
-                else:
-                    path += time.strftime("%Y%m%d-%H%M%S") 
-                path += "-tdev{0:02d}".format(self._num) + ".log"
-                self._logFile = open (path, "a")
-            except Exception as e:
-                raise Exception ("Unable to create log-file {}".format(str(e))) 
 
     def configureTest(self):
         '''
@@ -472,18 +472,24 @@ class Test():
 
         '''
         self._micro.write(parms + "\n")
+        if self._logFile:
+            self._logFile.write("{}: >{}".format(datetime.now().strftime("%H:%M:%S.%f"), parms))
         response = self._micro.read()
         if response != "":
+            if self._logFile:
+                self._logFile.write("{}: >{}".format(datetime.now().strftime("%H:%M:%S.%f"), response))
             raise Exception("Unable to set parameter on Micro {1}, it responds '{0}'".format(response[:-1], parms))
+            
 
     def __parseBuffer(self, buf):
         if buf.startswith("Results"):
             self._writeLog = True 
         
         if self._micro.T == 0: 
-            print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf), file=sys.stderr)
             if self._writeLog == True:
                 print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf)) # print results to stdout
+            else:
+                print("{}: {}".format(datetime.now().strftime("%H:%M:%S.%f"), buf), file=sys.stderr)
 
         if buf.startswith("done"):
             self._rstate = 0
