@@ -13,7 +13,7 @@ email info@florianhofer.it
 testLength = { "A": 3,  # Solo tests
                "B": 3,  # Unintentional disturbance
                "C": 5,  # Intentional disturbance
-               "D": 2,  # Distributed tests      
+               "D": 3,  # Distributed tests      
                }
 
 nodeDlen  = [#0,         # No data
@@ -87,15 +87,15 @@ testParameters = [
 
                    # Test single interference single channel same settings (mixing DR) with ADR
                   { "testRun" : "B1",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 }]},
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 0 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 }]},
                   
                    # Test with reduced power..  A1 for non reduced power + obstacles
                   { "testRun" : "B2",
@@ -160,14 +160,14 @@ testParameters = [
                    # Test NW server exhaustion -> Join flood
                   { "testRun" : "C5",
                     "NodeParam" : [{"mode" : 2, "conf" : 1, "OTAA" : 1 }],
-                    "TestParam" : [{"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },
-                                   {"mode" : 4, "repeat" : 0 },]},
+                    "TestParam" : [{"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },
+                                   {"mode" : 4, "usePB" : 1, "repeat" : 0 },]},
 
                    # 
                    # Group D, mixed tests, distributed setup
@@ -186,19 +186,28 @@ testParameters = [
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
 
-                  # Test split boxes, Main remote, second close to GW
+                  # Test split boxes, Main closer to GW
                   { "testRun" : "D2",
-                    "NodeParam" : [{"mode" : 0},
-                                   {"mode" : 2, "conf" : 1 }],
-                    "TestParam" : [{"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },
-                                   {"mode" : 2, "chnMsk" : 0xFF, "dataLen": 0, "usePB" : 1, "repeat" : 0 },]},
-                                  
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0x07, "conf" : 1, "limit": 0 }],
+                    "TestParam" : [{"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 1, "freq" : 8680 }, # 250 / 125
+                                   {"mode" : 1, "freq" : 8682 },
+                                   {"mode" : 1, "freq" : 8684 },
+                                   {"mode" : 1, "freq" : 8686 },]},
+
+                  { "testRun" : "D3",
+                    "NodeParam" : [{"mode" : 2, "chnMsk" : 0x07, "conf" : 1, "limit": 0 }],
+                    "TestParam" : [{"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 0 },
+                                   {"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },
+                                   {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },
+                                   {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },]},
+                                 
                 ]
 
         
