@@ -116,38 +116,38 @@ testParameters = [
                    # Test default channels intentional obstruction
                   { "testRun" : "C1",
                     "NodeParam" : [{"mode" : 2, "conf" : 0 }],
-                    "TestParam" : [{"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, }, # = DR5, CR=LRW, DL1
-                                   {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8671, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8673, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8675, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },
-                                   {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 5, "dataLen": 255, "preamble" : 0, "power": 0, },]},
+                    "TestParam" : [{"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 }, # = DR5, CR=LRW, DL1
+                                   {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8671, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8673, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8675, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },]},
 
                    # Test intentional collision, tx om evey channel
                   { "testRun" : "C2",
                     "NodeParam" : [{ "mode" : 2 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 }, # DR0 DR 5, same but LoRaWan
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x04, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x08, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x10, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x20, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x40, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x80, "dataRate" : 5, "dataLen": 0, "usePB" : 1, "repeat" : 0, "power": 0 }]},
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 }, # DR0 DR 5, same but LoRaWan
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x04, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x08, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x10, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x20, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x40, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x80, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 }]},
                                     
                    # Test run frequency air-time exhaustion with ADR
                   { "testRun" : "C3",
                     "NodeParam" : [{ "mode" : 2 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x02, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x04, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x08, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x10, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x20, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x40, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },
-                                   { "mode" : 2, "chnMsk" : 0x80, "dataLen": 242, "usePB" : 1, "dataRate" : 0, "repeat" : 0, "power": 0 },]},
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x04, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x08, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x10, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x20, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x40, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 2, "chnMsk" : 0x80, "dataLen": 242, "usePB" : 0, "dataRate" : 0, "repeat" : 0, "power": 0 },]},
 
                    # Test run preamble exhaustion GW
                   { "testRun" : "C4",
@@ -164,14 +164,14 @@ testParameters = [
                    # Test NW server exhaustion -> Join flood
                   { "testRun" : "C5",
                     "NodeParam" : [{ "mode" : 2, "conf" : 1, "OTAA" : 1 }],
-                    "TestParam" : [{ "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },
-                                   { "mode" : 4, "usePB" : 1, "repeat" : 0, "power": 0 },]},
+                    "TestParam" : [{ "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },
+                                   { "mode" : 4, "conf" : 1, "usePB" : 0, "repeat" : 0, "power": 0 },]},
 
                    # 
                    # Group D, mixed tests, distributed setup
@@ -216,22 +216,21 @@ testParameters = [
                    # Group E, disturb tests
                    #
 
-                   # Test run preamble exhaustion Box 1 no-stop
+                   # Test run intentional obstruction Box 1 no-stop
                   { "testRun" : "E1",
                     "NodeParam" : [],
-                    "TestParam" : [{ "mode" : 1, "freq" : 8683, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8681, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8685, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8671, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8673, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },]},
+                    "TestParam" : [{"mode" : 1, "freq" : 8683, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 }, # = DR5, CR=LRW, DL1
+                                   {"mode" : 1, "freq" : 8681, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8671, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },]},
 
-                   # Test run preamble exhaustion Box 2 no-stop
+                   # Test run intentional obstruction Box 2 no-stop
                   { "testRun" : "E2",
                     "NodeParam" : [],
-                    "TestParam" : [{ "mode" : 1, "freq" : 8673, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8675, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8677, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },
-                                   { "mode" : 1, "freq" : 8679, "dataLen": 0, "spreadFactor": 7, "codeRate": 5, "repeat" : 0, "simLWan": 1, "power": 0 },]},
+                    "TestParam" : [{"mode" : 1, "freq" : 8673, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8675, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
+                                   {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },]},
                                                    
                 ]
 
