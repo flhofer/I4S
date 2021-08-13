@@ -42,7 +42,7 @@ class NotEnoughMicrosError(Exception):
     def __str__(self):
         return f'{self.count} -> {self.message}'
 
-def configureTestClasses(logDir="", logPre=""):
+def configureTestClasses(logDir="", logPre="", skipNodes=0, skipTest=0):
     '''
     create and configure testRun devices
     '''
@@ -60,10 +60,11 @@ def configureTestClasses(logDir="", logPre=""):
             
         if micro.type == 0:
             endnodes.append(tMicro)
-            tMicro.num = 10+i
+            tMicro.num = 10+i+skipNodes
             i+=1
         else:
             testers.append(tMicro)
+            tMicro.num = 10+i+skipTest
             j+=1
 
 #TODO function to check for list of parameters, i.e. changes, repeat ecc 
@@ -482,7 +483,7 @@ def main(argv):
     #List of tests to run, not opt'ed arguments
     testsToRun = parseTestsToRun(args)
            
-    configureTestClasses(dirTarget, logName)
+    configureTestClasses(dirTarget, logName, skipNodes, skipTest)
     
     for tNo in testsToRun:
         for dlen in nodeDlen:
