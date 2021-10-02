@@ -15,6 +15,12 @@ testLength = { "A": 3,  # Solo tests
                "C": 5,  # Intentional disturbance
                "D": 3,  # Distributed tests
                "E": 2,  # Lamp obstruction tests
+               "M": 5,  # Preliminary performance tests
+               "N": 7,  # SF scalability tests
+               "O": 5,  # LoRa tuning tests
+               "P": 10, # LoRaWan tuning tests
+               "Q": 10, # Preamble Flood tuning tests
+               "R": 10, # ABP/OTAA join flood tuning tests
                }
 
 nodeDlen  = [#0,         # No data
@@ -55,46 +61,21 @@ testParameters = [
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
 
-                  #  # Test single channel, others around it are used, ADR
-                  # Tested IV, does not have any effect
-                  # { "testRun" : "A3",
-                  #   "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1 }],
-                  #   "TestParam" : [{ "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
-
-                   # Test single channel, other data rated + nearby used, NO ADR, + ADR nearby
-                   # Tested IV, does not have any effect
-                  # { "testRun" : "A5",
-                  #   "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1, "dataRate" : 0 }],
-                  #   "TestParam" : [{ "mode" : 2, "chnMsk" : 0x02, "dataRate" : 1, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 2, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 3, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 4, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x04, "repeat" : 0 },
-                  #                  { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
-
                    # 
                    # Group B, involuntary collision or disturbance, coexistence -- normal operation with others using same network
                    #
 
                    # Test single interference single channel same settings (mixing DR) with ADR
                   { "testRun" : "B1",
-                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 0 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 }]},
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 }]},
                   
                    # Test with reduced power..  A1 for non reduced power + obstacles
                   { "testRun" : "B2",
@@ -125,7 +106,7 @@ testParameters = [
                                    {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
                                    {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },]},
 
-                   # Test intentional collision, tx om evey channel
+                   # Test intentional collision, tx on evey channel
                   { "testRun" : "C2",
                     "NodeParam" : [{ "mode" : 2 }],
                     "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "dataLen": 0, "usePB" : 0, "repeat" : 0, "power": 0 }, # DR0 DR 5, same but LoRaWan
@@ -213,7 +194,7 @@ testParameters = [
                                    { "mode" : 1, "freq" : 8685, "spreadFactor": 7, "codeRate": 5, "dataLen": 1, "power": 5 },]},
 
                    # 
-                   # Group E, disturb tests
+                   # Group E, Regular operation disturb tests
                    #
 
                    # Test run intentional obstruction Box 1 no-stop
@@ -231,7 +212,187 @@ testParameters = [
                                    {"mode" : 1, "freq" : 8675, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
                                    {"mode" : 1, "freq" : 8677, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },
                                    {"mode" : 1, "freq" : 8679, "spreadFactor": 7, "codeRate": 8, "dataLen": 0, "preamble" : 0, "power": 0 },]},
-                                                   
+
+
+
+                   # 
+                   # Group M, standalone preliminary calibration tests
+                   #
+                   
+                   # Test single device alone timing, all channels , ADR
+                  { "testRun" : "M1",
+                    "NodeParam" : [{ "mode" : 2, "conf" : 1, "limit": 0 }],
+                    "TestParam" : []
+                    },
+                  
+                   # Test single device single channel resource, ADR
+                  { "testRun" : "M2",
+                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1, "limit": 0, "noReset": 1 }],
+                     "TestParam" : []
+                     },
+
+                   # Test single channel, others around it are used, ADR
+                  # Tested IV, does not have any effect
+                  { "testRun" : "M3",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0 }]},
+  
+                   # Test single channel, other data rates used, NO ADR
+                   # Default len 16
+                  { "testRun" : "M4",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "repeat" : 0, "rx1Delay" : 15000 }]},
+
+                   # Test single channel, other data rated + nearby used, NO ADR, + ADR nearby
+                   # Tested IV, does not have any effect
+                  { "testRun" : "M5",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x02, "conf" : 1, "dataRate" : 0 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x02, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x02, "dataRate" : 5, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x04, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x05, "repeat" : 0, "rx1Delay" : 15000 }]},
+
+                   # 
+                   # Group N, SF scalability tests
+                   #
+                     
+                   # Test single channel, other data rates used, NO ADR
+                   # Default len 16
+                   # Repeat with TX2
+
+                  { "testRun" : "N1",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "repeat" : 0, "rx1Delay" : 10000 }]},
+
+                  { "testRun" : "N2",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
+
+                  { "testRun" : "N3",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 10000 }]},
+
+                  { "testRun" : "N4",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 15000 }]},
+
+                  { "testRun" : "N5",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 10000 }]},
+
+                  { "testRun" : "N6",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 5000 }]},
+
+                  { "testRun" : "N7",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 3000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 3000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 3000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 3500 },   # NOTE: can not Tx faster due to duration constraints
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 4000 }]}, # NOTE: can not Tx faster due to duration constraints
+
+                   # 
+                   # Group O, involuntary collision or disturbance tuning tests
+                   #
+
+                   # Test single interference single channel same settings (mixing DR) with ADR
+                  { "testRun" : "O1",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 15000 }]},
+
+                   { "testRun" : "O2",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 10000 }]},
+
+                 { "testRun" : "O3",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 }]},                   
+
+                 { "testRun" : "O3",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 }]},                   
+
+                 { "testRun" : "O4",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 }]}, 
+
+                 { "testRun" : "O5",
+                    "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
+                                   { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 }]},    
+
                 ]
 
         
