@@ -3,5 +3,5 @@ theme                    : jekyll-theme-minimal
 title                    : "I4S* : Industry 4.0 for the Smart-*"
 name                     : "Florian Hofer"
 description              : "A project investigating resilience and weaknesses of Smart-* system-of-systems architectures"
-logo                     : "archOvervw2.jpg"
+logo                     : "archOvervw.png"
 google_analytics         : "G-SRDJC3VTCC"
