@@ -48,5 +48,11 @@ Featured in multiple publications ([Hofer et al. 2019](https://ieeexplore.ieee.o
 
 ## Module Legacy testing
 
-[Link](https://github.com/flhofer/IEC_61131-3_TestLib)
+In this last experimentation module, we still assess the performance of a system, but this time to improve the testability of a native system. We enable system improvements and contribute to a legacy system's resilience by allowing better testing. Therefore, we want to create and evaluate a testing framework without incurring greater resource and performance loss.
+
+Regarding our Smart-Lighting case study, this use case relates to the integration of existing automation. For example, the power supply of the lamp-posts is automated through industrial control systems; specifically, CoDeSys v2.3 programmed Wago 750-8xx systems. Integrating such legacy devices into our Smart-* system for monitoring and control would thus require retrofitting or migration. A test framework would help discover a retrofitted system's newly created or previously undiscovered weaknesses. 
+
+<img src="demohardware.jpg" alt="Test boxes" width="500"/>
+
+The experimentation target is a testing framework for _existing_ IEC 61131-3 Compliant software. We reported creation and function of the framework in two publications ([HoferRusso2020](https://ieeexplore.ieee.org/abstract/document/8839463), +1 forthcoming). [The module's repository](https://github.com/flhofer/IEC_61131-3_TestLib) contains framework library, examples and an automation script.
 
