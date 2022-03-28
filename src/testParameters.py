@@ -17,7 +17,7 @@ testLength = { "A": 3,  # Solo tests
                "E": 2,  # Lamp obstruction tests
                "M": 5,  # Preliminary performance tests
                "N": 7,  # SF scalability tests
-               "O": 5,  # LoRa tuning tests
+               "O": 6,  # LoRa tuning tests
                "P": 10, # LoRaWan tuning tests
                "Q": 10, # Preamble Flood tuning tests
                "R": 10, # ABP/OTAA join flood tuning tests
@@ -324,10 +324,10 @@ testParameters = [
 
                   { "testRun" : "N7",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 5, "conf" : 1 }],
-                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 3000 },
+                    "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "dataRate" : 1, "repeat" : 0, "rx1Delay" : 3500 },  # NOTE: can not Tx faster due to duration constraints
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 2, "repeat" : 0, "rx1Delay" : 3000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 3, "repeat" : 0, "rx1Delay" : 3000 },
-                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 3500 },   # NOTE: can not Tx faster due to duration constraints
+                                   { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 4, "repeat" : 0, "rx1Delay" : 3000 },   
                                    { "mode" : 2, "chnMsk" : 0x01, "dataRate" : 0, "repeat" : 0, "rx1Delay" : 4000 }]}, # NOTE: can not Tx faster due to duration constraints
 
                    # 
@@ -368,7 +368,7 @@ testParameters = [
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 5000 }]},                   
 
-                 { "testRun" : "O3",
+                 { "testRun" : "O4",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
                     "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
@@ -379,14 +379,14 @@ testParameters = [
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 6000 }]},                   
 
-                 { "testRun" : "O4",
+                 { "testRun" : "O5",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
                     "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 4000 }]}, 
 
-                 { "testRun" : "O5",
+                 { "testRun" :  "O6",
                     "NodeParam" : [{ "mode" : 2, "chnMsk" : 0x01, "conf" : 1 }],
                     "TestParam" : [{ "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
                                    { "mode" : 2, "chnMsk" : 0x01, "repeat" : 0, "rx1Delay" : 2500 },
