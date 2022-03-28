@@ -28,15 +28,13 @@ The following [archive](https://bit.ly/3iIJRh7) contains the logs and results of
 
 ### I4S_LoRaWanNode
 
-[Link](https://github.com/flhofer/I4S_LoRaWanNode)
-
-The I4S* project investigates behavioral models of large-scale LoRaWan networks used in smart contexts. This repository contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. The AVR micro-controller performs regular transmissions in different configurations to test the performance of the network and the communication reliability. Transmission time samples will describe the system's behavior and allow the creation of a model.
+[This repository](https://github.com/flhofer/I4S_LoRaWanNode) contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. This program for the AVR micro-controller is intended to perform regular transmissions in different configurations to test the performance of the network and the communication reliability. It mounts a commercial LoRaWan modem and uses an onboard PCB antenna, perfect to simulate a boxed device.
+Detail on use and programming can be found in the repositoriy's _README_.
 
 ### I4S_LoRaWanTest
 
-[Link](https://github.com/flhofer/I4S_LoRaWanTest)
-
-Similar to the previous, this repository contains the micro-controller code for a _VN architecture_ micro-controller for end-node interference testing. The SamD micro-controller performs different transmissions to test the network's resilience. They embed thus an accessory role.
+Similar to the previous, [this repository](https://github.com/flhofer/I4S_LoRaWanTest) contains the micro-controller code for a ArmV6 based _Von Neumann architecture_ micro-controller for end-node interference testing. The SamD micro-controller also performs different transmissions to test the network's resilience. This model however, equips a comunity maintained LoRaWan modem and library, permitting full access for manipulation and testing purposes.
+Detail on use and programming can be found in the repositoriy's _README_.
 
 ## Module Virtualizzation
 
