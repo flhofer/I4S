@@ -10,14 +10,21 @@ To this aim, we experimentally explore through a common thread of performance th
 This is just one repository of the I4S family. In the following, we detail components and modules for this project.
 
 
-### Project dashboard for I4S
+## Module Communication
 
-[Link](https://github.com/users/flhofer/projects/1)
+This first module is composed of three repositories. The first [main](https://github.com/flhofer/I4S) repository is the same as this website hosting. It contains scripts and Python code for the automated execution of the tests according to pre-established parameters. The code will be responsible for device management, communication, and parameter download to the connected micro-controllers. The second and third repositories, described in the following, contain the code to be downloaded to the two used microcontrollers to execute the experiments.
 
-### Contents of this main repository
+For experimentation, we designed two setups as depicted in the following. The right setup serves as an in-vitro configuration to tune parameters (of the python script). The left side of the figure shows the on-site configuration. Please see the project documentation for further detail.
 
-The main repository contains scripts and Python code for the automated execution of the tests according to pre-established parameters. The code will be responsible for device management, communication, and parameter download to the connected micro-controllers.  
-Please see the project documentation for further detail.
+![Experiment setup](archExperiments.jpg)
+
+The figure's test boxes contain each (end) node and four test nodes with the software below. A raspberry PI 3B+ acts as an execution agent and runs the python script of the principal repository. The two test boxes communicate via an ad-hoc WiFi connection.
+
+<img src="LoraBox.jpg" alt="Test boxes" width="250"/><img src="LoraBox_inside.jpg" alt="Test boxes inside" width="250"/>
+
+The [Project dashboard](https://github.com/users/flhofer/projects/1) contains issues and the next changes to address for this module. This does thus also include the microcontrollers of the two other repositories. 
+
+The following [archive](https://bit.ly/3iIJRh7) contains the logs and results of the tests performed on the Smart-Lighting pilot project of the city of Merano.
 
 ### I4S_LoRaWanNode
 
@@ -29,4 +36,13 @@ The I4S* project investigates behavioral models of large-scale LoRaWan networks 
 
 [Link](https://github.com/flhofer/I4S_LoRaWanTest)
 
-Similar to the previous, this repository contains the micro-controller code for a _VN architecture_ micro-controller for end-node interference testing. The SamD micro-controller performs different kinds of transmissions to test the network's resilience. They embed thus an accessory role.
+Similar to the previous, this repository contains the micro-controller code for a _VN architecture_ micro-controller for end-node interference testing. The SamD micro-controller performs different transmissions to test the network's resilience. They embed thus an accessory role.
+
+## Module Virtualizzation
+
+[Link](https://github.com/flhofer/real-time-containers)
+
+## Module Legacy testing
+
+[Link](https://github.com/flhofer/IEC_61131-3_TestLib)
+
