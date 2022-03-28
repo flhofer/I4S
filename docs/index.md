@@ -14,7 +14,7 @@ This is just one repository of the I4S family. In the following, we detail compo
 
 This first module is composed of three repositories. The first [main](https://github.com/flhofer/I4S) repository is the same as this website hosting. It contains scripts and Python code for the automated execution of the tests according to pre-established parameters. The code will be responsible for device management, communication, and parameter download to the connected micro-controllers. The second and third repositories, described in the following, contain the code to be downloaded to the two used microcontrollers to execute the experiments.
 
-For experimentation, we designed two setups as depicted in the following. The right setup serves as an in-vitro configuration to tune parameters (of the python script). The left side of the figure shows the on-site configuration. Please see the project documentation for further detail.
+For experimentation, we designed two setups as depicted in the following. The setup on the right serves as an in-vitro configuration to tune parameters (of the python script). The left side of the figure shows the on-site configuration. Please see the project documentation for further detail.
 
 ![Experiment setup](archExperiments.jpg)
 
@@ -28,17 +28,23 @@ The following [archive](https://bit.ly/3iIJRh7) contains the logs and results of
 
 ### I4S_LoRaWanNode
 
-[This repository](https://github.com/flhofer/I4S_LoRaWanNode) contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. This program for the AVR micro-controller is intended to perform regular transmissions in different configurations to test the performance of the network and the communication reliability. It mounts a commercial LoRaWan modem and uses an onboard PCB antenna, perfect to simulate a boxed device.
-Detail on use and programming can be found in the repositoriy's _README_.
+[This repository](https://github.com/flhofer/I4S_LoRaWanNode) contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. This program for the AVR micro-controller is intended to perform regular transmissions in different configurations to test the performance of the network and the communication reliability. It mounts a commercial LoRaWan modem and uses an onboard PCB antenna, perfect for simulating a boxed device.
+Detail on use and programming can be found in the repository's _README_.
 
 ### I4S_LoRaWanTest
 
-Similar to the previous, [this repository](https://github.com/flhofer/I4S_LoRaWanTest) contains the micro-controller code for a ArmV6 based _Von Neumann architecture_ micro-controller for end-node interference testing. The SamD micro-controller also performs different transmissions to test the network's resilience. This model however, equips a comunity maintained LoRaWan modem and library, permitting full access for manipulation and testing purposes.
-Detail on use and programming can be found in the repositoriy's _README_.
+Similar to the previous, [this repository](https://github.com/flhofer/I4S_LoRaWanTest) contains the micro-controller code for an ArmV6 based _Von Neumann architecture_ micro-controller for end-node interference testing. The SamD micro-controller also performs different transmissions to test the network's resilience. This model, however, equips a community maintained LoRaWan modem and library, permitting full access for manipulation and testing purposes.
+Detail on use and programming can be found in the repository's _README_.
 
 ## Module Virtualizzation
 
-[Link](https://github.com/flhofer/real-time-containers)
+This second module experimentally assesses the performance and resilience of real-time control software that migrates to an IaaS solution. We want to measure the behavior of a system that operates initially in a bare-metal system and later in a shared multi-tenant infrastructure while attempting to maintain determinism with changing system configurations. The figure below shows the first (in-vitro) and second (on-site) use cases.
+
+<img src="virtExperiments.jpg" alt="Test boxes" width="500"/>
+
+Featured in multiple publications ([Hofer et al. 2019](https://ieeexplore.ieee.org/abstract/document/8968832), [Hofer et al. 2021](https://onlinelibrary.wiley.com/doi/10.1002/sys.21590?af=R), +1 forthcoming), we observe the system's performance in the different phases of migration and orchestration. We assess the suitability of infrastructure solutions and possible limits. We start from a system with dedicated resources for each control software running in a container and introduce system noise and high system load. We measure the instance's execution performance in terms of latency (reactivity) and determinism and implement and extend an orchestration tool to manage the resources for the running control containers.
+
+[The repository](https://github.com/flhofer/real-time-containers) contains source code, test code, compilation tools, and use cases to recreate or extend the tool. Please refer to the _README_ or the _orchestrator.8_ man page for further details.
 
 ## Module Legacy testing
 
