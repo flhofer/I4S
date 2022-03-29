@@ -5,3 +5,4 @@ name                     : "Florian Hofer"
 description              : "A project investigating resilience and weaknesses of Smart-* system-of-systems architectures"
 logo                     : "archOvervw.png"
 google_analytics         : "G-SRDJC3VTCC"
+future                   : true
