@@ -24,17 +24,17 @@ The figure's test boxes contain each (end) node and four test nodes with the sof
 
 The [Project dashboard](https://github.com/users/flhofer/projects/1) contains issues and the next changes to address for this module. This does thus also include the microcontrollers of the two other repositories. 
 
-The following [archive](https://bit.ly/3iIJRh7) contains the logs and results of the tests performed on the Smart-Lighting pilot project of the city of Merano.
+The following [archive](https://bit.ly/3iIJRh7) contains the logs and results of the tests performed on the Smart-Lighting pilot project in the city of Merano.
 
 ### I4S_LoRaWanNode
 
 [This repository](https://github.com/flhofer/I4S_LoRaWanNode) contains the micro-controller code for a _Harward architecture_ micro-controller for end-node testing. This program for the AVR micro-controller is intended to perform regular transmissions in different configurations to test the performance of the network and the communication reliability. It mounts a commercial LoRaWan modem and uses an onboard PCB antenna, perfect for simulating a boxed device.
-Detail on use and programming can be found in the repository's _README_.
+You can find detail on use and programming in the repository's _README_.
 
 ### I4S_LoRaWanTest
 
-Similar to the previous, [this repository](https://github.com/flhofer/I4S_LoRaWanTest) contains the micro-controller code for an ArmV6 based _Von Neumann architecture_ micro-controller for end-node interference testing. The SamD micro-controller also performs different transmissions to test the network's resilience. This model, however, equips a community maintained LoRaWan modem and library, permitting full access for manipulation and testing purposes.
-Detail on use and programming can be found in the repository's _README_.
+Similar to the previous, [this repository](https://github.com/flhofer/I4S_LoRaWanTest) contains the micro-controller code for an ArmV6 based _Von Neumann architecture_ micro-controller for end-node interference testing. The SamD micro-controller also performs different transmissions to test the network's resilience. This model, however, equips a community-maintained LoRaWan modem and library, permitting full access for manipulation and testing purposes.
+You can find detail on use and programming in the repository's _README_.
 
 ## Module Virtualizzation
 
@@ -50,9 +50,8 @@ Featured in multiple publications ([Hofer et al. 2019](https://ieeexplore.ieee.o
 
 In this last experimentation module, we still assess the performance of a system, but this time to improve the testability of a native system. We enable system improvements and contribute to a legacy system's resilience by allowing better testing. Therefore, we want to create and evaluate a testing framework without incurring greater resource and performance loss.
 
-Regarding our Smart-Lighting case study, this use case relates to the integration of existing automation. For example, the power supply of the lamp-posts is automated through industrial control systems; specifically, CoDeSys v2.3 programmed Wago 750-8xx systems. Integrating such legacy devices into our Smart-* system for monitoring and control would thus require retrofitting or migration. A test framework would help discover a retrofitted system's newly created or previously undiscovered weaknesses. 
+Regarding our Smart-Lighting case study, this use case relates to integrating existing automation. For example, the power supply of the lamp-posts is automated through industrial control systems; specifically, CoDeSys v2.3 programmed Wago 750-8xx systems. Integrating such legacy devices into our Smart-* system for monitoring and control would thus require retrofitting or migration. A test framework would help discover a retrofitted system's newly created or previously undiscovered weaknesses. 
 
-<img src="demohardware.jpg" alt="Test boxes" width="500"/>
+<img src="demohardware.jpg" alt="Test boxes" width="500"/> 
 
-The experimentation target is a testing framework for _existing_ IEC 61131-3 Compliant software. We reported creation and function of the framework in two publications ([HoferRusso2020](https://ieeexplore.ieee.org/abstract/document/8839463), +1 forthcoming). [The module's repository](https://github.com/flhofer/IEC_61131-3_TestLib) contains framework library, examples and an automation script.
-
+The experimentation target is a testing framework for _existing_ IEC 61131-3 Compliant software. We reported the creation and function of the framework in two publications ([HoferRusso2020](https://ieeexplore.ieee.org/abstract/document/8839463), +1 forthcoming). [The module's repository](https://github.com/flhofer/IEC_61131-3_TestLib) contains a framework library, examples, and an automation script.
